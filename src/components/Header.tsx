@@ -1,3 +1,26 @@
+const menus = [
+  {
+    label: "Home",
+  },
+  {
+    label: "Resource",
+    children: [
+      {
+        label: "Project1",
+      },
+      {
+        label: "Project1",
+      },
+    ],
+  },
+  {
+    label: "Friends",
+  },
+  {
+    label: "About",
+  },
+];
+
 const Header = () => {
   return (
     <header>
@@ -24,7 +47,7 @@ const Header = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              <li>
+              {/* <li>
                 <a>Item 1</a>
               </li>
               <li>
@@ -40,7 +63,29 @@ const Header = () => {
               </li>
               <li>
                 <a>Item 3</a>
-              </li>
+              </li> */}
+
+              {menus.map((item, index) => {
+                if (item.children) {
+                  return (
+                    <li key={item.label}>
+                      <a>{item.label}</a>
+                      <ul className="p-2">
+                        {item.children.map((v) => (
+                          <li key={v.label}>
+                            <a>{v.label}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  );
+                }
+                return (
+                  <li key={index}>
+                    <a>{item.label}</a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">Elin&apos;s Blog</a>
