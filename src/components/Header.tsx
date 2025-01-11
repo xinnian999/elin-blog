@@ -3,10 +3,13 @@
 import { locales } from "@/config";
 import { useMounted, useT } from "@/hooks";
 import useGlobalStore from "@/store/global";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 interface MenuItem {
   label: string;
+  to?: string;
   children?: MenuItem[];
 }
 
@@ -19,6 +22,8 @@ const Header = () => {
   const mounted = useMounted();
 
   const t = useT();
+
+  const pathname = usePathname();
 
   const onChange = (e): void => {
     setDark(e.target.checked);
@@ -34,9 +39,11 @@ const Header = () => {
   const menus: MenuItem[] = [
     {
       label: t("Nav Home"),
+      to: "/",
     },
     {
       label: "Resource",
+      // to: "/resource",
       children: [
         {
           label: "Project1",
@@ -48,15 +55,17 @@ const Header = () => {
     },
     {
       label: "Friends",
+      to: "/friends",
     },
     {
-      label: t('Nav About'),
+      label: t("Nav About"),
+      to: "/about",
     },
   ];
 
   return (
-    <header>
-      <div className="navbar bg-base-100 base-100 fixed shadow-[0_2px_2px_0px_rgba(0,0,0,0.1)]">
+    <header className="fixed w-full">
+      <div className="navbar bg-base-100 base-100 shadow-[0_2px_2px_0px_oklch(var(--b3))] z-20">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -126,7 +135,12 @@ const Header = () => {
               }
               return (
                 <li key={index}>
-                  <a>{item.label}</a>
+                  <Link
+                    href={item.to!}
+                    className={pathname === item.to ? "active" : ""}
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               );
             })}
