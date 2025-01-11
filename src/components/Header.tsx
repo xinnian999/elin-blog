@@ -1,6 +1,7 @@
 "use client";
 
-import useMounted from "@/hooks/useMounted";
+import { locales } from "@/config";
+import { useMounted, useT } from "@/hooks";
 import useGlobalStore from "@/store/global";
 import { useEffect } from "react";
 
@@ -9,34 +10,15 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-const menus: MenuItem[] = [
-  {
-    label: "Home",
-  },
-  {
-    label: "Resource",
-    children: [
-      {
-        label: "Project1",
-      },
-      {
-        label: "Project2",
-      },
-    ],
-  },
-  {
-    label: "Friends",
-  },
-  {
-    label: "About",
-  },
-];
-
 const Header = () => {
   const dark = useGlobalStore((state) => state.dark);
   const setDark = useGlobalStore((state) => state.setDark);
+  const lang = useGlobalStore((state) => state.lang);
+  const setLang = useGlobalStore((state) => state.setLang);
 
   const mounted = useMounted();
+
+  const t = useT();
 
   const onChange = (e): void => {
     setDark(e.target.checked);
@@ -48,6 +30,29 @@ const Header = () => {
       dark ? "dark" : "light"
     );
   }, [dark]);
+
+  const menus: MenuItem[] = [
+    {
+      label: t("Nav Home"),
+    },
+    {
+      label: "Resource",
+      children: [
+        {
+          label: "Project1",
+        },
+        {
+          label: "Project2",
+        },
+      ],
+    },
+    {
+      label: "Friends",
+    },
+    {
+      label: t('Nav About'),
+    },
+  ];
 
   return (
     <header>
@@ -181,12 +186,13 @@ const Header = () => {
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a className="active">Item 2</a>
-              </li>
+              {locales.map((item) => (
+                <li key={item.label} onClick={setLang.bind(this, item.value)}>
+                  <a className={lang === item.value ? "active" : ""}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
