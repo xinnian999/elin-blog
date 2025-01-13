@@ -6,6 +6,7 @@ import useGlobalStore from "@/store/global";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import withAffix from "./hoc/withAffix";
 
 interface MenuItem {
   label: string;
@@ -64,8 +65,8 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed w-full">
-      <div className="navbar bg-base-100 base-100 shadow-[0_2px_2px_0px_oklch(var(--b3))] z-20">
+    <header className="w-full bg-base-100 shadow-[0_2px_2px_0px_oklch(var(--b3))] z-20">
+      <div className="container mx-auto navbar base-100  ">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -215,4 +216,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withAffix(Header, { offsetTop: 0.1 });
