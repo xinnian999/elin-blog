@@ -4,6 +4,7 @@ import { FC, ReactNode } from "react";
 import Card from "./Card";
 import { BliIcon, EmailIcon, GitHubIcon, QQIcon, WechatIcon } from "./Icon";
 import { useT } from "@/hooks";
+import Image from "next/image";
 
 interface MainProps {
   children: ReactNode;
@@ -40,8 +41,8 @@ const Main: FC<MainProps> = ({ children }) => {
       <div className="basis-1/4 flex-grow">
         <Card className="flex flex-col items-center gap-4">
           <div className="avatar">
-            <div className="w-24 rounded-full">
-              <img src="https://img1.baidu.com/it/u=728383910,3448060628&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1736960400&t=c34e985c283711476609906f70947a5b" />
+            <div className="w-24 rounded-full overflow-hidden relative">
+              <Image src="/auther_avatar.webp" alt={""} fill />
             </div>
           </div>
 
