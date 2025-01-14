@@ -27,7 +27,7 @@ const Header = () => {
 
   const pathname = usePathname();
 
-  const onChange = (e): void => {
+  const onChange = (e: { target: { checked: boolean } }): void => {
     setDark(e.target.checked);
   };
 
@@ -115,7 +115,11 @@ const Header = () => {
                           <li key={v.label} className="whitespace-nowrap">
                             <Link
                               href={v.to!}
-                              className={pathname === v.to ? "active whitespace-nowrap" : "whitespace-nowrap"}
+                              className={
+                                pathname === v.to
+                                  ? "active whitespace-nowrap"
+                                  : "whitespace-nowrap"
+                              }
                             >
                               {v.label}
                             </Link>
