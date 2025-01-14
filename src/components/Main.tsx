@@ -1,12 +1,17 @@
+"use client";
+
 import { FC, ReactNode } from "react";
 import Card from "./Card";
 import { BliIcon, EmailIcon, GitHubIcon, QQIcon, WechatIcon } from "./Icon";
+import { useT } from "@/hooks";
 
 interface MainProps {
   children: ReactNode;
 }
 
 const Main: FC<MainProps> = ({ children }) => {
+  const t = useT();
+
   const links = [
     {
       label: "微信",
@@ -40,7 +45,7 @@ const Main: FC<MainProps> = ({ children }) => {
             </div>
           </div>
 
-          <div className="font-bold text-xl">Hello! I&apos;m Elin</div>
+          <div className="font-bold text-xl">{t("Auther Say")}</div>
 
           <div>
             <button className="btn btn-primary btn-wide btn-sm">

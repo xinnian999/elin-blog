@@ -44,20 +44,17 @@ const Header = () => {
       to: "/",
     },
     {
-      label: "Resource",
-      // to: "/resource",
+      label: t("Nav Friend"),
       children: [
         {
-          label: "Project1",
+          label: t("Nav Friend Link"),
+          to: "/link",
         },
         {
-          label: "Project2",
+          label: t("Nav Friend Comment"),
+          to: "/comment",
         },
       ],
-    },
-    {
-      label: "Friends",
-      to: "/friends",
     },
     {
       label: t("Nav About"),
@@ -100,11 +97,13 @@ const Header = () => {
               })}
             </ul>
           </div>
-          <Link className="btn btn-ghost text-xl" href='/'>Elin&apos;s Blog</Link>
+          <Link className="btn btn-ghost text-xl" href="/">
+            Elin&apos;s Blog
+          </Link>
         </div>
 
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1 gap-3">
             {menus.map((item, index) => {
               if (item.children) {
                 return (
@@ -113,8 +112,13 @@ const Header = () => {
                       <summary>{item.label}</summary>
                       <ul className="p-2">
                         {item.children.map((v) => (
-                          <li key={v.label}>
-                            <a>{v.label}</a>
+                          <li key={v.label} className="whitespace-nowrap">
+                            <Link
+                              href={v.to!}
+                              className={pathname === v.to ? "active whitespace-nowrap" : "whitespace-nowrap"}
+                            >
+                              {v.label}
+                            </Link>
                           </li>
                         ))}
                       </ul>
