@@ -1,10 +1,18 @@
 "use client";
 
 import { FC, ReactNode } from "react";
-import Card from "./Card";
-import { BliIcon, EmailIcon, GitHubIcon, QQIcon, WechatIcon } from "./Icon";
+import {
+  BliIcon,
+  EmailIcon,
+  GitHubIcon,
+  QQIcon,
+  WechatIcon,
+  Card,
+  BackendIcon,
+} from "@/components";
 import { useT } from "@/hooks";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface MainProps {
   children: ReactNode;
@@ -12,6 +20,8 @@ interface MainProps {
 
 const Main: FC<MainProps> = ({ children }) => {
   const t = useT();
+
+  const router = useRouter();
 
   const links = [
     {
@@ -36,9 +46,27 @@ const Main: FC<MainProps> = ({ children }) => {
     },
   ];
 
+  const counts = [
+    {
+      label: "文章",
+      count: 120,
+      onClick: () => {},
+    },
+    {
+      label: "分类",
+      count: 10,
+      onClick: () => {},
+    },
+    {
+      label: "标签",
+      count: 15,
+      onClick: () => {},
+    },
+  ];
+
   return (
     <main className="container mx-auto min-h-screen py-8 flex gap-6">
-      <div className="basis-1/4 flex-grow">
+      <div className="basis-1/4 flex-grow flex flex-col gap-5">
         <Card className="flex flex-col items-center gap-4">
           <div className="avatar">
             <div className="w-24 rounded-full overflow-hidden relative">
@@ -60,6 +88,28 @@ const Main: FC<MainProps> = ({ children }) => {
                 {item.icon}
               </button>
             ))}
+          </div>
+        </Card>
+
+        <Card className="flex flex-col items-center gap-4">
+          <div className="flex gap-2">
+            {counts.map((item) => (
+              <button
+                className="btn btn-ghost flex flex-col gap-4 flex-nowrap h-16"
+                key={item.label}
+              >
+                <div> {item.label}</div>
+                <div className="text-[25px]"> {item.count}</div>
+              </button>
+            ))}
+          </div>
+          <div>
+            <button
+              className="btn btn-primary btn-wide btn-sm"
+              onClick={() => router.push("/admin")}
+            >
+              <BackendIcon className="h-5 w-5 fill-current" /> 管理后台
+            </button>
           </div>
         </Card>
       </div>

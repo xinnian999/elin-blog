@@ -6,8 +6,14 @@ import useGlobalStore from "@/store/global";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import withAffix from "./hoc/withAffix";
-import { DropdownIcon, ExpandIcon, LangIcon, MoonIcon, SunIcon } from "./Icon";
+import {
+  withAffix,
+  DropdownIcon,
+  ExpandIcon,
+  LangIcon,
+  MoonIcon,
+  SunIcon,
+} from "@/components";
 
 interface MenuItem {
   label: string;
