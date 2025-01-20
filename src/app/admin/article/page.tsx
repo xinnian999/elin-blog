@@ -1,51 +1,33 @@
 "use client";
 
-import React from "react";
-import { Space, Table, Tag } from "antd";
-import type { TableProps } from "antd";
+import { TablePlus } from "@/components";
+import { Article as ArticleDB, getArticleData } from "@/db";
+import { useAsyncEffect } from "ahooks";
+import { Space, TableProps, Tag } from "antd";
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
-
-const columns: TableProps<DataType>["columns"] = [
+const columns: TableProps<ArticleDB>["columns"] = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: (text) => <a>{text}</a>,
+    title: "ID",
+    dataIndex: "id",
+    key: "id",
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "文章标题",
+    dataIndex: "title",
+    key: "title",
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
+    title: "文章内容",
+    dataIndex: "content",
+    key: "content",
   },
   {
     title: "Tags",
     key: "tags",
     dataIndex: "tags",
-    render: (_, { tags }) => (
+    render: (_) => (
       <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        <Tag color="#eee"></Tag>
       </>
     ),
   },
@@ -54,39 +36,22 @@ const columns: TableProps<DataType>["columns"] = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <a>Invite {record.name}</a>
+        <a>update</a>
         <a>Delete</a>
       </Space>
     ),
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
+const Article: React.FC = () => {
+  useAsyncEffect(async () => {
+    const data = await fetch('/api/article')
+    const posts = await data.json()
 
-const Article: React.FC = () => (
-  <Table<DataType> columns={columns} dataSource={data} />
-);
+    console.log(posts)
+  }, []);
+
+  return <TablePlus dataSource={[]} columns={columns} />;
+};
 
 export default Article;
