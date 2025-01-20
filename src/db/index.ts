@@ -26,7 +26,9 @@ export const getArticleData = async () => {
   await initializeTypeORM();
 
   const postRepository = AppDataSource.getRepository(Article);
-  return await postRepository.find(); // 查询所有文章
+  const data = await postRepository.find(); // 查询所有文章
+
+  return data.map(item => ({ ...item }))
 };
 
 export { Article };
