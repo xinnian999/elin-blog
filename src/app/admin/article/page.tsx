@@ -1,7 +1,7 @@
 "use client";
 
-import { TablePlus } from "@/components";
-import { createArticle, deleteArticle, fetchArticleList } from "@/db/service";
+import { Markdown, TablePlus } from "@/components";
+import { createArticle, deleteArticle, fetchArticleList, updateArticle } from "@/db/service";
 import { Input } from "antd";
 
 const Article: React.FC = () => {
@@ -42,11 +42,31 @@ const Article: React.FC = () => {
               name: "content",
               label: "文章内容",
               rules: [{ required: true, message: "请输入文章内容" }],
-              component: <Input.TextArea />,
+              component: <Markdown />,
             },
           ],
         },
         api: createArticle,
+      }}
+      updateConfig={{
+        title: "修改文章",
+        schema: {
+          items: [
+            {
+              name: "title",
+              label: "文章标题",
+              rules: [{ required: true, message: "请输入文章标题" }],
+              component: <Input />,
+            },
+            {
+              name: "content",
+              label: "文章内容",
+              rules: [{ required: true, message: "请输入文章内容" }],
+              component: <Markdown />,
+            },
+          ],
+        },
+        api: updateArticle,
       }}
       deleteApi={deleteArticle}
     />

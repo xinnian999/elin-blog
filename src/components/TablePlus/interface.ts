@@ -16,5 +16,10 @@ export interface TablePlusProps<T> {
     schema: FormSchema;
     api: (values: T) => Promise<void>;
   };
-  deleteApi: (id: number) => Promise<void>;
+  updateConfig?: {
+    title: string;
+    schema: FormSchema;
+    api: (id: number, values: T) => Promise<void>;
+  };
+  deleteApi?: (id: number) => Promise<void>;
 }

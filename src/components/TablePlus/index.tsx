@@ -7,12 +7,14 @@ import { PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import { useRequest, useSetState } from "ahooks";
 import { ObjectLiteral } from "typeorm";
 import { FormSchema, TablePlusProps } from "./interface";
+import { Article } from "@/db";
 
 const TablePlus = <T extends ObjectLiteral>({
   columns,
   api,
   createConfig,
-  deleteApi
+  updateConfig,
+  deleteApi,
 }: TablePlusProps<T>) => {
   const [dataSource, setDataSource] = useState<T[]>([]);
 
@@ -26,6 +28,7 @@ const TablePlus = <T extends ObjectLiteral>({
     schema: {
       items: [],
     } as FormSchema,
+    width: "60vw",
     onOk: async () => {
       await form.validateFields();
     },
@@ -36,8 +39,10 @@ const TablePlus = <T extends ObjectLiteral>({
   });
 
   const handleAdd = async () => {
+    form.resetFields();
     setModalState({
       open: true,
+      title: createConfig!.title,
       schema: createConfig!.schema,
       onOk: async () => {
         await form.validateFields();
@@ -45,6 +50,24 @@ const TablePlus = <T extends ObjectLiteral>({
 
         modalState.onCancel();
         message.success("新增成功");
+        refresh();
+      },
+    });
+  };
+
+  const handleUpdate = async (record: Article) => {
+    form.setFieldsValue(record);
+
+    setModalState({
+      open: true,
+      title: updateConfig!.title,
+      schema: updateConfig!.schema,
+      onOk: async () => {
+        await form.validateFields();
+        await updateConfig!.api(record.id!, form.getFieldsValue());
+
+        modalState.onCancel();
+        message.success("修改成功");
         refresh();
         form.resetFields();
       },
@@ -55,13 +78,12 @@ const TablePlus = <T extends ObjectLiteral>({
     Modal.confirm({
       title: "确认删除吗？",
       async onOk() {
-        await deleteApi(id)
+        await deleteApi!(id);
         message.success("删除成功");
         refresh();
       },
     });
   };
-
 
   return (
     <div className={styles.TablePlus}>
@@ -88,17 +110,26 @@ const TablePlus = <T extends ObjectLiteral>({
             render: (record) => {
               return (
                 <Space>
-                  <Button color="cyan" type="primary" size="small">
-                    修改
-                  </Button>
-                  <Button
-                    danger
-                    type="primary"
-                    size="small"
-                    onClick={handleDelete.bind(this, record.id)}
-                  >
-                    删除
-                  </Button>
+                  {updateConfig && (
+                    <Button
+                      color="cyan"
+                      type="primary"
+                      size="small"
+                      onClick={handleUpdate.bind(this, record)}
+                    >
+                      修改
+                    </Button>
+                  )}
+                  {deleteApi && (
+                    <Button
+                      danger
+                      type="primary"
+                      size="small"
+                      onClick={handleDelete.bind(this, record.id)}
+                    >
+                      删除
+                    </Button>
+                  )}
                 </Space>
               );
             },
@@ -110,7 +141,11 @@ const TablePlus = <T extends ObjectLiteral>({
       />
 
       <Modal {...modalState} destroyOnClose>
-        <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} form={form}>
+        <Form
+          labelCol={{ flex: "120px" }}
+          wrapperCol={{ flex: "auto" }}
+          form={form}
+        >
           {modalState.schema.items.map((item) => {
             return (
               <Form.Item key={item.name} {...item}>

@@ -18,6 +18,14 @@ export const createArticle = async (params: Article) => {
   return;
 };
 
+export const updateArticle = async (id: number, params: Article) => {
+  const postRepository = await getRepository(Article);
+  delete params.id;
+  await postRepository.update({ id }, params);
+
+  return;
+};
+
 export const deleteArticle = async (id: number) => {
   const postRepository = await getRepository(Article);
   await postRepository.delete(id);
