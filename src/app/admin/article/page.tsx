@@ -1,8 +1,6 @@
 import { TablePlus } from "@/components";
-import { Article as ArticleDB, getArticleData } from "@/db";
-import { TableProps } from "antd";
 
-const columns: TableProps<ArticleDB>["columns"] = [
+const columns= [
   {
     title: "ID",
     dataIndex: "id",
@@ -20,10 +18,8 @@ const columns: TableProps<ArticleDB>["columns"] = [
   },
 ];
 
-const Article: React.FC = async () => {
-  const articles = await getArticleData();
-
-  return <TablePlus columns={columns} dataSource={articles} />;
+const Article: React.FC = () => {
+  return <TablePlus columns={columns} />;
 };
 
 export default Article;

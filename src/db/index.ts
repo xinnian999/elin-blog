@@ -22,7 +22,7 @@ export const initializeTypeORM = async () => {
   }
 };
 
-export const getArticleData = async () => {
+export const fetchArticleData = async () => {
   await initializeTypeORM();
 
   const postRepository = AppDataSource.getRepository(Article);
