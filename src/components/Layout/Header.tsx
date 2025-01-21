@@ -24,8 +24,8 @@ interface MenuItem {
 const Header = () => {
   const dark = useGlobalStore((state) => state.dark);
   const setDark = useGlobalStore((state) => state.setDark);
-  const lang = useGlobalStore((state) => state.lang);
-  const setLang = useGlobalStore((state) => state.setLang);
+  // const lang = useGlobalStore((state) => state.lang);
+  // const setLang = useGlobalStore((state) => state.setLang);
 
   const mounted = useMounted();
 
@@ -67,6 +67,13 @@ const Header = () => {
       to: "/about",
     },
   ];
+
+  const lang = localStorage.getItem("lang") || "zh";
+
+  const setLang = (value: string) => {
+    localStorage.setItem("lang", value);
+    location.reload();
+  };
 
   return (
     <header className="w-full bg-base-100 shadow-[0_2px_2px_0px_oklch(var(--b3))] z-20">

@@ -1,7 +1,7 @@
 "use client";
 
 import { Markdown, TablePlus } from "@/components";
-import { createArticle, deleteArticle, fetchArticleList, updateArticle } from "@/db/service";
+import { createArticle, deleteArticle, fetchArticleList, updateArticle } from "@/db/service/article";
 import { Input } from "antd";
 
 const Article: React.FC = () => {

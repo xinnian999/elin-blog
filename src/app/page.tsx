@@ -1,20 +1,21 @@
-"use client";
-
 import { Card } from "@/components";
-import { useT } from "@/hooks";
+import { fetchArticleList } from "@/db";
 
-export default function Home() {
-  const t = useT();
+export default async function Home() {
+  // const t = useT();
+  const list = await fetchArticleList();
+
+  // console.log(global.t)
 
   return (
     <div className="flex gap-6">
       <div className="basis-2/3 flex-grow flex flex-col gap-6">
-        {Array.from({ length: 10 }).map((_, index) => (
-          <Card key={index}>文章标题{index + 1}</Card>
+        {list.map((item) => (
+          <Card key={item.id}>{item.title}</Card>
         ))}
       </div>
       <div className="basis-1/3 flex-grow">
-        <Card className="h-60" title={t("Home Comment Title")}></Card>
+        {/* <Card className="h-60" title={t("Home Comment Title")}></Card> */}
       </div>
     </div>
   );
