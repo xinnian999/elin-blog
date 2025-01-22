@@ -32,20 +32,7 @@ const locales: Locale[] = [
       "Auther Say": "Hello! I'm Elin",
       "Home Comment Title": "Latest Comments",
     },
-  },
-  {
-    label: "日本語",
-    value: "ja",
-    data: {
-      "Nav Home": "ホーム",
-      "Nav Friend": "友達",
-      "Nav Friend Link": "友達リンク",
-      "Nav Friend Comment": "メッセージボード",
-      "Nav About": "約",
-      "Auther Say": "こんにちは！私はElinです",
-      "Home Comment Title": "最新のコメント",
-    },
-  },
+  }
 ];
 
 export default locales;
