@@ -15,7 +15,7 @@ const Markdown: React.FC<MarkdownProps> = ({ value, onChange = () => {} }) => {
   const mdParser = new MarkdownIt(/* Markdown-it options */);
 
   // 完成！
-  function handleEditorChange({ text }) {
+  function handleEditorChange({ text }: { text: string }) {
     onChange(text);
   }
 
