@@ -1,0 +1,19 @@
+{
+  "Nav": {
+    "Nav Home": "Home",
+    "Nav Friend": "Friends",
+    "Nav Friend Link": "Friend Links",
+    "Nav Friend Comment": "Message Board",
+    "Nav About": "About"
+  },
+  "Home": {
+    "Home Comment Title": "Latest Comments"
+  },
+  "About": {
+    "Title Me": "About Me",
+    "Title site": "About This Site"
+  },
+  "Main": {
+    "Auther Say": "Hello! I'm Elin"
+  }
+}

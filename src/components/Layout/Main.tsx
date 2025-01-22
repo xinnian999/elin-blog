@@ -10,16 +10,16 @@ import {
   Card,
   BackendIcon,
 } from "@/components";
-import { useT } from "@/hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface MainProps {
   children: ReactNode;
 }
 
 const Main: FC<MainProps> = ({ children }) => {
-  const t = useT();
+  const t = useTranslations("Main");
 
   const router = useRouter();
 

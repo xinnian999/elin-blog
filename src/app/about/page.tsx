@@ -1,9 +1,12 @@
 import { Card } from "@/components";
+import { getTranslations } from "next-intl/server";
 
-export default function About() {
+export default async function About() {
+  const t = await getTranslations("About");
+
   return (
     <div className="flex flex-col gap-6">
-      <Card title="关于我">
+      <Card title={t("Title Me")}>
         <p className="mt-5">
           <b>99年，</b>河北唐山人
         </p>
@@ -15,7 +18,7 @@ export default function About() {
         </p>
       </Card>
 
-      <Card title="关于本站">
+      <Card title={t("Title site")}>
         <p className="mt-5">
           本站主要使用 <b>Next.js</b> + <b>daisyui</b> 编写
         </p>

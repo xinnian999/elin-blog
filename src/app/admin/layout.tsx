@@ -13,6 +13,7 @@ import { ArticleIcon, LinkIcon, CommentIcon } from "@/components";
 import styles from "./styles.module.css";
 import zhCN from 'antd/locale/zh_CN';
 import '@ant-design/v5-patch-for-react-19';
+import { useMount } from "ahooks";
 
 const { Header, Sider, Content } = Layout;
 

@@ -1,11 +1,11 @@
 import { Card } from "@/components";
 import { fetchArticleList } from "@/db";
+import { getTranslations } from "next-intl/server";
 
 export default async function Home() {
-  // const t = useT();
   const list = await fetchArticleList();
-
-  // console.log(global.t)
+  
+  const t = await getTranslations("Home");
 
   return (
     <div className="flex gap-6">
@@ -15,7 +15,7 @@ export default async function Home() {
         ))}
       </div>
       <div className="basis-1/3 flex-grow">
-        {/* <Card className="h-60" title={t("Home Comment Title")}></Card> */}
+        <Card className="h-60" title={t("Home Comment Title")}></Card>
       </div>
     </div>
   );
