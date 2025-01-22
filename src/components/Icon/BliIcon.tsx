@@ -1,4 +1,3 @@
-import { IconProps } from "@/interface";
 
 export default (props: IconProps) => (
   <svg
