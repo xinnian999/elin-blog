@@ -20,7 +20,11 @@ export default async function HomeBar({
       <div className="basis-2/3 flex-grow">
         <div className="flex flex-col gap-6 mb-6">
           {data.map((item) => (
-            <Card key={item.id}>{item.title}</Card>
+            <Card key={item.id}>
+              <p className="text-2xl">{item.title}</p>
+
+              <div className="line-clamp-5">{item.content}</div>
+            </Card>
           ))}
         </div>
 

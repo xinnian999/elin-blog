@@ -8,6 +8,8 @@ export class Article {
   @Column()
   title: string;
 
-  @Column()
+  @Column({
+    length: 999
+  })
   content: string;
 }
