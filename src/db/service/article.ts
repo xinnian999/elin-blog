@@ -9,6 +9,22 @@ export const fetchArticleList = async () => {
   return data.map((item) => ({ ...item }));
 };
 
+export async function fetchArticleListByPage(page: number, pageSize: number) {
+  const userRepository = getRepository(Article);
+
+  const [users, total] = await (await userRepository).findAndCount({
+    skip: (page - 1) * pageSize,  // 跳过前面的记录
+    take: pageSize,               // 每页返回的记录数
+  });
+
+  return {
+    data: users,
+    total,                        // 总记录数
+    totalPages: Math.ceil(total / pageSize),  // 总页数
+    currentPage: page,
+  };
+}
+
 export const createArticle = async (params: Article) => {
   const postRepository = await getRepository(Article);
   const article = postRepository.create(params);
