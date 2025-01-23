@@ -4,12 +4,12 @@
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/about/page": "app/about/page.js",
   "/article/[articleId]/page": "app/article/[articleId]/page.js",
-  "/link/page": "app/link/page.js",
-  "/page": "app/page.js",
-  "/page/[page]/page": "app/page/[page]/page.js",
   "/comment/page": "app/comment/page.js",
+  "/link/page": "app/link/page.js",
+  "/page/[page]/page": "app/page/[page]/page.js",
+  "/page": "app/page.js",
   "/admin/article/page": "app/admin/article/page.js",
-  "/admin/comment/page": "app/admin/comment/page.js",
   "/admin/link/page": "app/admin/link/page.js",
+  "/admin/comment/page": "app/admin/comment/page.js",
   "/admin/page": "app/admin/page.js"
 }
