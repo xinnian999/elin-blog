@@ -48,17 +48,17 @@ const Main: FC<MainProps> = ({ children }) => {
 
   const counts = [
     {
-      label: "文章",
+      label: t('Article Count Label'),
       count: 120,
       onClick: () => {},
     },
     {
-      label: "分类",
+      label: t('Category Count Label'),
       count: 10,
       onClick: () => {},
     },
     {
-      label: "标签",
+      label: t('Tag Count Label'),
       count: 15,
       onClick: () => {},
     },
@@ -108,7 +108,7 @@ const Main: FC<MainProps> = ({ children }) => {
               className="btn btn-primary btn-wide btn-sm"
               onClick={() => router.push("/admin")}
             >
-              <BackendIcon className="h-5 w-5 fill-current" /> 管理后台
+              <BackendIcon className="h-5 w-5 fill-current" /> {t('Admin Label')}
             </button>
           </div>
         </Card>

@@ -37,7 +37,7 @@ export default async function HomeBar({
 
               <div>
                 <Link href={`/article/${item.id}`}>
-                  <button className="btn btn-xs">阅读更多</button>
+                  <button className="btn btn-xs">{t('Read More')}</button>
                 </Link>
               </div>
             </Card>

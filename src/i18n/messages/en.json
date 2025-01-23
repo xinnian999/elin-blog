@@ -7,13 +7,18 @@
     "Nav About": "About"
   },
   "Home": {
-    "Home Comment Title": "Latest Comments"
+    "Home Comment Title": "Latest Comments",
+    "Read More": "Read More"
   },
   "About": {
     "Title Me": "About Me",
     "Title site": "About This Site"
   },
   "Main": {
-    "Auther Say": "Hello! I'm Elin"
+    "Auther Say": "Hello! I'm Elin",
+    "Article Count Label": "Article",
+    "Category Count Label": "Category",
+    "Tag Count Label": "Tag",
+    "Admin Label": "Management backend"
   }
 }
