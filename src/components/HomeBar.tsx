@@ -3,6 +3,9 @@ import { fetchArticleListByPage } from "@/db";
 import classNames from "classnames";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import MarkdownIt from "markdown-it";
+
+const mdParser = new MarkdownIt();
 
 export default async function HomeBar({
   params,
@@ -17,13 +20,26 @@ export default async function HomeBar({
 
   return (
     <div className="flex gap-6">
-      <div className="basis-2/3 flex-grow">
+      <div className="flex-1 overflow-hidden">
         <div className="flex flex-col gap-6 mb-6">
           {data.map((item) => (
             <Card key={item.id}>
-              <p className="text-2xl">{item.title}</p>
+              <p className="text-2xl link link-hover">
+                <Link href={`/article/${item.id}`}>{item.title}</Link>
+              </p>
 
-              <div className="line-clamp-5">{item.content}</div>
+              <div
+                className="overflow-hidden w-full max-h-48"
+                dangerouslySetInnerHTML={{
+                  __html: mdParser.render(item.content),
+                }}
+              ></div>
+
+              <div>
+                <Link href={`/article/${item.id}`}>
+                  <button className="btn btn-xs">阅读更多</button>
+                </Link>
+              </div>
             </Card>
           ))}
         </div>
@@ -45,7 +61,7 @@ export default async function HomeBar({
         </div>
       </div>
 
-      <div className="basis-1/3 flex-grow">
+      <div className="w-2/6">
         <Card className="h-60" title={t("Home Comment Title")}></Card>
       </div>
     </div>

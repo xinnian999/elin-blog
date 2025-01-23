@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity('article')
+@Entity("article")
 export class Article {
   @PrimaryGeneratedColumn()
   id?: number;
@@ -8,8 +8,9 @@ export class Article {
   @Column()
   title: string;
 
+  // 无限长字符串
   @Column({
-    length: 999
+    type: "text",
   })
   content: string;
 }

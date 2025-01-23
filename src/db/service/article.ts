@@ -12,18 +12,34 @@ export const fetchArticleList = async () => {
 export async function fetchArticleListByPage(page: number, pageSize: number) {
   const articleRepository = getRepository(Article);
 
-  const [articles, total] = await (await articleRepository).findAndCount({
-    skip: (page - 1) * pageSize,  // 跳过前面的记录
-    take: pageSize,               // 每页返回的记录数
+  const [articles, total] = await (
+    await articleRepository
+  ).findAndCount({
+    skip: (page - 1) * pageSize, // 跳过前面的记录
+    take: pageSize, // 每页返回的记录数
+    order: { id: "desc" },
   });
 
+  // console.log(articles,111)
 
   return {
     data: articles,
-    total,                        // 总记录数
-    totalPages: Math.ceil(total / pageSize),  // 总页数
+    total, // 总记录数
+    totalPages: Math.ceil(total / pageSize), // 总页数
     currentPage: page,
   };
+}
+
+export async function fetchArticleById(id: number) {
+  const articleRepository = getRepository(Article);
+
+  const article = await (
+    await articleRepository
+  ).findOne({
+    where: { id },
+  });
+
+  return article || null;
 }
 
 export const createArticle = async (params: Article) => {

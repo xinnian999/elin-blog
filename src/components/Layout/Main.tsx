@@ -113,7 +113,7 @@ const Main: FC<MainProps> = ({ children }) => {
           </div>
         </Card>
       </div>
-      <div className="basis-3/4 flex-grow"> {children}</div>
+      <div className="basis-3/4 flex-grow overflow-hidden"> {children}</div>
     </main>
   );
 };
