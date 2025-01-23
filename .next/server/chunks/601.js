@@ -1,1 +1,0 @@
-"use strict";exports.id=601,exports.ids=[601],exports.modules={67601:e=>{e.exports=JSON.parse('{"Nav":{"Nav Home":"首页","Nav Friend":"朋友们","Nav Friend Link":"友情链接","Nav Friend Comment":"留言板","Nav About":"关于"},"Home":{"Home Comment Title":"最新留言"},"About":{"Title Me":"关于我","Title site":"关于本站"},"Main":{"Auther Say":"你好！我是Elin"}}')}};
