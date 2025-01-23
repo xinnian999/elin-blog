@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {},
   // output: "standalone",
-  // distDir: process.env.NODE_ENV === 'production' ? 'build' : '.next'
+  distDir: process.env.NODE_ENV === 'production' ? 'dist/build' : 'dist/dev',
 };
 
 export default withNextIntl(nextConfig);
