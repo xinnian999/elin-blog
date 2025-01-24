@@ -1,7 +1,6 @@
 "use client";
 
 import { TablePlus } from "@/components";
-import { createCategory, fetchCategoryList, updateCategory } from "@/db/service/category";
 import { createTag, fetchTagList } from "@/db/service/tag";
 import { Input } from "antd";
 
