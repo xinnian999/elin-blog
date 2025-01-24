@@ -22,10 +22,11 @@ export async function fetchArticleListByPage(page: number, pageSize: number) {
     skip: (page - 1) * pageSize, // 跳过前面的记录
     take: pageSize, // 每页返回的记录数
     order: { id: "desc" },
+    relations: ["category", "tags"],
   });
 
   return {
-    data: articles,
+    data: instanceToPlain(articles) as Article[],
     total, // 总记录数
     totalPages: Math.ceil(total / pageSize), // 总页数
     currentPage: page,

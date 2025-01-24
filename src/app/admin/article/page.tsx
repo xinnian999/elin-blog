@@ -144,9 +144,11 @@ const Article: React.FC = () => {
         },
         api: updateArticle,
         parseInitialValues(values) {
-          values.category = values.categoryId;
-          values.tags = values.tags.map((item: Tag) => item.id);
-          return values;
+          return {
+            ...values,
+            category: values.categoryId,
+            tags: values.tags.map((item: Tag) => item.id),
+          };
         },
       }}
       deleteApi={deleteArticle}
