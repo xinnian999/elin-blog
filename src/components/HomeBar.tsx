@@ -4,8 +4,12 @@ import classNames from "classnames";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import MarkdownIt from "markdown-it";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const mdParser = new MarkdownIt();
+
+dayjs.extend(relativeTime)
 
 export default async function HomeBar({
   params,
@@ -24,6 +28,8 @@ export default async function HomeBar({
         <div className="flex flex-col gap-6 mb-6">
           {data.map((item) => (
             <Card key={item.id}>
+              <p>{dayjs(item.created_at).fromNow()}</p>
+
               <p className="text-2xl link link-hover">
                 <Link href={`/article/${item.id}`}>{item.title}</Link>
               </p>
@@ -37,7 +43,7 @@ export default async function HomeBar({
 
               <div>
                 <Link href={`/article/${item.id}`}>
-                  <button className="btn btn-xs">{t('Read More')}</button>
+                  <button className="btn btn-xs">{t("Read More")}</button>
                 </Link>
               </div>
             </Card>

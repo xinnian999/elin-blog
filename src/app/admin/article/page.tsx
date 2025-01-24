@@ -11,7 +11,7 @@ import {
 import { fetchCategoryList } from "@/db/service/category";
 import { fetchTagList } from "@/db/service/tag";
 import { useRequest } from "ahooks";
-import { Input, Select, Space, Tag } from "antd";
+import { Input, Select, Space, Tag as AntdTag } from "antd";
 
 const Article: React.FC = () => {
   const { data: categorys = [] } = useRequest(fetchCategoryList);
@@ -46,7 +46,7 @@ const Article: React.FC = () => {
             return (
               <Space>
                 {val.map((tag: string) => (
-                  <Tag key={tag}>{tag}</Tag>
+                  <AntdTag key={tag}>{tag}</AntdTag>
                 ))}
               </Space>
             );
