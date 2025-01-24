@@ -1,12 +1,19 @@
 "use server";
 
 import { Article, getRepository } from "@/db";
+import { instanceToPlain } from "class-transformer";
 
 export const fetchArticleList = async () => {
   const postRepository = await getRepository(Article);
-  const data = await postRepository.find(); // 查询所有文章
+  const data = await postRepository.find({
+    relations: ["category"], // 明确指定要加载 `category` 关联
+  }); // 查询所有文章
 
-  return data.map((item) => ({ ...item }));
+  // console.log(data)
+  // console.log(instanceToPlain(data))
+
+  // 直接使用 plainToClass 进行深度序列化，所有字段都会被序列化
+  return instanceToPlain(data) as Article[]
 };
 
 export async function fetchArticleListByPage(page: number, pageSize: number) {
@@ -53,7 +60,7 @@ export const createArticle = async (params: Article) => {
 
 export const updateArticle = async (id: number, params: Article) => {
   const postRepository = await getRepository(Article);
-  delete params.id;
+
   await postRepository.update({ id }, params);
 
   return;

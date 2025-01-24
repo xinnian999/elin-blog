@@ -1,4 +1,5 @@
 import { FormItemProps, TableColumnProps } from "antd";
+import { ObjectLiteral } from "typeorm";
 
 export interface FormItem extends FormItemProps {
   component: React.ReactNode;
@@ -20,6 +21,7 @@ export interface TablePlusProps<T> {
     title: string;
     schema: FormSchema;
     api: (id: number, values: T) => Promise<void>;
+    parseInitialValues?: (values: ObjectLiteral) => ObjectLiteral;
   };
   deleteApi?: (id: number) => Promise<void>;
 }

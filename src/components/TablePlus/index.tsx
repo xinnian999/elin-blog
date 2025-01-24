@@ -7,7 +7,6 @@ import { PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import { useRequest, useSetState } from "ahooks";
 import { ObjectLiteral } from "typeorm";
 import { FormSchema, TablePlusProps } from "./interface";
-import { Article } from "@/db";
 
 const TablePlus = <T extends ObjectLiteral>({
   columns,
@@ -55,13 +54,20 @@ const TablePlus = <T extends ObjectLiteral>({
     });
   };
 
-  const handleUpdate = async (record: Article) => {
-    form.setFieldsValue(record);
+  const handleUpdate = async (record: T) => {
+    const { parseInitialValues, title, schema } = updateConfig!;
+
+    // 表单初始值
+    const initialValues = parseInitialValues
+      ? parseInitialValues(record)
+      : record;
+
+    form.setFieldsValue(initialValues);
 
     setModalState({
       open: true,
-      title: updateConfig!.title,
-      schema: updateConfig!.schema,
+      title,
+      schema,
       onOk: async () => {
         await form.validateFields();
         await updateConfig!.api(record.id!, form.getFieldsValue());

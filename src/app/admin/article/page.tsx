@@ -1,10 +1,19 @@
 "use client";
 
 import { Markdown, TablePlus } from "@/components";
-import { createArticle, deleteArticle, fetchArticleList, updateArticle } from "@/db/service/article";
-import { Input } from "antd";
+import {
+  createArticle,
+  deleteArticle,
+  fetchArticleList,
+  updateArticle,
+} from "@/db/service/article";
+import { fetchCategoryList } from "@/db/service/category";
+import { useRequest } from "ahooks";
+import { Input, Select } from "antd";
 
 const Article: React.FC = () => {
+  const { data: categorys = [] } = useRequest(fetchCategoryList);
+
   return (
     <TablePlus
       columns={[
@@ -22,9 +31,9 @@ const Article: React.FC = () => {
           key: "title",
         },
         {
-          title: "文章内容",
-          dataIndex: "content",
-          key: "content",
+          title: "所属分类",
+          dataIndex: "categoryText",
+          key: "categoryText",
         },
       ]}
       api={fetchArticleList}
@@ -37,6 +46,18 @@ const Article: React.FC = () => {
               label: "文章标题",
               rules: [{ required: true, message: "请输入文章标题" }],
               component: <Input />,
+            },
+            {
+              name: "category",
+              label: "所属分类",
+              rules: [{ required: true, message: "请选择分类" }],
+              component: (
+                <Select
+                  options={categorys}
+                  fieldNames={{ label: "name", value: "id" }}
+                  style={{ width: "200px" }}
+                />
+              ),
             },
             {
               name: "content",
@@ -59,6 +80,18 @@ const Article: React.FC = () => {
               component: <Input />,
             },
             {
+              name: "category",
+              label: "所属分类",
+              rules: [{ required: true, message: "请选择分类" }],
+              component: (
+                <Select
+                  options={categorys}
+                  fieldNames={{ label: "name", value: "id" }}
+                  style={{ width: "200px" }}
+                />
+              ),
+            },
+            {
               name: "content",
               label: "文章内容",
               rules: [{ required: true, message: "请输入文章内容" }],
@@ -67,6 +100,10 @@ const Article: React.FC = () => {
           ],
         },
         api: updateArticle,
+        parseInitialValues(values) {
+          values.category = values.categoryId;
+          return values;
+        },
       }}
       deleteApi={deleteArticle}
     />

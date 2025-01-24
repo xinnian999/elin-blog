@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { ConfigProvider, Layout, Menu, theme } from "antd";
 import { usePathname, useRouter } from "next/navigation";
-import { ArticleIcon, LinkIcon, CommentIcon } from "@/components";
+import { ArticleIcon, LinkIcon, CommentIcon, TagIcon, CategoryIcon } from "@/components";
 import styles from "./styles.module.css";
 import zhCN from 'antd/locale/zh_CN';
 import '@ant-design/v5-patch-for-react-19';
@@ -26,6 +26,16 @@ const menus = [
     label: "文章管理",
     icon: <ArticleIcon />,
     key: "/admin/article",
+  },
+  {
+    label: "分类管理",
+    icon: <CategoryIcon />,
+    key: "/admin/category",
+  },
+  {
+    label: "标签管理",
+    icon: <TagIcon />,
+    key: "/admin/tag",
   },
   {
     label: "友情链接管理",
