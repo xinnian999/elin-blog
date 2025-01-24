@@ -1,6 +1,7 @@
 "use client";
 
 import { Markdown, TablePlus } from "@/components";
+import { Tag } from "@/db";
 import {
   createArticle,
   deleteArticle,
@@ -8,11 +9,13 @@ import {
   updateArticle,
 } from "@/db/service/article";
 import { fetchCategoryList } from "@/db/service/category";
+import { fetchTagList } from "@/db/service/tag";
 import { useRequest } from "ahooks";
-import { Input, Select } from "antd";
+import { Input, Select, Space, Tag } from "antd";
 
 const Article: React.FC = () => {
   const { data: categorys = [] } = useRequest(fetchCategoryList);
+  const { data: tags = [] } = useRequest(fetchTagList);
 
   return (
     <TablePlus
@@ -35,6 +38,20 @@ const Article: React.FC = () => {
           dataIndex: "categoryText",
           key: "categoryText",
         },
+        {
+          title: "标签",
+          dataIndex: "tagTexts",
+          key: "tagTexts",
+          render: (val) => {
+            return (
+              <Space>
+                {val.map((tag: string) => (
+                  <Tag key={tag}>{tag}</Tag>
+                ))}
+              </Space>
+            );
+          },
+        },
       ]}
       api={fetchArticleList}
       createConfig={{
@@ -56,6 +73,19 @@ const Article: React.FC = () => {
                   options={categorys}
                   fieldNames={{ label: "name", value: "id" }}
                   style={{ width: "200px" }}
+                />
+              ),
+            },
+            {
+              name: "tags",
+              label: "标签",
+              rules: [{ required: true, message: "请选择标签" }],
+              component: (
+                <Select
+                  options={tags}
+                  fieldNames={{ label: "name", value: "id" }}
+                  style={{ width: "200px" }}
+                  mode="multiple"
                 />
               ),
             },
@@ -92,6 +122,19 @@ const Article: React.FC = () => {
               ),
             },
             {
+              name: "tags",
+              label: "标签",
+              rules: [{ required: true, message: "请选择标签" }],
+              component: (
+                <Select
+                  options={tags}
+                  fieldNames={{ label: "name", value: "id" }}
+                  style={{ width: "200px" }}
+                  mode="multiple"
+                />
+              ),
+            },
+            {
               name: "content",
               label: "文章内容",
               rules: [{ required: true, message: "请输入文章内容" }],
@@ -102,6 +145,7 @@ const Article: React.FC = () => {
         api: updateArticle,
         parseInitialValues(values) {
           values.category = values.categoryId;
+          values.tags = values.tags.map((item: Tag) => item.id);
           return values;
         },
       }}

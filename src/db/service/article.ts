@@ -1,19 +1,16 @@
 "use server";
 
-import { Article, getRepository } from "@/db";
+import { Article, getRepository, Tag } from "@/db";
 import { instanceToPlain } from "class-transformer";
 
 export const fetchArticleList = async () => {
   const postRepository = await getRepository(Article);
   const data = await postRepository.find({
-    relations: ["category"], // 明确指定要加载 `category` 关联
+    relations: ["category", "tags"], // 明确指定要加载 `category` 关联
   }); // 查询所有文章
 
-  // console.log(data)
-  // console.log(instanceToPlain(data))
-
   // 直接使用 plainToClass 进行深度序列化，所有字段都会被序列化
-  return instanceToPlain(data) as Article[]
+  return instanceToPlain(data) as Article[];
 };
 
 export async function fetchArticleListByPage(page: number, pageSize: number) {
@@ -26,8 +23,6 @@ export async function fetchArticleListByPage(page: number, pageSize: number) {
     take: pageSize, // 每页返回的记录数
     order: { id: "desc" },
   });
-
-  // console.log(articles,111)
 
   return {
     data: articles,
@@ -51,7 +46,16 @@ export async function fetchArticleById(id: number) {
 
 export const createArticle = async (params: Article) => {
   const postRepository = await getRepository(Article);
-  const article = postRepository.create(params);
+
+  // 查找与给定 ID 相关联的标签
+  const tags = await (await getRepository(Tag)).findByIds(params.tags);
+
+  // 创建新的文章实例
+  const article = new Article();
+  article.title = params.title;
+  article.content = params.content;
+  article.category = params.category;
+  article.tags = tags; // 关联标签
 
   await postRepository.save(article);
 
@@ -61,7 +65,26 @@ export const createArticle = async (params: Article) => {
 export const updateArticle = async (id: number, params: Article) => {
   const postRepository = await getRepository(Article);
 
-  await postRepository.update({ id }, params);
+  // 查找文章并加载关联的标签
+  const article = await postRepository.findOne({
+    where: { id },
+    relations: ["tags"],
+  });
+
+  if (!article) {
+    throw new Error("Article not found");
+  }
+
+  article.title = params.title;
+  article.content = params.content;
+  article.category = params.category;
+
+  // 查找与给定 ID 相关联的标签
+  const tags = await (await getRepository(Tag)).findByIds(params.tags);
+
+  article.tags = tags; // 关联标签
+
+  await postRepository.save(article);
 
   return;
 };

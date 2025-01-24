@@ -6,6 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  JoinTable,
+  ManyToMany,
 } from "typeorm";
 import { Article } from "./Article";
 import { Expose } from "class-transformer";
@@ -27,12 +29,13 @@ export class Tag {
   @UpdateDateColumn()
   updated_at: Date; // 更新时间
 
-  // One-to-many 关系：一个分类对应多篇文章
-  // @OneToMany(() => Article, (article) => article.category)
-  // articles: Article[];
+  // One-to-many 多对多关系：一个标签对应多篇文章
+  @ManyToMany(() => Article, (article) => article.tags)
+  @JoinTable()
+  articles: Article[];
 
-  // @Expose()
-  // get articleCount(): number {
-  //   return this.articles?.length;
-  // }
+  @Expose()
+  get articleCount(): number {
+    return this.articles?.length;
+  }
 }

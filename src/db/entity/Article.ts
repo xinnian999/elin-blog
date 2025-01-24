@@ -6,9 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { Category } from "./Category"; // 引入 Category 实体类
 import { Expose } from "class-transformer";
+import { Tag } from "./Tag";
 
 @Entity("article")
 export class Article {
@@ -38,5 +41,14 @@ export class Article {
   @Expose() // 显示暴露 categoryText 字段，instanceToPlain时才会生效
   get categoryText(): string {
     return this.category?.name;
+  }
+
+  @ManyToMany(() => Tag, (tag) => tag.articles, { nullable: true })
+  @JoinTable()
+  tags: Tag[];
+
+  @Expose() // 显示暴露 categoryText 字段，instanceToPlain时才会生效
+  get tagTexts(): string[] {
+    return this.tags?.map((tag) => tag.name)
   }
 }
