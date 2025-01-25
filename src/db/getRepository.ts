@@ -5,14 +5,14 @@ import * as Entities from "./entity"; // 你需要定义数据库实体
 let isInitialized = false;
 
 const AppDataSource = new DataSource({
-  type: "mysql", // 或 'postgres' 等
-  host: "localhost",
-  port: 3306, // 端口，根据你的数据库配置
-  username: "root",
-  password: "991015",
-  database: "blog",
+  type: "mysql",
+  host: process.env.DB_HOST,  // 使用环境变量来设置 host
+  port: parseInt(process.env.DB_PORT || '3306'),  // 使用环境变量来设置端口
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   entities: Entities,
-  synchronize: true, // 在开发环境下可以设置为 true，自动创建数据库表结构
+  synchronize: true, 
   logging: false,
 });
 
