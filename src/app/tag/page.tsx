@@ -10,11 +10,11 @@ export default async function Tag() {
   return (
     <div className="flex flex-col gap-6">
       <Card title={navT("Nav Tag")}>
-        <div className="flex gap-4">
+        <div className="flex gap-4 mt-6">
           {tags.map((tag) => {
             return (
-              <span className="badge badge-primary" key={tag.id}>
-                {tag.name}
+              <span className="badge badge-primary badge-lg flex items-center" key={tag.id}>
+                {tag.name} <span className="ml-3 text-[14px]">{tag.articleCount}</span> 
               </span>
             );
           })}

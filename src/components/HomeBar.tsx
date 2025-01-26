@@ -48,7 +48,7 @@ export default async function HomeBar({
                 </span>
               </p>
 
-              <p className="text-2xl link link-hover">
+              <p className="text-2xl link link-hover mt-2">
                 <Link href={`/article/${item.id}`}>{item.title}</Link>
               </p>
 
