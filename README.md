@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Elin-Blog
 
-## Getting Started
+使用 Next.js + DaisyUI 开发的高性能博客，全栈项目。
 
-First, run the development server:
+## 开发方式
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1、安装依赖
+
+```sh
+$ pnpm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2、启动开发环境
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+$ pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3、数据库支持。
 
-## Learn More
+因为是全栈项目，所以运行环境必须有数据库支持。
 
-To learn more about Next.js, take a look at the following resources:
+如果安装了docker，推荐直接运行`docker compose up db -d`，启动数据库镜像即可
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+也可以本地安装mysql环境，并且创建数据库`blog`，设置数据集`utf8mb4_general_ci`。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 部署
 
-## Deploy on Vercel
+### Docker部署（推荐）
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1、构建生产版本镜像
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sh
+$ docker build -t [name] .
+```
+
+2、推送镜像到远程仓库
+
+```sh
+$ docker push [name]
+```
+
+3、将本项目的`docker-compose.yml`传到服务器上，然后运行
+
+```sh
+$ docker compose up -d
+```
+
+
+ps：`docker-compose.yml`的`blog.image`需要修改成对应的仓库地址
+
+即可自动在服务器上同时部署好博客和数据库。
+
+### 源代码部署
+
+>需要将源代码整个上传到服务器，对服务器性能要求较高
+
+1、构建生产代码，产物出口是`dist/build`
+
+```sh
+$ pnpm build
+```
+
+2、运行生产版本
+
+```
+$ pnpm start
+```

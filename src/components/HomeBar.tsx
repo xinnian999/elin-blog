@@ -86,7 +86,9 @@ export default async function HomeBar({
       </div>
 
       <div className="w-2/6">
-        <Card className="h-60" title={t("Home Comment Title")}></Card>
+        <Card className="h-60">
+          <p>{t("Home Comment Title")}</p>
+        </Card>
       </div>
     </div>
   );
