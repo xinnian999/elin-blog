@@ -39,5 +39,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 
-dist/dev
-dist/build/cache
+dist
