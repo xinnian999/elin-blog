@@ -8,12 +8,18 @@ services:
       MYSQL_ROOT_PASSWORD: 991015  # 设置 MySQL root 密码
       MYSQL_DATABASE: blog         # 创建一个默认数据库
     ports:
-      - "3306:3306"                # 将容器的 3306 端口映射到宿主机的 3306 端口
+      - "3306:3306"                # 将数据库容器的 3306 端口映射到宿主机的 3306 端口
     networks:
       - app-network
     volumes:
       - mysql-data:/var/lib/mysql  # 持久化数据，防止容器重启时丢失数据库数据
     command: ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_general_ci"]
+  blog:
+    image: elin-blog
+    ports:
+      - "3000:3000"                # 将博客容器的 3000 端口映射到宿主机的 3000 端口
+    networks:
+      - app-network
 
 
 networks:
