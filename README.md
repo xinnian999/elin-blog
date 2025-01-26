@@ -20,7 +20,7 @@ $ pnpm dev
 
 因为是全栈项目，所以运行环境必须有数据库支持。
 
-如果安装了docker，推荐直接运行`docker compose up db -d`，启动数据库镜像即可
+如果安装了docker，推荐直接运行`pnpm db`，启动数据库镜像即可
 
 也可以本地安装mysql环境，并且创建数据库`blog`，设置数据集`utf8mb4_general_ci`。
 
