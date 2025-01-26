@@ -48,17 +48,17 @@ const Main: FC<MainProps> = ({ children }) => {
 
   const counts = [
     {
-      label: t('Article Count Label'),
+      label: t("Article Count Label"),
       count: 120,
       onClick: () => {},
     },
     {
-      label: t('Category Count Label'),
+      label: t("Category Count Label"),
       count: 10,
       onClick: () => {},
     },
     {
-      label: t('Tag Count Label'),
+      label: t("Tag Count Label"),
       count: 15,
       onClick: () => {},
     },
@@ -67,53 +67,58 @@ const Main: FC<MainProps> = ({ children }) => {
   return (
     <main className="container mx-auto min-h-screen py-8 flex gap-6">
       <div className="basis-1/4 flex-grow flex flex-col gap-5">
-        <Card className="flex flex-col items-center gap-4">
-          <div className="avatar">
-            <div className="w-24 rounded-full overflow-hidden relative">
-              <Image src="/auther_avatar.webp" alt={""} fill />
+        <Card>
+          <div className="flex flex-col items-center gap-4">
+            <div className="avatar">
+              <div className="w-24 rounded-full overflow-hidden relative">
+                <Image src="/auther_avatar.webp" alt={""} fill />
+              </div>
             </div>
-          </div>
 
-          <div className="font-bold text-xl">{t("Auther Say")}</div>
+            <div className="font-bold text-xl">{t("Auther Say")}</div>
 
-          <div>
-            <button className="btn btn-primary btn-wide btn-sm">
-              <GitHubIcon className="h-5 w-5 fill-current" /> GitHub
-            </button>
-          </div>
-
-          <div className="flex gap-2">
-            {links.map((item) => (
-              <button className="btn btn-ghost" key={item.label}>
-                {item.icon}
+            <div>
+              <button className="btn btn-primary btn-wide btn-sm">
+                <GitHubIcon className="h-5 w-5 fill-current" /> GitHub
               </button>
-            ))}
+            </div>
+
+            <div className="flex gap-2">
+              {links.map((item) => (
+                <button className="btn btn-ghost" key={item.label}>
+                  {item.icon}
+                </button>
+              ))}
+            </div>
           </div>
         </Card>
 
-        <Card className="flex flex-col items-center gap-4">
-          <div className="flex gap-2">
-            {counts.map((item) => (
+        <Card>
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex gap-2">
+              {counts.map((item) => (
+                <button
+                  className="btn btn-ghost flex flex-col gap-4 flex-nowrap h-16"
+                  key={item.label}
+                >
+                  <div> {item.label}</div>
+                  <div className="text-[25px]"> {item.count}</div>
+                </button>
+              ))}
+            </div>
+            <div>
               <button
-                className="btn btn-ghost flex flex-col gap-4 flex-nowrap h-16"
-                key={item.label}
+                className="btn btn-primary btn-wide btn-sm"
+                onClick={() => router.push("/admin")}
               >
-                <div> {item.label}</div>
-                <div className="text-[25px]"> {item.count}</div>
+                <BackendIcon className="h-5 w-5 fill-current" />{" "}
+                {t("Admin Label")}
               </button>
-            ))}
-          </div>
-          <div>
-            <button
-              className="btn btn-primary btn-wide btn-sm"
-              onClick={() => router.push("/admin")}
-            >
-              <BackendIcon className="h-5 w-5 fill-current" /> {t('Admin Label')}
-            </button>
+            </div>
           </div>
         </Card>
       </div>
-      <div className="basis-3/4 flex-grow overflow-hidden"> {children}</div>
+      <div className="basis-3/4 flex-grow overflow-hidden"> {children} </div>
     </main>
   );
 };

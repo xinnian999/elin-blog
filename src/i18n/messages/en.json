@@ -1,6 +1,8 @@
 {
   "Nav": {
     "Nav Home": "Home",
+    "Nav Category": "Categories",
+    "Nav Tag": "Tags",
     "Nav Friend": "Friends",
     "Nav Friend Link": "Friend Links",
     "Nav Friend Comment": "Message Board",

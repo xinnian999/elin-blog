@@ -1,44 +1,17 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DropdownIcon } from "@/components";
 import { useTranslations } from "next-intl";
-
-interface MenuItem {
-  label: string;
-  to?: string;
-  children?: MenuItem[];
-}
+import nav from "@/nav";
 
 const Nav = () => {
   const t = useTranslations("Nav");
 
   const pathname = usePathname();
 
-  const menus: MenuItem[] = [
-    {
-      label: t("Nav Home"),
-      to: "/",
-    },
-    {
-      label: t("Nav Friend"),
-      children: [
-        {
-          label: t("Nav Friend Link"),
-          to: "/link",
-        },
-        {
-          label: t("Nav Friend Comment"),
-          to: "/comment",
-        },
-      ],
-    },
-    {
-      label: t("Nav About"),
-      to: "/about",
-    },
-  ];
+  const navConfig = nav(t);
 
   return (
     <>
@@ -51,7 +24,7 @@ const Nav = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            {menus.map((item, index) => {
+            {navConfig.map((item, index) => {
               if (item.children) {
                 return (
                   <li key={item.label}>
@@ -81,7 +54,7 @@ const Nav = () => {
 
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-3">
-          {menus.map((item, index) => {
+          {navConfig.map((item, index) => {
             if (item.children) {
               return (
                 <li key={item.label}>
