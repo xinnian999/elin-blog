@@ -1,12 +1,17 @@
 "use client";
 
 import { TablePlus } from "@/components";
-import { createCategory, fetchCategoryList, updateCategory } from "@/db/service/category";
+import {
+  createCategory,
+  fetchCategoryList,
+  updateCategory,
+} from "@/db/service/category";
 import { Input } from "antd";
 
 const Article: React.FC = () => {
   return (
     <TablePlus
+      title="分类管理"
       columns={[
         {
           title: "ID",
@@ -43,7 +48,7 @@ const Article: React.FC = () => {
               rules: [{ required: true, message: "请输入分类名称" }],
               component: <Input />,
             },
-            
+
             {
               name: "description",
               label: "分类描述",

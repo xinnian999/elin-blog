@@ -9,11 +9,14 @@ import { ObjectLiteral } from "typeorm";
 import { FormSchema, TablePlusProps } from "./interface";
 
 const TablePlus = <T extends ObjectLiteral>({
+  title = "标题",
   columns,
   api,
   createConfig,
   updateConfig,
   deleteApi,
+  deleteShow = () => true,
+  renderRowActions = (params) => params.basic,
 }: TablePlusProps<T>) => {
   const [dataSource, setDataSource] = useState<T[]>([]);
 
@@ -95,14 +98,15 @@ const TablePlus = <T extends ObjectLiteral>({
     <div className={styles.TablePlus}>
       <div className={styles.toolbar}>
         <div className={styles.left}>
+          <span className="text-2xl">{title}</span>
+        </div>
+
+        <div className={styles.right}>
           {createConfig && (
             <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
               新增
             </Button>
           )}
-        </div>
-
-        <div className={styles.right}>
           <Button type="primary" icon={<RedoOutlined />} onClick={refresh} />
         </div>
       </div>
@@ -114,30 +118,36 @@ const TablePlus = <T extends ObjectLiteral>({
           {
             title: "操作",
             render: (record) => {
-              return (
-                <Space>
-                  {updateConfig && (
-                    <Button
-                      color="cyan"
-                      type="primary"
-                      size="small"
-                      onClick={handleUpdate.bind(this, record)}
-                    >
-                      修改
-                    </Button>
-                  )}
-                  {deleteApi && (
-                    <Button
-                      danger
-                      type="primary"
-                      size="small"
-                      onClick={handleDelete.bind(this, record.id)}
-                    >
-                      删除
-                    </Button>
-                  )}
-                </Space>
-              );
+              return renderRowActions({
+                basic: (
+                  <Space>
+                    {updateConfig && (
+                      <Button
+                        key="set"
+                        color="cyan"
+                        type="primary"
+                        size="small"
+                        onClick={handleUpdate.bind(this, record)}
+                      >
+                        修改
+                      </Button>
+                    )}
+                    {deleteApi && deleteShow(record) && (
+                      <Button
+                        key="del"
+                        danger
+                        type="primary"
+                        size="small"
+                        onClick={handleDelete.bind(this, record.id)}
+                      >
+                        删除
+                      </Button>
+                    )}
+                  </Space>
+                ),
+                record,
+                refresh,
+              });
             },
           },
         ]}
@@ -151,6 +161,7 @@ const TablePlus = <T extends ObjectLiteral>({
           labelCol={{ flex: "120px" }}
           wrapperCol={{ flex: "auto" }}
           form={form}
+          style={{ paddingTop: "20px" }}
         >
           {modalState.schema.items.map((item) => {
             return (

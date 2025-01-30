@@ -8,7 +8,10 @@
   .toolbar {
     display: flex;
     justify-content: space-between;
-    .left.right {
+    .left{
+
+    }
+    .right {
       display: flex;
       align-items: center;
       gap: 10px;

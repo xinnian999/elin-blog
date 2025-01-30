@@ -10,6 +10,7 @@ export interface FormSchema {
 }
 
 export interface TablePlusProps<T> {
+  title: string;
   columns: TableColumnProps[];
   api: () => Promise<T[]>;
   createConfig?: {
@@ -24,4 +25,10 @@ export interface TablePlusProps<T> {
     parseInitialValues?: (values: ObjectLiteral) => ObjectLiteral;
   };
   deleteApi?: (id: number) => Promise<void>;
+  deleteShow?: (record: T) => boolean;
+  renderRowActions?: (params: {
+    record: T;
+    basic: React.ReactNode;
+    refresh: () => void;
+  }) => React.ReactNode;
 }

@@ -19,6 +19,7 @@ const Article: React.FC = () => {
 
   return (
     <TablePlus
+      title="文章管理"
       columns={[
         {
           title: "ID",

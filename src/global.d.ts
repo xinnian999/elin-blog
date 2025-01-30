@@ -1,8 +1,7 @@
-
 interface IconProps {
-    className?: string;
+  className?: string;
 }
 
-type Lang = 'zh' | 'en'
+type Lang = "zh" | "en";
 
-declare module "markdown-it"
+declare module "markdown-it";
