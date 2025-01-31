@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { DropdownIcon } from "@/components";
 import { useTranslations } from "next-intl";
 import nav from "@/nav";
+import classNames from "classnames";
 
 const Nav = () => {
   const t = useTranslations("Nav");
@@ -57,10 +58,15 @@ const Nav = () => {
           {navConfig.map((item, index) => {
             if (item.children) {
               return (
-                <li key={item.label}>
+                <li
+                  key={item.label}
+                  className={classNames({
+                    "font-bold": item.children.some((v) => v.to === pathname),
+                  })}
+                >
                   <details>
                     <summary>{item.label}</summary>
-                    <ul className="p-2">
+                    <ul className="p-2 flex flex-col gap-2">
                       {item.children.map((v) => (
                         <li key={v.label} className="whitespace-nowrap">
                           <Link
@@ -84,7 +90,9 @@ const Nav = () => {
               <li key={index}>
                 <Link
                   href={item.to!}
-                  className={pathname === item.to ? "active" : ""}
+                  className={classNames({
+                    active: pathname === item.to,
+                  })}
                 >
                   {item.label}
                 </Link>

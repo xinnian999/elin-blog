@@ -12,9 +12,13 @@ const nextConfig: NextConfig = {
         hostname: '**', // 允许所有域名
       },
     ],
+    dangerouslyAllowSVG: true,
   },
   // output: "standalone",
   distDir: process.env.NODE_ENV === 'production' ? 'dist/build' : 'dist/dev',
+  experimental:{
+    webpackMemoryOptimizations:true
+  }
 };
 
 export default withNextIntl(nextConfig);

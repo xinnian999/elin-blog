@@ -1,13 +1,13 @@
 "use client";
 import { Card } from "@/components";
-import { createLink, fetchLinkList } from "@/db/service/link";
+import { createLink, fetchLinkListByPass } from "@/db/service/link";
 import { useRequest, useSetState } from "ahooks";
 import classNames from "classnames";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function About() {
-  const [open, setOpen] = useState(false);
   const [tip, setTip] = useState(false);
   const [values, setValues] = useSetState({
     name: "",
@@ -18,13 +18,17 @@ export default function About() {
 
   const pass = Object.values(values).some((value) => !value);
 
-  const { data } = useRequest(fetchLinkList);
+  const { data } = useRequest(fetchLinkListByPass);
 
+  const openModal = () =>
+    (document.getElementById("my_modal_1") as HTMLDialogElement)?.showModal();
+  const closeModal = () =>
+    (document.getElementById("my_modal_1") as HTMLDialogElement)?.close();
 
   const handleSubmit = async () => {
     await createLink(values);
 
-    setOpen(false);
+    closeModal();
 
     setTip(true);
 
@@ -37,39 +41,48 @@ export default function About() {
     <div className="flex flex-col gap-6">
       <Card title="友情链接">
         <div className="mt-4">
-          <button className="btn btn-primary" onClick={() => setOpen(true)}>
+          <button className="btn btn-primary" onClick={openModal}>
             申请友链
           </button>
 
           <div className="divider" />
 
           <div className="flex gap-12">
-            {data?.map((item) => (
-              <div
-                className="basis-1/3 h-20 bg-base-200 rounded-lg flex items-center p-4 gap-4"
-                key={item.id}
-              >
-                <div className="avatar">
-                  <div className="w-14 h-14 rounded-full">
-                    <Image src={item.avatar} width={30} height={30} alt="" />
+            {data?.map((item) => {
+              if (!item.url.includes("://")) {
+                item.url = "https://" + item.url;
+              }
+              return (
+                <div
+                  className="basis-1/3 h-20 bg-base-200 rounded-lg flex items-center p-4 gap-4"
+                  key={item.id}
+                >
+                  <div className="avatar">
+                    <div className="w-14 h-14 rounded-full">
+                      <Image src={item.avatar} width={30} height={30} alt="" />
+                    </div>
+                  </div>
+
+                  <div className="flex-1 flex flex-col gap-2">
+                    <div className="font-bold text-blue-500 hover:text-gray-600">
+                      <Link href={item.url} target="_blank">
+                        {item.name}
+                      </Link>
+                    </div>
+                    <div className="text-sm">{item.desc}</div>
                   </div>
                 </div>
-
-                <div className="flex-1 flex flex-col gap-2">
-                  <div className="font-bold">{item.name}</div>
-                  <div className="text-sm">{item.desc}</div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </Card>
 
-      <dialog open={open} className="modal">
+      <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
-            onClick={() => setOpen(false)}
+            onClick={closeModal}
           >
             ✕
           </button>
@@ -143,6 +156,9 @@ export default function About() {
             </form>
           </div>
         </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
 
       {tip && (

@@ -98,15 +98,14 @@ const TablePlus = <T extends ObjectLiteral>({
     <div className={styles.TablePlus}>
       <div className={styles.toolbar}>
         <div className={styles.left}>
-          <span className="text-2xl">{title}</span>
-        </div>
-
-        <div className={styles.right}>
           {createConfig && (
             <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
               新增
             </Button>
           )}
+        </div>
+
+        <div className={styles.right}>
           <Button type="primary" icon={<RedoOutlined />} onClick={refresh} />
         </div>
       </div>

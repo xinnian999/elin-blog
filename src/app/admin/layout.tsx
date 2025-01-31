@@ -9,10 +9,16 @@ import {
 } from "@ant-design/icons";
 import { ConfigProvider, Layout, Menu, theme } from "antd";
 import { usePathname, useRouter } from "next/navigation";
-import { ArticleIcon, LinkIcon, CommentIcon, TagIcon, CategoryIcon } from "@/components";
+import {
+  ArticleIcon,
+  LinkIcon,
+  CommentIcon,
+  TagIcon,
+  CategoryIcon,
+} from "@/components";
 import styles from "./styles.module.css";
-import zhCN from 'antd/locale/zh_CN';
-import '@ant-design/v5-patch-for-react-19';
+import zhCN from "antd/locale/zh_CN";
+import "@ant-design/v5-patch-for-react-19";
 
 const { Header, Sider, Content } = Layout;
 
@@ -90,12 +96,16 @@ const App: React.FC<LayoutProps> = ({ children }) => {
             style={{ background: colorBgContainer }}
             className="flex justify-between items-center px-4"
           >
-            <button
-              className="btn btn-ghost"
-              onClick={() => setCollapsed(!collapsed)}
-            >
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                className="btn btn-ghost"
+                onClick={() => setCollapsed(!collapsed)}
+              >
+                {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              </button>
+
+              <div className="text-2xl">{menus.find(item=>item.key===pathname)?.label}</div>
+            </div>
 
             <button className="btn btn-ghost" onClick={handleLogout}>
               <LoginOutlined />
