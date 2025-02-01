@@ -9,7 +9,6 @@ import { ObjectLiteral } from "typeorm";
 import { FormSchema, TablePlusProps } from "./interface";
 
 const TablePlus = <T extends ObjectLiteral>({
-  title = "标题",
   columns,
   api,
   createConfig,

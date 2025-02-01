@@ -1,9 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
+import { useUpdateEffect } from "ahooks";
+import { checkAuth } from "@/db/service/auth";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,8 +13,17 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
+  const router = useRouter();
 
-  if (pathname.includes("/admin")) {
+  useUpdateEffect(() => {
+    if (pathname.includes("/admin")) {
+      checkAuth().catch(() => {
+        router.push("/login");
+      });
+    }
+  }, [pathname]);
+
+  if (pathname.includes("/admin") || pathname.includes("/login")) {
     return children;
   }
 

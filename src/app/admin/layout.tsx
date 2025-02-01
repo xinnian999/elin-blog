@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import {
   BarChartOutlined,
-  LoginOutlined,
+  HomeOutlined,
+  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
@@ -19,6 +20,9 @@ import {
 import styles from "./styles.module.css";
 import zhCN from "antd/locale/zh_CN";
 import "@ant-design/v5-patch-for-react-19";
+import { logout } from "@/db/service/auth";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+
 
 const { Header, Sider, Content } = Layout;
 
@@ -69,12 +73,13 @@ const App: React.FC<LayoutProps> = ({ children }) => {
 
   const pathname = usePathname();
 
-  const handleLogout = () => {
+  const goHome = () => {
     router.push("/");
   };
 
   return (
     <ConfigProvider locale={zhCN}>
+      <AntdRegistry>
       <Layout className="h-screen">
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div
@@ -93,8 +98,8 @@ const App: React.FC<LayoutProps> = ({ children }) => {
         </Sider>
         <Layout>
           <Header
-            style={{ background: colorBgContainer }}
-            className="flex justify-between items-center px-4"
+            style={{ background: colorBgContainer,padding: "0 24px" }}
+            className="flex justify-between items-center"
           >
             <div className="flex items-center gap-3">
               <button
@@ -104,12 +109,19 @@ const App: React.FC<LayoutProps> = ({ children }) => {
                 {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               </button>
 
-              <div className="text-2xl">{menus.find(item=>item.key===pathname)?.label}</div>
+              <div className="text-2xl">
+                {menus.find((item) => item.key === pathname)?.label}
+              </div>
             </div>
 
-            <button className="btn btn-ghost" onClick={handleLogout}>
-              <LoginOutlined />
-            </button>
+            <div className="flex items-center gap-3">
+              <button className="btn btn-ghost" onClick={goHome}>
+                <HomeOutlined />
+              </button>
+              <button className="btn btn-ghost" onClick={logout}>
+                <LogoutOutlined />
+              </button>
+            </div>
           </Header>
           <Content
             style={{
@@ -124,6 +136,7 @@ const App: React.FC<LayoutProps> = ({ children }) => {
           </Content>
         </Layout>
       </Layout>
+      </AntdRegistry>
     </ConfigProvider>
   );
 };
