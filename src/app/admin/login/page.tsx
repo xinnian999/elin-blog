@@ -38,11 +38,12 @@ function Login() {
 
   return (
     <div className={styles.login}>
-      <div className="absolute right-7 top-7 btn">
-        <Link href="/">
+      <Link href="/">
+        <div className="absolute right-7 top-7 btn">
           <HomeOutlined />
-        </Link>
-      </div>
+        </div>
+      </Link>
+
       <div className={styles.form}>
         <p className={styles.title}>登录后台管理</p>
         <Form

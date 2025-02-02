@@ -13,17 +13,9 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const router = useRouter();
 
-  useUpdateEffect(() => {
-    if (pathname.includes("/admin")) {
-      checkAuth().catch(() => {
-        router.push("/login");
-      });
-    }
-  }, [pathname]);
 
-  if (pathname.includes("/admin") || pathname.includes("/login")) {
+  if (pathname.includes("/admin")) {
     return children;
   }
 

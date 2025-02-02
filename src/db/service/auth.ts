@@ -31,5 +31,5 @@ export const checkAuth = async () => {
 export const logout = async () => {
   // 清除 Cookie
  (await cookies()).delete("auth");
-  redirect("/login");
+  redirect("/admin/login");
 };
