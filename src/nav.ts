@@ -18,17 +18,12 @@ export default (t: (key: string) => string): MenuItem[] => [
     to: "/tag",
   },
   {
-    label: t("Nav Friend"),
-    children: [
-      {
-        label: t("Nav Friend Link"),
-        to: "/link",
-      },
-      {
-        label: t("Nav Friend Comment"),
-        to: "/comment",
-      },
-    ],
+    label: t("Nav Friend Link"),
+    to: "/link",
+  },
+  {
+    label: t("Nav Friend Comment"),
+    to: "/comment",
   },
   {
     label: t("Nav About"),
