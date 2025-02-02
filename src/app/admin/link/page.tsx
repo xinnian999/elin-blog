@@ -1,6 +1,6 @@
 "use client";
 import { TablePlus } from "@/components";
-import { LinkStatus } from "@/db";
+import { LinkStatus } from "@/db/enums";
 import {
   createLink,
   deleteLink,

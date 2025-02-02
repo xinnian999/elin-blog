@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -22,7 +23,6 @@ import zhCN from "antd/locale/zh_CN";
 import "@ant-design/v5-patch-for-react-19";
 import { checkAuth, logout } from "@/db/service/auth";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { useUpdateEffect } from "ahooks";
 
 const { Header, Sider, Content } = Layout;
 

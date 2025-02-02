@@ -1,6 +1,6 @@
 "use server";
 import { DataSource, EntityTarget, ObjectLiteral } from "typeorm";
-import * as Entities from "./entity"; // 你需要定义数据库实体
+import * as entities from "./entity"; // 你需要定义数据库实体
 
 let isInitialized = false;
 
@@ -11,7 +11,7 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: Entities,
+  entities,
   synchronize: true,
   logging: false,
   charset: "utf8mb4",

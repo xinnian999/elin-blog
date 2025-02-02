@@ -1,7 +1,8 @@
 "use server";
 
-import { Link, LinkStatus, getRepository } from "@/db";
+import { Link,  getRepository } from "@/db";
 import { instanceToPlain } from "class-transformer";
+import { LinkStatus } from "../enums";
 
 export const fetchLinkList = async () => {
   const postRepository = await getRepository(Link);
