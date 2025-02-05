@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "db": "docker compose up db -d",
+    "db-view": "docker compose up db-view -d",
     "release": "sh release.sh"
   },
   "dependencies": {

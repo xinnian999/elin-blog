@@ -34,7 +34,7 @@ COPY --from=build /app/public ./public
 # 只复制生产依赖和 package 文件
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=build /app/.env.production ./.env.production
+# COPY --from=build /app/.env.production ./.env.production
 COPY --from=build /app/next.config.ts ./next.config.ts
 
 # 安装生产环境依赖

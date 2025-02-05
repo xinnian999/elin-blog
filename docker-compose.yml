@@ -1,4 +1,17 @@
 services:
+  blog:
+    image: crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin/elin-blog:latest
+    container_name: elin-blog
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      - DB_HOST=mysql-db
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=991015
+      - DB_NAME=blog
   db:
     image: mysql:5.7.29
     container_name: mysql-db
@@ -11,13 +24,20 @@ services:
       - app-network
     volumes:
       - mysql-data:/var/lib/mysql
-    command: ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_general_ci"]
-
-  blog:
-    image: crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin/elin-blog:latest
-    container_name: elin-blog
+    command:
+      [
+        "mysqld",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_general_ci",
+      ]
+  db-view:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
     ports:
-      - "3000:3000"
+      - "8080:80"
     networks:
       - app-network
 

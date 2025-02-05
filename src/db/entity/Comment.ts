@@ -3,14 +3,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  ManyToOne,
-  ManyToMany,
-  JoinTable,
+  CreateDateColumn
 } from "typeorm";
-import { Category } from "./Category"; // 引入 Category 实体类
-import { Expose } from "class-transformer";
-import { Tag } from "./Tag";
 
 @Entity("comment")
 export class Comment {
