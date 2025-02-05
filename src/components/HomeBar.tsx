@@ -1,13 +1,8 @@
 import { ArticleCard, Card } from "@/components";
 import { fetchArticleListByPage } from "@/db";
 import classNames from "classnames";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import "dayjs/locale/zh-cn";
-
-dayjs.extend(relativeTime);
 
 export default async function HomeBar({
   params,
@@ -16,13 +11,9 @@ export default async function HomeBar({
 }) {
   const page = +(await params).page || 1;
 
-  const locale = await getLocale();
-
   const { data, totalPages } = await fetchArticleListByPage(page, 10);
 
   const t = await getTranslations("Home");
-
-  dayjs.locale(locale === "zh" ? "zh-cn" : "en");
 
   return (
     <div className="flex gap-6">

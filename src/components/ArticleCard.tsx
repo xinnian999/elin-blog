@@ -1,16 +1,17 @@
 import { Card } from "antd";
-import dayjs from "dayjs";
 import Link from "next/link";
 import { CategoryIcon, TagIcon } from "./Icon";
 import { Article } from "@/db";
 import MarkdownIt from "markdown-it";
 import { getTranslations } from "next-intl/server";
-
+import { getDayjs } from "@/async";
 
 const mdParser = new MarkdownIt();
 
 async function ArticleCard({ data }: { data: Article }) {
   const t = await getTranslations("Home");
+
+  const dayjs = await getDayjs();
 
   return (
     <Card key={data.id}>

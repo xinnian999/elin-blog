@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
+import "dayjs/locale/zh-cn";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
-
+  
   if (pathname.includes("/admin")) {
     return children;
   }

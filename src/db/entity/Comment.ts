@@ -3,13 +3,15 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn
+  CreateDateColumn,
+  ManyToOne,
+  OneToMany
 } from "typeorm";
 
 @Entity("comment")
 export class Comment {
   @PrimaryGeneratedColumn()
-  id: number; // 自动生成的主键
+  id?: number; // 自动生成的主键
 
   @Column()
   avatar: string; // 用户头像
@@ -21,5 +23,11 @@ export class Comment {
   content: string; // 评论内容
 
   @CreateDateColumn()
-  created_at: Date; // 评论时间
+  created_at?: Date; // 评论时间
+
+  @ManyToOne(() => Comment, comment => comment.id)
+  parentComment?: Comment;
+
+  @OneToMany(() => Comment, comment => comment.parentComment)
+  replies?: Comment[];
 }

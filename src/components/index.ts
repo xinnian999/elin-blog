@@ -5,4 +5,5 @@ export { default as TablePlus } from "./TablePlus";
 export { default as Markdown } from "./Markdown";
 export { default as HomeBar } from "./HomeBar";
 export { default as ArticleCard } from "./ArticleCard";
+export { default as Comment } from "./Comment";
 export * from "./Icon";
