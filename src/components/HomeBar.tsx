@@ -1,7 +1,7 @@
 import { getDayjs } from "@/async";
 import { ArticleCard, Card } from "@/components";
 import { fetchArticleListByPage } from "@/db";
-import { fetchAllCommentList, fetchHomeCommentList } from "@/db/service/comment";
+import { fetchHomeCommentList } from "@/db/service/comment";
 import classNames from "classnames";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";

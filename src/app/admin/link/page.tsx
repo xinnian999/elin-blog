@@ -13,7 +13,6 @@ import { Button, Input, message, Modal, Space, Tag, Avatar } from "antd";
 function Link() {
   return (
     <TablePlus
-      title="友情链接管理"
       columns={[
         {
           title: "ID",

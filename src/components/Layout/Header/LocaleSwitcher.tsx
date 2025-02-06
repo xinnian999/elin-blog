@@ -4,9 +4,8 @@ import { ExpandIcon, LangIcon } from "@/components";
 import { getUserLocale, setUserLocale } from "@/i18n/service";
 import { locales } from "@/i18n/config";
 import { useAsyncEffect } from "ahooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "dayjs/locale/zh-cn";
-import { dayjsPlus } from "@/async";
 
 const LocaleSwitcher = () => {
   const [lang, setLang] = useState<Lang>("zh");

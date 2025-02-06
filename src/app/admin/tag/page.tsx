@@ -7,7 +7,6 @@ import { Input } from "antd";
 const Tag: React.FC = () => {
   return (
     <TablePlus
-      title="标签管理"
       columns={[
         {
           title: "ID",
