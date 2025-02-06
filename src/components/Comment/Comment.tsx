@@ -8,8 +8,8 @@ import Write from "./Write";
 import { Comment as CommentEntity } from "@/db";
 
 interface Props extends CommentEntity {
-  replyTarget: number;
-  setReplyTarget: (id: number) => void;
+  replyTarget: CommentEntity | null;
+  setReplyTarget: (data: CommentEntity | null) => void;
   refreshList: () => void;
 }
 
@@ -20,12 +20,11 @@ const Comment = (props: Props) => {
 
   const dayjs = useDayjs();
 
-  const handleReplay = (id: number) => {
-    if (replyTarget === id) {
-      setReplyTarget(-1);
-    } else {
-      setReplyTarget(id);
+  const handleReplay = () => {
+    if (props.id === replyTarget?.id) {
+      return setReplyTarget(null);
     }
+    setReplyTarget(props);
   };
 
   return (
@@ -51,16 +50,44 @@ const Comment = (props: Props) => {
             <div>
               <span
                 className="cursor-pointer hover:text-primary"
-                onClick={handleReplay.bind(this, props.id!)}
+                onClick={handleReplay}
               >
                 <ReplyIcon />
               </span>
             </div>
           </div>
 
+          {props.targetComment && (
+            <div className="mt-3 text-[14px]">
+              回复 {props.targetComment.nickname} ：
+            </div>
+          )}
+
           <div className="mt-3">{props.content}</div>
         </div>
       </div>
+
+      {replyTarget && props.id === replyTarget.id && (
+        <div className="pl-14">
+          <Write
+            placeholder={`回复 ${replyTarget.nickname}`}
+            publishCallback={async ({ avatar, nickname, content }) => {
+              await replyComment({
+                parentCommentId:
+                  replyTarget.parentComment?.id || replyTarget.id,
+                targetCommentId: replyTarget.id!,
+                params: {
+                  avatar,
+                  nickname,
+                  content,
+                },
+              });
+
+              refreshList();
+            }}
+          />
+        </div>
+      )}
 
       <div className="pl-14">
         {props.replies?.map((item) => {
@@ -69,28 +96,12 @@ const Comment = (props: Props) => {
               {...item}
               refreshList={refreshList}
               replyTarget={replyTarget}
-              setReplyTarget={() => setReplyTarget(props.id!)}
+              setReplyTarget={setReplyTarget}
               key={item.id}
             />
           );
         })}
       </div>
-
-      {props.id === replyTarget && (
-        <div className="pl-14">
-          <Write
-            publishCallback={async ({ avatar, nickname, content }) => {
-              await replyComment(replyTarget, {
-                avatar,
-                nickname,
-                content,
-              });
-
-              refreshList();
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 };

@@ -7,14 +7,18 @@ import { IsNull } from "typeorm";
 export const fetchCommentList = async () => {
   const postRepository = await getRepository(Comment);
   const data = await postRepository.find({
-    relations: ["parentComment", "replies"],
+    relations: [
+      "parentComment",
+      "replies",
+      "replies.parentComment",
+      'replies.targetComment',
+    ],
     order: { id: "DESC" },
     where: {
       parentComment: IsNull(),
     },
   }); // 查询所有分类
 
-  console.log(data);
   return instanceToPlain(data) as Comment[];
 };
 
@@ -27,20 +31,37 @@ export const createComment = async (params: Comment) => {
   return;
 };
 
-export const replyComment = async (
-  parentCommentId: number,
-  params: Comment
-) => {
+export const replyComment = async ({
+  parentCommentId,
+  targetCommentId,
+  params,
+}: {
+  parentCommentId?: number;
+  targetCommentId: number;
+  params: Comment;
+}) => {
+  console.log(parentCommentId, "parentCommentId");
   const postRepository = await getRepository(Comment);
 
   const comment = postRepository.create(params);
 
-  const parentComment = await postRepository.findOneBy({
-    id: parentCommentId,
+  // 关联父评论
+  if (parentCommentId) {
+    const parentComment = await postRepository.findOneBy({
+      id: parentCommentId,
+    });
+
+    if (parentComment) {
+      comment.parentComment = parentComment;
+    }
+  }
+
+  const targetComment = await postRepository.findOneBy({
+    id: targetCommentId,
   });
 
-  if (parentComment) {
-    comment.parentComment = parentComment;
+  if (targetComment) {
+    comment.targetComment = targetComment; // 关联目标评论
   }
 
   await postRepository.save(comment);

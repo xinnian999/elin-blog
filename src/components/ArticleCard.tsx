@@ -1,10 +1,10 @@
-import { Card } from "antd";
 import Link from "next/link";
 import { CategoryIcon, TagIcon } from "./Icon";
 import { Article } from "@/db";
 import MarkdownIt from "markdown-it";
 import { getTranslations } from "next-intl/server";
 import { getDayjs } from "@/async";
+import Card from "./Card";
 
 const mdParser = new MarkdownIt();
 

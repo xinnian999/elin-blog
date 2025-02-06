@@ -8,7 +8,9 @@ import { useState } from "react";
 
 export default function Write({
   publishCallback,
+  placeholder = "留言点什么吧～",
 }: {
+  placeholder?: string;
   publishCallback: (params: {
     nickname: string;
     avatar: string;
@@ -97,7 +99,7 @@ export default function Write({
 
         <div className="mt-3">
           <textarea
-            placeholder="留言点什么吧～"
+            placeholder={placeholder}
             className="textarea textarea-bordered textarea-md w-full"
             rows={3}
             value={content}

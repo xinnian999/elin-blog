@@ -1,11 +1,10 @@
-// src/entities/Article.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   ManyToOne,
-  OneToMany
+  OneToMany,
 } from "typeorm";
 
 @Entity("comment")
@@ -25,9 +24,19 @@ export class Comment {
   @CreateDateColumn()
   created_at?: Date; // 评论时间
 
-  @ManyToOne(() => Comment, comment => comment.id)
+  // 父评论（如果存在）
+  @ManyToOne(() => Comment, (comment) => comment.replies, { nullable: true })
   parentComment?: Comment;
 
-  @OneToMany(() => Comment, comment => comment.parentComment)
+  // 子评论（回复）
+  @OneToMany(() => Comment, (comment) => comment.parentComment)
   replies?: Comment[];
+
+  // 目标评论（引用的评论）
+  @ManyToOne(() => Comment, (comment) => comment.targetComments, { nullable: true })
+  targetComment?: Comment;
+
+  // 反向映射，指向目标评论的子评论
+  @OneToMany(() => Comment, (comment) => comment.targetComment)
+  targetComments?: Comment[];
 }

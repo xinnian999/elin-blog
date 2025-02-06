@@ -6,11 +6,18 @@ import { useRequest } from "ahooks";
 import Write from "./Write";
 import { useState } from "react";
 import Comment from "./Comment";
+import { Comment as CommentEntity } from "@/db";
 
 const CommentBar = () => {
   const { data = [], run } = useRequest(fetchCommentList);
-  console.log(data);
-  const [replyTarget, setReplyTarget] = useState(-1);
+  // console.log(data)
+
+  const [replyTarget, setReplyTarget] = useState<CommentEntity | null>(null);
+
+  const refreshList = () => {
+    run();
+    setReplyTarget(null);
+  };
 
   return (
     <Card>
@@ -22,7 +29,7 @@ const CommentBar = () => {
             content,
           });
 
-          run();
+          refreshList();
         }}
       />
 
@@ -35,7 +42,7 @@ const CommentBar = () => {
           return (
             <Comment
               {...item}
-              refreshList={run}
+              refreshList={refreshList}
               replyTarget={replyTarget}
               setReplyTarget={setReplyTarget}
               key={item.id}
