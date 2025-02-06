@@ -9,7 +9,7 @@ export const loginAdmin = async ({
   password: string;
   username: string;
 }) => {
-  if (username === "admin" && password === "admin") {
+  if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
     // 登录成功，设置 Cookie
     (await cookies()).set("auth", "true", { maxAge: 60 * 60 }); // 1 小时有效期
     return true;
@@ -30,6 +30,6 @@ export const checkAuth = async () => {
 
 export const logout = async () => {
   // 清除 Cookie
- (await cookies()).delete("auth");
+  (await cookies()).delete("auth");
   redirect("/admin/login");
 };
