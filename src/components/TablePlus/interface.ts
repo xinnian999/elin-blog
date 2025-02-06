@@ -10,7 +10,6 @@ export interface FormSchema {
 }
 
 export interface TablePlusProps<T> {
-  title: string;
   columns: TableColumnProps[];
   api: () => Promise<T[]>;
   createConfig?: {

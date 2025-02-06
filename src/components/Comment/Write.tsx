@@ -5,6 +5,18 @@ import { useMounted } from "@/hooks";
 import { useLocalStorageState } from "ahooks";
 import Image from "next/image";
 import { useState } from "react";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import useGlobalStore from "@/store/global";
+import classNames from "classnames";
+import en from "@emoji-mart/data/i18n/en.json";
+import zh from "@emoji-mart/data/i18n/zh.json";
+import { useLocale } from "next-intl";
+
+const locales = {
+  en,
+  zh,
+};
 
 export default function Write({
   publishCallback,
@@ -19,6 +31,10 @@ export default function Write({
   }) => Promise<any>;
 }) {
   const mounted = useMounted();
+
+  const lang = useLocale() as Lang;
+
+  const dark = useGlobalStore((state) => state.dark);
 
   const [nickname, setNickname] = useLocalStorageState("nickname", {
     defaultValue: "",
@@ -54,6 +70,10 @@ export default function Write({
     });
 
     setContent("");
+  };
+
+  const onEmojiSelect = (e: { native: string }) => {
+    setContent(content + e.native);
   };
 
   return (
@@ -109,9 +129,24 @@ export default function Write({
 
         <div className="flex justify-between mt-1">
           <div>
-            <button className="btn text-[20px]">😊</button>
+            <details className="dropdown">
+              <summary className="btn m-1 text-[20px]">😊</summary>
+              <ul className="dropdown-content bg-base-100 rounded-box z-[1] shadow">
+                <Picker
+                  data={data}
+                  theme={dark ? "dark" : "light"}
+                  i18n={locales[lang]}
+                  onEmojiSelect={onEmojiSelect}
+                />
+              </ul>
+            </details>
           </div>
-          <button className="btn btn-primary" onClick={handlePublish}>
+          <button
+            className={classNames("btn", "btn-primary", {
+              "btn-disabled": !content || !nickname || !email,
+            })}
+            onClick={handlePublish}
+          >
             发布
           </button>
         </div>

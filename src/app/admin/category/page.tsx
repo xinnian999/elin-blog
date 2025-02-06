@@ -11,7 +11,6 @@ import { Input } from "antd";
 const Article: React.FC = () => {
   return (
     <TablePlus
-      title="分类管理"
       columns={[
         {
           title: "ID",

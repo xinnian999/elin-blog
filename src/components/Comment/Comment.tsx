@@ -29,7 +29,7 @@ const Comment = (props: Props) => {
 
   return (
     <div>
-      <div className="flex gap-5 mt-4">
+      <div className="flex gap-4 mt-4">
         <div className="">
           <div className="avatar">
             <div className="w-14">
@@ -41,10 +41,10 @@ const Comment = (props: Props) => {
         </div>
         <div className="flex-1">
           <div className="flex justify-between text-[14px]">
-            <div className="flex gap-3">
-              <div className="">{props.nickname}</div>
+            <div className="flex gap-3 items-center">
+              <div className="font-bold">{props.nickname}</div>
 
-              <div className="">{dayjs(props.created_at).fromNow()}</div>
+              <div className="text-gray-500">{dayjs(props.created_at).fromNow()}</div>
             </div>
 
             <div>
@@ -58,12 +58,12 @@ const Comment = (props: Props) => {
           </div>
 
           {props.targetComment && (
-            <div className="mt-3 text-[14px]">
+            <div className="mt-2 text-[14px] text-gray-500">
               回复 {props.targetComment.nickname} ：
             </div>
           )}
 
-          <div className="mt-3">{props.content}</div>
+          <div className="mt-2">{props.content}</div>
         </div>
       </div>
 

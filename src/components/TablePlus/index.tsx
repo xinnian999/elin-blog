@@ -115,6 +115,8 @@ const TablePlus = <T extends ObjectLiteral>({
           ...columns,
           {
             title: "操作",
+            fixed:'right',
+            width:150,
             render: (record) => {
               return renderRowActions({
                 basic: (

@@ -13,6 +13,8 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useRequest } from "ahooks";
+import { fetchSummary } from "@/db/service/all";
 
 interface MainProps {
   children: ReactNode;
@@ -22,6 +24,8 @@ const Main: FC<MainProps> = ({ children }) => {
   const t = useTranslations("Main");
 
   const router = useRouter();
+
+  const { data } = useRequest(fetchSummary);
 
   const links = [
     {
@@ -49,17 +53,17 @@ const Main: FC<MainProps> = ({ children }) => {
   const counts = [
     {
       label: t("Article Count Label"),
-      count: 120,
+      count: data?.articleCount,
       onClick: () => {},
     },
     {
       label: t("Category Count Label"),
-      count: 10,
+      count: data?.categoryCount,
       onClick: () => {},
     },
     {
       label: t("Tag Count Label"),
-      count: 15,
+      count: data?.tagCount,
       onClick: () => {},
     },
   ];

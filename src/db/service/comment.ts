@@ -4,6 +4,33 @@ import { Comment, getRepository } from "@/db";
 import { instanceToPlain } from "class-transformer";
 import { IsNull } from "typeorm";
 
+export const fetchAllCommentList = async () => {
+  const postRepository = await getRepository(Comment);
+  const data = await postRepository.find({
+    relations: [
+      "parentComment",
+      "targetComment",
+      "replies",
+      "replies.parentComment",
+      'replies.targetComment',
+    ],
+    order: { id: "DESC" }
+  }); 
+
+  return instanceToPlain(data) as Comment[];
+};
+
+export const fetchHomeCommentList = async () => {
+  const postRepository = await getRepository(Comment);
+  const data = await postRepository.find({
+    relations: [],
+    order: { id: "DESC" },
+    take: 5, // 每页返回的记录数
+  }); 
+
+  return instanceToPlain(data) as Comment[];
+};
+
 export const fetchCommentList = async () => {
   const postRepository = await getRepository(Comment);
   const data = await postRepository.find({
@@ -17,7 +44,7 @@ export const fetchCommentList = async () => {
     where: {
       parentComment: IsNull(),
     },
-  }); // 查询所有分类
+  }); 
 
   return instanceToPlain(data) as Comment[];
 };
@@ -40,7 +67,6 @@ export const replyComment = async ({
   targetCommentId: number;
   params: Comment;
 }) => {
-  console.log(parentCommentId, "parentCommentId");
   const postRepository = await getRepository(Comment);
 
   const comment = postRepository.create(params);
@@ -65,6 +91,14 @@ export const replyComment = async ({
   }
 
   await postRepository.save(comment);
+
+  return;
+};
+
+
+export const deleteComment = async (id: number) => {
+  const postRepository = await getRepository(Comment);
+  await postRepository.delete(id);
 
   return;
 };
