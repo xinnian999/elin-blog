@@ -1,0 +1,15 @@
+{
+  "name": "elin-blog",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "blog": "docker compose up blog -d",
+    "db": "docker compose up db -d",
+    "db-view": "docker compose up db-view -d",
+    "release": "sh release.sh"
+  }
+}

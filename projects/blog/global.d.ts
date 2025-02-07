@@ -1,0 +1,1 @@
+type Lang = "zh" | "en";
