@@ -1,6 +1,6 @@
 x-common-environment: &common-environment
   TZ: Asia/Shanghai
-  DB_HOST: mysql-db
+  DB_HOST: elin-blog-db
   DB_PORT: "3306"
   DB_USER: root
   DB_PASSWORD: 991015
@@ -39,7 +39,7 @@ services:
       ADMIN_PASSWORD: 991015
   db:
     image: mysql:5.7.29
-    container_name: mysql-db
+    container_name: elin-blog-db
     environment:
       MYSQL_ROOT_PASSWORD: 991015
       MYSQL_DATABASE: blog
