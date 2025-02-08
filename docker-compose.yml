@@ -1,6 +1,18 @@
+x-common-environment: &common-environment
+  TZ: Asia/Shanghai
+  DB_HOST: mysql-db
+  DB_PORT: "3306"
+  DB_USER: root
+  DB_PASSWORD: 991015
+  DB_NAME: blog
+
 services:
   blog:
-    # 这个镜像需要在先在本地进行构建
+    build:
+      context: . # 当前目录
+      dockerfile: Dockerfile
+      args:
+        TARGET: blog # 传递 TARGET 参数为 blog
     image: crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin/elin-blog:latest
     container_name: elin-blog
     ports:
@@ -8,16 +20,13 @@ services:
     networks:
       - app-network
     environment:
-      - TZ=Asia/Shanghai  # 设置时区为上海
-      - DB_HOST=mysql-db
-      - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASSWORD=991015
-      - DB_NAME=blog
-      - ADMIN_USERNAME=admin
-      - ADMIN_PASSWORD=991015
+      <<: *common-environment
   admin:
-    # 这个镜像需要在先在本地进行构建
+    build:
+      context: . # 当前目录
+      dockerfile: Dockerfile
+      args:
+        TARGET: admin # 传递 TARGET 参数为 admin
     image: crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin/elin-blog-admin:latest
     container_name: elin-blog-admin
     ports:
@@ -25,14 +34,9 @@ services:
     networks:
       - app-network
     environment:
-      - TZ=Asia/Shanghai  # 设置时区为上海
-      - DB_HOST=mysql-db
-      - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASSWORD=991015
-      - DB_NAME=blog
-      - ADMIN_USERNAME=admin
-      - ADMIN_PASSWORD=991015
+      <<: *common-environment
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: 991015
   db:
     image: mysql:5.7.29
     container_name: mysql-db
@@ -50,7 +54,7 @@ services:
         "mysqld",
         "--character-set-server=utf8mb4",
         "--collation-server=utf8mb4_general_ci",
-        "--default-time-zone=+08:00"
+        "--default-time-zone=+08:00",
       ]
   db-view:
     image: phpmyadmin/phpmyadmin

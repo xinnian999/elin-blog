@@ -16,7 +16,9 @@
     "image:blog": "docker compose up blog -d",
     "image:admin": "docker compose up admin -d",
     "image:db": "docker compose up db -d",
-    "image:db-view": "docker compose up db-view -d"
+    "image:db-view": "docker compose up db-view -d",
+    "image:build": "docker-compose build", 
+    "image:push": "docker-compose push"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
