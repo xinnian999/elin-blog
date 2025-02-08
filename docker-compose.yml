@@ -21,6 +21,7 @@ services:
       - app-network
     environment:
       <<: *common-environment
+
   admin:
     build:
       context: . # 当前目录
@@ -37,6 +38,7 @@ services:
       <<: *common-environment
       ADMIN_USERNAME: admin
       ADMIN_PASSWORD: 991015
+      
   db:
     image: mysql:5.7.29
     container_name: elin-blog-db
@@ -56,6 +58,7 @@ services:
         "--collation-server=utf8mb4_general_ci",
         "--default-time-zone=+08:00",
       ]
+      
   db-view:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
