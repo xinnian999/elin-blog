@@ -1,11 +1,24 @@
-x-common-environment: &common-environment
-  TZ: Asia/Shanghai
-  DB_HOST: elin-blog-db
-  DB_PORT: "3306"
-  DB_USER: root
-  DB_PASSWORD: 991015
-  DB_NAME: blog
+# 本编排包含4个博客相关服务，共享一个网络，前后台连接同一个数据库
 
+# blog: 博客前台，每次开发完重新build
+# admin: 博客后台，每次开发完重新build
+# db: 博客数据库，基于官方mysql5.7二次开发，初次创建卷时，会自动调用sql文件生成一些初始数据。。，除非更改初始化数据，否则不需要再重新build
+# db-view ：数据库可视化工具，直接使用官方phpmyadmin
+
+x-common-environment: &common-environment # 环境变量
+  TZ: Asia/Shanghai             # 所有服务的时区
+  MYSQL_ROOT_PASSWORD: 991015   # mysql-数据库密码
+  MYSQL_DATABASE: blog          # mysql-自动创建的表
+  PMA_HOST: elin-blog-db        # phpmyadmin-连接的数据库地址
+  PMA_PORT: 3306                # phpmyadmin-连接的数据库端口
+  DB_HOST: elin-blog-db         # 前后台连接的-数据库地址
+  DB_PORT: 3306                 # 前后台连接的-数据库端口
+  DB_USER: root                 # 前后台连接的-数据库用户
+  DB_PASSWORD: 991015           # 前后台连接的-数据库密码
+  DB_NAME: blog                 # 前后台连接的-数据库表
+  ADMIN_USERNAME: admin         # 管理后台-登录用户名
+  ADMIN_PASSWORD: admin123456   # 管理后台-登录密码
+  
 services:
   blog:
     build:
@@ -36,35 +49,27 @@ services:
       - app-network
     environment:
       <<: *common-environment
-      ADMIN_USERNAME: admin
-      ADMIN_PASSWORD: 991015
       
   db:
-    image: mysql:5.7.29
+    build:
+      context: ./projects/db 
+      dockerfile: Dockerfile
+    image: crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin/elin-blog-db:latest
     container_name: elin-blog-db
     environment:
-      MYSQL_ROOT_PASSWORD: 991015
-      MYSQL_DATABASE: blog
+      <<: *common-environment
     ports:
       - "3306:3306"
     networks:
       - app-network
     volumes:
       - mysql-data:/var/lib/mysql
-    command:
-      [
-        "mysqld",
-        "--character-set-server=utf8mb4",
-        "--collation-server=utf8mb4_general_ci",
-        "--default-time-zone=+08:00",
-      ]
       
   db-view:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
+      <<: *common-environment
     ports:
       - "8080:80"
     networks:
