@@ -18,12 +18,14 @@
     "image:admin": "docker compose up admin -d",
     "image:db": "docker compose up db -d",
     "image:db-view": "docker compose up db-view -d",
-    "image:build": "docker-compose build", 
-    "image:push": "docker-compose push"
+    "image:build": "docker compose build",
+    "image:push": "docker compose push"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
     "@ant-design/nextjs-registry": "^1.0.2",
+    "@elin-blog/db": "workspace:*",
+    "@elin-blog/icons": "workspace:*",
     "@emoji-mart/data": "^1.2.1",
     "@emoji-mart/react": "^1.1.1",
     "ahooks": "^3.8.4",
@@ -33,6 +35,7 @@
     "dayjs": "^1.11.13",
     "emoji-mart": "^5.6.0",
     "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0",
     "mysql2": "^3.12.0",
     "next": "15.1.4",
     "next-intl": "^3.26.3",
@@ -41,17 +44,15 @@
     "react-markdown-editor-lite": "^1.3.4",
     "sass": "^1.83.4",
     "typeorm": "^0.3.20",
-    "zustand": "^5.0.3",
-    "@elin-blog/icons": "workspace:*",
-    "@elin-blog/db": "workspace:*"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@eslint/eslintrc": "^3",
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/markdown-it": "^14.1.2",
     "daisyui": "^4.12.23",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",

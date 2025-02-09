@@ -2,8 +2,9 @@ import { Card } from "@/components";
 import { fetchArticleById } from "@elin-blog/db";
 import { getTranslations } from "next-intl/server";
 import MarkdownIt from "markdown-it";
+import anchor from 'markdown-it-anchor';
 
-const mdParser = new MarkdownIt();
+const mdParser = new MarkdownIt().use(anchor);;
 
 export default async function Article({
   params,
@@ -34,7 +35,9 @@ export default async function Article({
       </div>
 
       <div className="w-2/6">
-        <Card className="h-60" title={t("Home Comment Title")}></Card>
+        <Card className="h-60">
+          <p className="text-xl">目录</p>
+        </Card>
       </div>
     </div>
   );

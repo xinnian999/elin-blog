@@ -104,14 +104,14 @@ const Main: FC<MainProps> = async ({ children }) => {
                 </button>
               ))}
             </div>
-            <div>
+            {/* <div>
               <button
                 className="btn btn-primary btn-wide btn-sm"
               >
                 <BackendIcon className="h-5 w-5 fill-current" />{" "}
                 {t("Admin Label")}
               </button>
-            </div>
+            </div> */}
           </div>
         </Card>
       </div>
