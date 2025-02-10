@@ -13,12 +13,8 @@
     "start": "next start",
     "dev:blog": "pnpm -C projects/blog dev",
     "dev:admin": "pnpm -C projects/admin dev",
-    "image": "docker compose up -d",
-    "image:blog": "docker compose up blog -d",
-    "image:admin": "docker compose up admin -d",
-    "image:db": "docker compose up db -d",
-    "image:db-view": "docker compose up db-view -d",
     "image:build": "docker compose build",
+    "image:start": "docker compose up -d",
     "image:push": "docker compose push"
   },
   "dependencies": {
