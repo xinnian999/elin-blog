@@ -6,7 +6,6 @@ import {
   QQIcon,
   WechatIcon,
   Card,
-  BackendIcon,
 } from "@/components";
 import Image from "next/image";
 import { fetchSummary } from "@elin-blog/db";
