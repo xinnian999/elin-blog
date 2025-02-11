@@ -40,6 +40,7 @@ export async function fetchArticleById(id: number) {
     await articleRepository
   ).findOne({
     where: { id },
+    relations: ["category", "tags"], // 明确指定要加载 `category` 关联
   });
 
   return article || null;

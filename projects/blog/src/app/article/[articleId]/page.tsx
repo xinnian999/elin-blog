@@ -1,21 +1,10 @@
-import { Card } from "@/components";
+import { Card, CategoryIcon, TagIcon } from "@/components";
 import { fetchArticleById } from "@elin-blog/db";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
 import Shiki from "@shikijs/markdown-it";
-
-const md = new MarkdownIt()
-  .use(anchor, {
-    permalink: anchor.permalink.linkInsideHeader(), // 自动为标题添加链接
-  })
-  .use(
-    await Shiki({
-      themes: {
-        light: "vitesse-light",
-        dark: "vitesse-dark",
-      },
-    })
-  );
+import "./style.scss";
+import { getDayjs } from "@/async";
 
 export default async function Article({
   params,
@@ -24,7 +13,21 @@ export default async function Article({
 }) {
   const articleId = +(await params).articleId;
 
-  const { content = "", title } = (await fetchArticleById(articleId)) || {};
+  const {
+    content = "",
+    title,
+    created_at,
+    categoryText,
+    tags = [],
+  } = (await fetchArticleById(articleId)) || {};
+
+  const dayjs = await getDayjs();
+
+  const md = new MarkdownIt().use(anchor).use(
+    await Shiki({
+      theme: "github-dark",
+    })
+  );
 
   // 获取 token
   const tokens = md.parse(content, {});
@@ -41,10 +44,26 @@ export default async function Article({
     <div className="flex gap-6">
       <div className="flex-1 overflow-hidden">
         <Card>
-          <p className="text-2xl">{title}</p>
+          <p className="text-xs text-gray-500 flex gap-5  mb-3">
+            <span>{dayjs(created_at).fromNow()}发表</span>
+            <span className="flex gap-[2px] datas-center">
+              <CategoryIcon className="scale-75" /> {categoryText}
+            </span>
+
+            <span className="flex gap-3 datas-center">
+              {tags.map((tag) => (
+                <span key={tag.id} className="flex gap-[2px] datas-center">
+                  <TagIcon className="scale-90" /> {tag.name}
+                </span>
+              ))}
+            </span>
+          </p>
+
+          <p className="text-2xl mb-6">{title}</p>
 
           <div
-            className="overflow-hidden w-full "
+            className="overflow-hidden w-full"
+            id="md"
             dangerouslySetInnerHTML={{
               __html: md.render(content),
             }}
@@ -62,7 +81,7 @@ export default async function Article({
                 return (
                   <div
                     key={item.title}
-                    className="pl-5 text-gray-500 text-[14px] cursor-pointer hover:bg-base-300" 
+                    className="pl-5 text-gray-500 text-[14px] cursor-pointer hover:bg-base-300"
                   >
                     {item.title}
                   </div>
