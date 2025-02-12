@@ -4,14 +4,17 @@ import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
 import Shiki from "@shikijs/markdown-it";
 import "./style.scss";
-import { getDayjs } from "@/async";
+import { getDayjs, getTheme } from "@/async";
 
 export default async function Article({
   params,
 }: {
   params: Promise<{ articleId: string }>;
 }) {
+
   const articleId = +(await params).articleId;
+
+  const theme = await getTheme()
 
   const {
     content = "",
@@ -25,7 +28,7 @@ export default async function Article({
 
   const md = new MarkdownIt().use(anchor).use(
     await Shiki({
-      theme: "github-dark",
+      theme: `github-${theme}`,
     })
   );
 

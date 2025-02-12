@@ -13,6 +13,10 @@
     "start": "next start",
     "dev:blog": "pnpm -C projects/blog dev",
     "dev:admin": "pnpm -C projects/admin dev",
+    "build:blog": "pnpm -C projects/blog build",
+    "build:admin": "pnpm -C projects/blog build",
+    "start:blog": "pnpm -C projects/blog start",
+    "start:admin": "pnpm -C projects/blog start",
     "image:build": "docker compose build",
     "image:start": "docker compose up -d",
     "image:push": "docker compose push"

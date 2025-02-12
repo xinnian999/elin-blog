@@ -1,32 +1,31 @@
-"use client"
+"use client";
 
 import { SunIcon, MoonIcon } from "@/components/Icon";
-import { useMounted } from "@/hooks";
-import useGlobalStore from "@/store/global";
+import { useMounted, useTheme } from "@/hooks";
 import { useEffect } from "react";
 
 const ThemeSwitcher = () => {
-  const dark = useGlobalStore((state) => state.dark);
-  const setDark = useGlobalStore((state) => state.setDark);
+  const theme = useTheme();
 
   const mounted = useMounted();
 
   useEffect(() => {
-    document.documentElement.setAttribute(
-      "data-theme",
-      dark ? "dark" : "light"
-    );
-  }, [dark]);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const onChange = (e: { target: { checked: boolean } }): void => {
-    setDark(e.target.checked);
+    useTheme.setTheme(e.target.checked ? "dark" : "light");
   };
 
   return (
     <>
       {mounted && (
         <label className="swap swap-rotate mr-4">
-          <input type="checkbox" checked={dark} onChange={onChange} />
+          <input
+            type="checkbox"
+            checked={theme === "dark"}
+            onChange={onChange}
+          />
 
           {/* sun icon */}
           <SunIcon className="swap-off h-8 w-8 fill-current" />
