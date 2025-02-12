@@ -6,15 +6,20 @@ import Shiki from "@shikijs/markdown-it";
 import "./style.scss";
 import { getDayjs, getTheme } from "@/async";
 
+const md = new MarkdownIt().use(anchor).use(
+  await Shiki({
+    theme: `github-dark`,
+  })
+);
+
 export default async function Article({
   params,
 }: {
   params: Promise<{ articleId: string }>;
 }) {
-
   const articleId = +(await params).articleId;
 
-  const theme = await getTheme()
+  const theme = await getTheme();
 
   const {
     content = "",
@@ -26,11 +31,11 @@ export default async function Article({
 
   const dayjs = await getDayjs();
 
-  const md = new MarkdownIt().use(anchor).use(
-    await Shiki({
-      theme: `github-${theme}`,
-    })
-  );
+  // md.use(anchor).use(
+  //   await Shiki({
+  //     theme: `github-${theme}`,
+  //   })
+  // );
 
   // 获取 token
   const tokens = md.parse(content, {});
