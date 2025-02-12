@@ -2,15 +2,14 @@ import { Card, CategoryIcon, TagIcon } from "@/components";
 import { fetchArticleById } from "@elin-blog/db";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
-import Shiki from "@shikijs/markdown-it";
 import "./style.scss";
 import { getDayjs, getTheme } from "@/async";
+import { createHighlighter } from "shiki";
 
-const md = new MarkdownIt().use(anchor).use(
-  await Shiki({
-    theme: `github-dark`,
-  })
-);
+const highlighter = await createHighlighter({
+  themes: ["github-dark", "github-light"],
+  langs: ["javascript", "ts", "json"],
+});
 
 export default async function Article({
   params,
@@ -30,6 +29,18 @@ export default async function Article({
   } = (await fetchArticleById(articleId)) || {};
 
   const dayjs = await getDayjs();
+
+  const md = new MarkdownIt({
+    highlight: (str, lang) => {
+      if (lang) {
+        return highlighter.codeToHtml(str, {
+          lang,
+          theme: `github-${theme}`,
+        });
+      }
+      return ""; // 默认返回空字符串
+    },
+  });
 
   // md.use(anchor).use(
   //   await Shiki({
