@@ -1,31 +1,17 @@
 "use client";
 
 import { ExpandIcon, LangIcon } from "@/components";
-import { getUserLocale, setUserLocale } from "@/i18n/service";
+import { setUserLocale } from "@/i18n/service";
 import { locales } from "@/i18n/config";
-import { useAsyncEffect } from "ahooks";
-import { useState } from "react";
 import "dayjs/locale/zh-cn";
+import { useLocale } from "next-intl";
 
 const LocaleSwitcher = () => {
-  const [lang, setLang] = useState<Lang>("zh");
+  const locale=useLocale()
 
   const onChangeLocale = async (locale: Lang) => {
     await setUserLocale(locale);
-    setLang(locale);
   };
-
-  useAsyncEffect(async () => {
-    const l = await getUserLocale();
-
-    if (l) {
-      setLang(l);
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   dayjsPlus.locale(lang === "zh" ? "zh-cn" : "en");
-  // }, [lang]);
 
   return (
     <div className="dropdown dropdown-end">
@@ -39,7 +25,7 @@ const LocaleSwitcher = () => {
       >
         {locales.map((item) => (
           <li key={item.label} onClick={onChangeLocale.bind(this, item.value)}>
-            <a className={lang === item.value ? "active" : ""}>{item.label}</a>
+            <a className={locale === item.value ? "active" : ""}>{item.label}</a>
           </li>
         ))}
       </ul>
