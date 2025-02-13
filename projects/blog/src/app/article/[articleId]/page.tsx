@@ -40,13 +40,7 @@ export default async function Article({
       }
       return ""; // 默认返回空字符串
     },
-  });
-
-  // md.use(anchor).use(
-  //   await Shiki({
-  //     theme: `github-${theme}`,
-  //   })
-  // );
+  }).use(anchor);
 
   // 获取 token
   const tokens = md.parse(content, {});
