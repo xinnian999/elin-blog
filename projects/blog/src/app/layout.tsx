@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import Layout from "@/layout";
 import "./globals.css";
+import { getTheme } from "@/async";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,13 +30,15 @@ export default async function RootLayout({
 
   const messages = await getMessages();
 
+  const theme = await getTheme();
+
   return (
-    <html lang={locale}>
+    <html lang={locale} data-theme={theme}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-            <Layout>{children}</Layout>
+          <Layout>{children}</Layout>
         </NextIntlClientProvider>
       </body>
     </html>

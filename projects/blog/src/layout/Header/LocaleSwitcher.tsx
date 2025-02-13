@@ -7,7 +7,7 @@ import "dayjs/locale/zh-cn";
 import { useLocale } from "next-intl";
 
 const LocaleSwitcher = () => {
-  const locale=useLocale()
+  const locale = useLocale();
 
   const onChangeLocale = async (locale: Lang) => {
     await setUserLocale(locale);
@@ -21,11 +21,13 @@ const LocaleSwitcher = () => {
       </button>
       <ul
         tabIndex={0}
-        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow flex flex-col gap-3"
       >
         {locales.map((item) => (
           <li key={item.label} onClick={onChangeLocale.bind(this, item.value)}>
-            <a className={locale === item.value ? "active" : ""}>{item.label}</a>
+            <a className={locale === item.value ? "active" : ""}>
+              {item.label}
+            </a>
           </li>
         ))}
       </ul>

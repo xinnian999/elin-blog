@@ -22,12 +22,13 @@ const subscribe = (callback: () => void) => {
 // 获取当前主题
 const getSnapshot = (): Theme => theme;
 
-const setTheme = (newTheme: Theme) => {
+const setTheme = async (newTheme: Theme) => {
+  // 通知服务端修改主题
+  await setThemeCookie(newTheme);
+
+  // 等待服务端修改完，再切换主题图标
   theme = newTheme;
   listeners.forEach((listener) => listener()); // 通知所有订阅者更新
-
-  // 持久化主题到cookie，让服务端组件也能动态渲染
-  setThemeCookie(newTheme);
 };
 
 const useTheme = () => {

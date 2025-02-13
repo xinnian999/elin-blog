@@ -8,7 +8,7 @@ import { createHighlighter } from "shiki";
 
 const highlighter = await createHighlighter({
   themes: ["github-dark", "github-light"],
-  langs: ["javascript", "ts", "json"],
+  langs: ["javascript", "ts", "json", "css"],
 });
 
 export default async function Article({
