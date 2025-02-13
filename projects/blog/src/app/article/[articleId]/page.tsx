@@ -5,6 +5,7 @@ import anchor from "markdown-it-anchor";
 import "./style.scss";
 import { getDayjs, getTheme } from "@/async";
 import { createHighlighter } from "shiki";
+import Anchor from "./Anchor";
 
 const highlighter = await createHighlighter({
   themes: ["github-dark", "github-light"],
@@ -40,17 +41,19 @@ export default async function Article({
       }
       return ""; // 默认返回空字符串
     },
-  }).use(anchor);
+  }).use(anchor, {
+    slugify: (s) => s,
+  });
 
   // 获取 token
   const tokens = md.parse(content, {});
   const headings = tokens
     .filter((token) => token.type === "heading_open")
-    .map((token) => {
+    .map((token, index) => {
       // 提取标题级别和文本
       const level = token.tag;
       const title = tokens[tokens.indexOf(token) + 1].content;
-      return { level, title };
+      return { level, title, key: `${index}-${title}` };
     });
 
   return (
@@ -85,25 +88,9 @@ export default async function Article({
       </div>
 
       <div className="w-2/6">
-        <Card className="">
-          <p className="text-xs mb-3">目录</p>
-
-          <div className="flex flex-col gap-2">
-            {headings.map((item) => {
-              if (item.level === "h3") {
-                return (
-                  <div
-                    key={item.title}
-                    className="pl-5 text-gray-500 text-[14px] cursor-pointer hover:bg-base-300"
-                  >
-                    {item.title}
-                  </div>
-                );
-              }
-              return <div key={item.title}>{item.title}</div>;
-            })}
-          </div>
-        </Card>
+        <div>
+          <Anchor headings={headings} />
+        </div>
       </div>
     </div>
   );
