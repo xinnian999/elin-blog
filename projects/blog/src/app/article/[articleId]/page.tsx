@@ -1,4 +1,4 @@
-import { Card, CategoryIcon, TagIcon } from "@/components";
+import { Card, CategoryIcon, ClientImage, TagIcon } from "@/components";
 import { fetchArticleById } from "@elin-blog/db";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
@@ -6,6 +6,8 @@ import "./style.scss";
 import { getDayjs, getTheme } from "@/async";
 import { createHighlighter } from "shiki";
 import Anchor from "./Anchor";
+import parse from "html-react-parser";
+import Image from "next/image";
 
 const highlighter = await createHighlighter({
   themes: ["github-dark", "github-light"],
@@ -45,6 +47,25 @@ export default async function Article({
     slugify: (s) => s,
   });
 
+  const mdContent = parse(md.render(content), {
+    // 自定义标签解析
+    replace: (domNode: any) => {
+      if (domNode.name === "img") {
+        // 替换 img 标签为 React 组件
+        const { src, alt } = domNode.attribs;
+        return (
+          <Image
+            src={src}
+            alt={alt}
+            height={300}
+            width={250}
+            className="w-full"
+          />
+        );
+      }
+    },
+  });
+
   // 获取 token
   const tokens = md.parse(content, {});
 
@@ -78,13 +99,9 @@ export default async function Article({
 
           <p className="text-2xl mb-6">{title}</p>
 
-          <div
-            className="overflow-hidden w-full"
-            id="md"
-            dangerouslySetInnerHTML={{
-              __html: md.render(content),
-            }}
-          />
+          <div className="overflow-hidden w-full" id="md">
+            {mdContent}
+          </div>
         </Card>
       </div>
 
