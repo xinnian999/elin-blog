@@ -1,4 +1,19 @@
 "use client";
-import { FloatButton } from "antd";
+import { ConfigProvider, FloatButton } from "antd";
 
-export default () => <FloatButton.BackTop />;
+function BackTop() {
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          colorBgElevated: "transparent",
+          colorText:'inherit'
+        },
+      }}
+    >
+      <FloatButton.BackTop className="bg-base-100" />
+    </ConfigProvider>
+  );
+}
+
+export default BackTop;

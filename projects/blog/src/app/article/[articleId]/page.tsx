@@ -47,6 +47,7 @@ export default async function Article({
 
   // 获取 token
   const tokens = md.parse(content, {});
+
   const headings = tokens
     .filter((token) => token.type === "heading_open")
     .map((token, index) => {
