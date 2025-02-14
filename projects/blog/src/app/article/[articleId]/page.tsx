@@ -1,4 +1,4 @@
-import { Card, CategoryIcon, ClientImage, TagIcon } from "@/components";
+import { Card, CategoryIcon, TagIcon } from "@/components";
 import { fetchArticleById } from "@elin-blog/db";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
@@ -11,7 +11,7 @@ import Image from "next/image";
 
 const highlighter = await createHighlighter({
   themes: ["github-dark", "github-light"],
-  langs: ["javascript", "ts", "json", "css"],
+  langs: ["javascript", "ts", "json", "css", "vue"],
 });
 
 export default async function Article({
@@ -106,9 +106,7 @@ export default async function Article({
       </div>
 
       <div className="w-2/6">
-        <div>
           <Anchor headings={headings} />
-        </div>
       </div>
     </div>
   );
