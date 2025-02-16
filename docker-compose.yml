@@ -7,10 +7,8 @@
 services:
   blog:
     build:
-      context: . # 当前目录
+      context: projects/blog # 构建的root目录 
       dockerfile: Dockerfile
-      args:
-        TARGET: blog # 传递 TARGET 参数为 blog
     image: ${REPO_URL}/elin/elin-blog:latest
     container_name: elin-blog
     ports:
