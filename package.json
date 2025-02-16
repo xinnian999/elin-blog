@@ -15,7 +15,7 @@
     "dev:admin": "pnpm -C projects/admin dev",
     "build:blog": "pnpm -C projects/blog build",
     "build:admin": "pnpm -C projects/blog build",
-    "start:blog": "node projects/blog/dist/build/standalone/server.js",
+    "start:blog": "pnpm -C projects/blog start",
     "start:admin": "pnpm -C projects/blog start",
     "image:build": "docker compose build",
     "image:start": "docker compose up -d",
