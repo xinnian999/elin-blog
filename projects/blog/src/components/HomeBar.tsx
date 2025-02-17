@@ -1,6 +1,6 @@
 import { getDayjs } from "@/async";
 import { ArticleCard, Card } from "@/components";
-import { fetchArticleListByPage } from "@elin-blog/db";
+import { fetchArticleListByPage, fetchLinkListByPass } from "@elin-blog/db";
 import { fetchHomeCommentList } from "@elin-blog/db";
 import classNames from "classnames";
 import { getTranslations } from "next-intl/server";
@@ -16,8 +16,10 @@ export default async function HomeBar({
   const { data, totalPages } = await fetchArticleListByPage(page, 10);
 
   const t = await getTranslations("Home");
-  
+
   const comments = await fetchHomeCommentList();
+
+  const links = await fetchLinkListByPass();
 
   const dayjs = await getDayjs();
 
@@ -52,11 +54,33 @@ export default async function HomeBar({
           <p>{t("Home Comment Title")}</p>
 
           <div className="flex flex-col gap-5 mt-4">
-            {comments.map(item=>{
-              return <div key={item.id}>
-                <div>{item.content}</div>
-                <div className="text-[12px] text-gray-500">{item.nickname} / {dayjs(item.created_at).fromNow()}</div>
-              </div>
+            {comments.map((item) => {
+              return (
+                <div key={item.id}>
+                  <div>{item.content}</div>
+                  <div className="text-[12px] text-gray-500">
+                    {item.nickname} / {dayjs(item.created_at).fromNow()}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        <Card className="mt-4">
+          <p>友情链接</p>
+
+          <div className="flex flex-col gap-5 mt-4">
+            {links.map((item) => {
+              return (
+                <Link href={item.url} key={item.id}>
+                  <button
+                    className={classNames("btn-xs btn")}
+                  >
+                    {item.name}
+                  </button>
+                </Link>
+              );
             })}
           </div>
         </Card>
