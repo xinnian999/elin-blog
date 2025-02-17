@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build && sh build.sh",
-    "start": "next start",
+    "start": "node dist/build/standalone/projects/blog/server.js",
     "lint": "next lint",
     "blog": "docker compose up blog -d",
     "db": "docker compose up db -d",

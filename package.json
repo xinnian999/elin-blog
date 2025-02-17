@@ -10,7 +10,6 @@
   "author": "elin",
   "license": "ISC",
   "scripts": {
-    "start": "next start",
     "dev:blog": "pnpm -C projects/blog dev",
     "dev:admin": "pnpm -C projects/admin dev",
     "build:blog": "pnpm -C projects/blog build",
