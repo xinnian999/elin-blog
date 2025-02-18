@@ -3,4 +3,5 @@ export { default as Card } from "./Card";
 export { default as HomeBar } from "./HomeBar";
 export { default as ArticleCard } from "./ArticleCard";
 export { default as Comment } from "./Comment";
+export { default as MdRender } from "./MdRender";
 export * from "./Icon";

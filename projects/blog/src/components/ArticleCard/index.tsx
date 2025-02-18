@@ -1,17 +1,19 @@
 import Link from "next/link";
-import { CategoryIcon, TagIcon, Card } from "@/components";
+import { CategoryIcon, TagIcon, Card, MdRender } from "@/components";
 import { Article } from "@elin-blog/db";
-import MarkdownIt from "markdown-it";
 import { getTranslations } from "next-intl/server";
 import { getDayjs } from "@/async";
 import "./styles.scss";
-
-const mdParser = new MarkdownIt();
 
 async function ArticleCard({ data }: { data: Article }) {
   const t = await getTranslations("Home");
 
   const dayjs = await getDayjs();
+
+  const lines = data.content.split('\n');
+  
+  // 截取前 15 行
+  const content = lines.slice(0, 8).join('\n');
 
   return (
     <Card key={data.id}>
@@ -31,17 +33,14 @@ async function ArticleCard({ data }: { data: Article }) {
       </p>
 
       <p className="mt-2">
-        <span className="text-2xl linkText">
+        <span className="text-[2rem] linkText">
           <Link href={`/article/${data.id}`}>{data.title}</Link>
         </span>
       </p>
 
-      <div
-        className="overflow-hidden w-full max-h-48 my-4"
-        dangerouslySetInnerHTML={{
-          __html: mdParser.render(data.content),
-        }}
-      ></div>
+      <div className="overflow-hidden w-full mb-4">
+        <MdRender content={content} />
+      </div>
 
       <div>
         <Link href={`/article/${data.id}`}>
