@@ -6,11 +6,15 @@ import {
   ManyToOne,
   OneToMany,
 } from "typeorm";
+import type { Article } from "./Article";
 
 @Entity("comment")
 export class Comment {
   @PrimaryGeneratedColumn()
   id?: number; // 自动生成的主键
+
+  @Column()
+  type: "article" | "comment"; // 类型
 
   @Column()
   avatar: string; // 用户头像
@@ -33,10 +37,18 @@ export class Comment {
   replies?: Comment[];
 
   // 目标评论（引用的评论）
-  @ManyToOne(() => Comment, (comment) => comment.targetComments, { nullable: true })
+  @ManyToOne(() => Comment, (comment) => comment.targetComments, {
+    nullable: true,
+  })
   targetComment?: Comment;
 
   // 反向映射，指向目标评论的子评论
   @OneToMany(() => Comment, (comment) => comment.targetComment)
   targetComments?: Comment[];
+
+  // 每一个分类属于一篇文章
+  @ManyToOne("Article", (article: Article) => article.comments, {
+    nullable: true,
+  })
+  parentArticle?: Article;
 }

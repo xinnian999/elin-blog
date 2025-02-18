@@ -21,13 +21,15 @@ const CommentAdmin: React.FC = () => {
           dataIndex: "type",
           width: 150,
           key: "type",
-          render: (_, record) => {
-            console.log(record);
-            return record.targetComment ? (
-              <Tag color="blue">【留言板】回复</Tag>
-            ) : (
-              <Tag>【留言板】</Tag>
-            );
+          render: (type) => {
+            if (type === "article") {
+              return <Tag color="green">文章评论</Tag>;
+            }
+            if (type === "comment") {
+              return <Tag color="blue">留言板</Tag>;
+            }
+
+            return <Tag>{type}</Tag>;
           },
         },
         {

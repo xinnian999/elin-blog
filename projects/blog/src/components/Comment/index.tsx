@@ -8,8 +8,22 @@ import { useState } from "react";
 import Comment from "./Comment";
 import { Comment as CommentEntity } from "@elin-blog/db";
 
-const CommentBar = () => {
-  const { data = [], run, loading } = useRequest(fetchCommentList);
+const CommentBar = ({
+  articleId,
+  className,
+}: {
+  type: CommentEntity["type"];
+  articleId?: number;
+  className?: string;
+}) => {
+  const type = articleId ? "article" : "comment";
+
+  const {
+    data = [],
+    run,
+    loading,
+  } = useRequest(() => fetchCommentList({ type, articleId }));
+
   // console.log(data)
 
   const [replyTarget, setReplyTarget] = useState<CommentEntity | null>(null);
@@ -20,14 +34,18 @@ const CommentBar = () => {
   };
 
   return (
-    <Card>
+    <Card className={className}>
       <Write
         publishCallback={async ({ avatar, nickname, content }) => {
-          await createComment({
-            avatar,
-            nickname,
-            content,
-          });
+          await createComment(
+            {
+              avatar,
+              nickname,
+              content,
+              type,
+            },
+            articleId
+          );
 
           refreshList();
         }}
@@ -35,7 +53,9 @@ const CommentBar = () => {
 
       <div className="divider"></div>
 
-      <div>共{data.length}条留言</div>
+      <div>
+        共{data.length}条{articleId ? "评论" : "留言"}
+      </div>
 
       <div className="mt-8 flex flex-col gap-5">
         {loading
@@ -58,6 +78,7 @@ const CommentBar = () => {
                   replyTarget={replyTarget}
                   setReplyTarget={setReplyTarget}
                   key={item.id}
+                  type={type}
                 ></Comment>
               );
             })}

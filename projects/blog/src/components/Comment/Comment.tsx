@@ -14,7 +14,7 @@ interface Props extends CommentEntity {
 }
 
 const Comment = (props: Props) => {
-  const { replyTarget, setReplyTarget, refreshList } = props;
+  const { replyTarget, setReplyTarget, refreshList, type } = props;
 
   const mounted = useMounted();
 
@@ -44,7 +44,9 @@ const Comment = (props: Props) => {
             <div className="flex gap-3 items-center">
               <div className="font-bold">{props.nickname}</div>
 
-              <div className="text-gray-500">{dayjs(props.created_at).fromNow()}</div>
+              <div className="text-gray-500">
+                {dayjs(props.created_at).fromNow()}
+              </div>
             </div>
 
             <div>
@@ -80,6 +82,7 @@ const Comment = (props: Props) => {
                   avatar,
                   nickname,
                   content,
+                  type,
                 },
               });
 

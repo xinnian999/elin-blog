@@ -26,7 +26,7 @@ export default async function CommentPage() {
         </div>
       </Card>
 
-      <Comment />
+      <Comment type="comment" />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Card, CategoryIcon, MdRender, TagIcon } from "@/components";
+import { Card, CategoryIcon, Comment, MdRender, TagIcon } from "@/components";
 import { fetchArticleById } from "@elin-blog/db";
 import MarkdownIt from "markdown-it";
 import { getDayjs } from "@/async";
@@ -60,6 +60,8 @@ export default async function Article({
             <MdRender content={content} />
           </div>
         </Card>
+
+        <Comment type="article" articleId={articleId} className="mt-6" />
       </div>
 
       <div className="w-2/6">

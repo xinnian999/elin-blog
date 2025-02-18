@@ -1,13 +1,12 @@
 "use client";
 
 import { fetchQQInfo } from "@elin-blog/db";
-import { useMounted } from "@/hooks";
+import { useMounted, useTheme } from "@/hooks";
 import { useLocalStorageState } from "ahooks";
 import Image from "next/image";
 import { useState } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import useGlobalStore from "@/store/global";
 import classNames from "classnames";
 import en from "@emoji-mart/data/i18n/en.json";
 import zh from "@emoji-mart/data/i18n/zh.json";
@@ -34,8 +33,6 @@ export default function Write({
 
   const lang = useLocale() as Lang;
 
-  const dark = useGlobalStore((state) => state.dark);
-
   const [nickname, setNickname] = useLocalStorageState("nickname", {
     defaultValue: "",
   });
@@ -50,6 +47,8 @@ export default function Write({
   });
 
   const [content, setContent] = useState("");
+
+  const theme = useTheme();
 
   const onNickNameBlur = async () => {
     if (!nickname) return;
@@ -77,7 +76,7 @@ export default function Write({
   };
 
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-5 w-full">
       <div className="pt-8">
         <div className="avatar">
           <div className="w-14">
@@ -89,21 +88,21 @@ export default function Write({
       </div>
       <div className="flex-1">
         <div className="flex gap-3">
-          <label className="form-control  max-w-xs">
+          <label className="form-control w-1/2">
             <div className="label">
               <span className="label-text">昵称 / QQ号</span>
             </div>
             <input
               type="text"
               placeholder="可根据qq自动获取昵称"
-              className="input input-bordered  max-w-xs input-sm"
+              className="input input-bordered w-full input-sm"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               onBlur={onNickNameBlur}
             />
           </label>
 
-          <label className="form-control w-72">
+          <label className="form-control  w-1/2">
             <div className="label">
               <span className="label-text">邮箱</span>
             </div>
@@ -134,7 +133,7 @@ export default function Write({
               <ul className="dropdown-content bg-base-100 rounded-box z-[1] shadow">
                 <Picker
                   data={data}
-                  theme={dark ? "dark" : "light"}
+                  theme={theme}
                   i18n={locales[lang]}
                   onEmojiSelect={onEmojiSelect}
                 />

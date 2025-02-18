@@ -1,8 +1,8 @@
 "use server";
 
-import { Comment, getRepository } from "@elin-blog/db";
+import { Article, Comment, getRepository } from "@elin-blog/db";
 import { instanceToPlain } from "class-transformer";
-import { IsNull } from "typeorm";
+import { FindOptionsWhere, IsNull } from "typeorm";
 
 export const fetchAllCommentList = async () => {
   const postRepository = await getRepository(Comment);
@@ -12,10 +12,10 @@ export const fetchAllCommentList = async () => {
       "targetComment",
       "replies",
       "replies.parentComment",
-      'replies.targetComment',
+      "replies.targetComment",
     ],
-    order: { id: "DESC" }
-  }); 
+    order: { id: "DESC" },
+  });
 
   return instanceToPlain(data) as Comment[];
 };
@@ -26,34 +26,63 @@ export const fetchHomeCommentList = async () => {
     relations: [],
     order: { id: "DESC" },
     take: 5, // 每页返回的记录数
-  }); 
+  });
 
   return instanceToPlain(data) as Comment[];
 };
 
-export const fetchCommentList = async () => {
-  const postRepository = await getRepository(Comment);
-  const data = await postRepository.find({
+export const fetchCommentList = async ({
+  type,
+  articleId,
+}: {
+  type: Comment["type"];
+  articleId?: number;
+}) => {
+  const commentRepository = await getRepository(Comment);
+
+  // 查询条件
+  const where: FindOptionsWhere<Comment> = {
+    parentComment: IsNull(),
+    type,
+  };
+
+  // 如果是文章评论且提供了文章ID，查找对应的文章
+  if (type === "article" && articleId) {
+    where.parentArticle = { id: articleId };
+  }
+
+  const data = await commentRepository.find({
     relations: [
       "parentComment",
       "replies",
       "replies.parentComment",
-      'replies.targetComment',
+      "replies.targetComment",
+      "parentArticle",
     ],
     order: { id: "DESC" },
-    where: {
-      parentComment: IsNull(),
-    },
-  }); 
+    where,
+  });
 
   return instanceToPlain(data) as Comment[];
 };
 
-export const createComment = async (params: Comment) => {
-  const postRepository = await getRepository(Comment);
-  const comment = postRepository.create(params);
+export const createComment = async (params: Comment, articleId?: number) => {
+  const commentRepository = await getRepository(Comment);
+  const articleRepository = await getRepository(Article);
 
-  await postRepository.save(comment);
+  const comment = new Comment();
+
+  Object.assign(comment, params);
+
+  if (params.type === "article" && articleId) {
+    const parentArticle = await articleRepository.findOneBy({
+      id: articleId,
+    });
+
+    comment.parentArticle = parentArticle!;
+  }
+
+  await commentRepository.save(comment);
 
   return;
 };
@@ -94,7 +123,6 @@ export const replyComment = async ({
 
   return;
 };
-
 
 export const deleteComment = async (id: number) => {
   const postRepository = await getRepository(Comment);

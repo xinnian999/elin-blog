@@ -8,10 +8,12 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from "typeorm";
 import { Category } from "./Category"; // 引入 Category 实体类
 import { Expose } from "class-transformer";
 import { Tag } from "./Tag";
+import type { Comment } from "./Comment";
 
 @Entity("article")
 export class Article {
@@ -49,6 +51,10 @@ export class Article {
 
   @Expose() // 显示暴露 categoryText 字段，instanceToPlain时才会生效
   get tagTexts(): string[] {
-    return this.tags?.map((tag) => tag.name)
+    return this.tags?.map((tag) => tag.name);
   }
+
+  // 文章评论s
+  @OneToMany("Comment", (comment: Comment) => comment.parentArticle)
+  comments?: Comment[];
 }
