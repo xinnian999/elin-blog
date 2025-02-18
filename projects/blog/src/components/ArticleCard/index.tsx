@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { CategoryIcon, TagIcon } from "./Icon";
+import { CategoryIcon, TagIcon, Card } from "@/components";
 import { Article } from "@elin-blog/db";
 import MarkdownIt from "markdown-it";
 import { getTranslations } from "next-intl/server";
 import { getDayjs } from "@/async";
-import Card from "./Card";
+import "./styles.scss";
 
 const mdParser = new MarkdownIt();
 
@@ -30,8 +30,10 @@ async function ArticleCard({ data }: { data: Article }) {
         </span>
       </p>
 
-      <p className="text-2xl link link-hover mt-2">
-        <Link href={`/article/${data.id}`}>{data.title}</Link>
+      <p className="mt-2">
+        <span className="text-2xl linkText">
+          <Link href={`/article/${data.id}`}>{data.title}</Link>
+        </span>
       </p>
 
       <div
