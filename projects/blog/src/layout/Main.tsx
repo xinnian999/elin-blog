@@ -113,6 +113,12 @@ const Main: FC<MainProps> = async ({ children }) => {
             </div> */}
           </div>
         </Card>
+
+        <Card>
+          <p className="text-xs mb-3">归档</p>
+          <div className="flex flex-col items-center gap-4">
+          </div>
+        </Card>
       </div>
       <div className="basis-3/4 flex-grow"> {children} </div>
     </main>

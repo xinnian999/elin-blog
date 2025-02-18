@@ -57,7 +57,7 @@ const CommentBar = ({
         共{data.length}条{articleId ? "评论" : "留言"}
       </div>
 
-      <div className="mt-8 flex flex-col gap-5">
+      <div className="mt-8 flex flex-col divide-y">
         {loading
           ? Array.from({ length: 5 }).map((_, index) => (
               <div key={index} className="flex w-full flex-col gap-4">

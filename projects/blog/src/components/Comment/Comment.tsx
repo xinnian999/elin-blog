@@ -6,6 +6,7 @@ import { useDayjs, useMounted } from "@/hooks";
 import Image from "next/image";
 import Write from "./Write";
 import { Comment as CommentEntity } from "@elin-blog/db";
+import { useBoolean } from "ahooks";
 
 interface Props extends CommentEntity {
   replyTarget: CommentEntity | null;
@@ -20,6 +21,8 @@ const Comment = (props: Props) => {
 
   const dayjs = useDayjs();
 
+  const [expand, { toggle }] = useBoolean(false);
+
   const handleReplay = () => {
     if (props.id === replyTarget?.id) {
       return setReplyTarget(null);
@@ -28,8 +31,8 @@ const Comment = (props: Props) => {
   };
 
   return (
-    <div>
-      <div className="flex gap-4 mt-4">
+    <div className="p-4">
+      <div className="flex gap-4">
         <div className="">
           <div className="avatar">
             <div className="w-14">
@@ -92,19 +95,49 @@ const Comment = (props: Props) => {
         </div>
       )}
 
-      <div className="pl-14">
-        {props.replies?.map((item) => {
-          return (
-            <Comment
-              {...item}
-              refreshList={refreshList}
-              replyTarget={replyTarget}
-              setReplyTarget={setReplyTarget}
-              key={item.id}
-            />
-          );
-        })}
-      </div>
+      {/* {props.replies?.length ? (
+        <div className="pl-14">
+          <button className="btn btn-sm btn-ghost mb-1">查看{props.replies.length}条回复</button>
+          <div className="bg-base-200 rounded p-2 divide-y">
+            {props.replies?.map((item) => {
+              return (
+                <Comment
+                  {...item}
+                  refreshList={refreshList}
+                  replyTarget={replyTarget}
+                  setReplyTarget={setReplyTarget}
+                  key={item.id}
+                />
+              );
+            })}
+          </div>
+        </div>
+      ) : null} */}
+      {props.replies?.length ? (
+        <div className="pl-14">
+          <div className="collapse bg-base-200 ">
+            <input type="checkbox" />
+            <div className="collapse-title text-xs font-medium min-h-0">
+              查看{props.replies.length}条回复
+            </div>
+            <div className="collapse-content">
+              <div className="bg-base-200 rounded p-2 divide-y">
+                {props.replies?.map((item) => {
+                  return (
+                    <Comment
+                      {...item}
+                      refreshList={refreshList}
+                      replyTarget={replyTarget}
+                      setReplyTarget={setReplyTarget}
+                      key={item.id}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

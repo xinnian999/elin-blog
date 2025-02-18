@@ -51,7 +51,7 @@ export default async function HomeBar({
 
       <div className="w-2/6">
         <Card className="">
-          <p>{t("Home Comment Title")}</p>
+          <p className="text-xs">{t("Home Comment Title")}</p>
 
           <div className="flex flex-col gap-5 mt-4">
             {comments.map((item) => {
@@ -68,12 +68,12 @@ export default async function HomeBar({
         </Card>
 
         <Card className="mt-4">
-          <p>友情链接</p>
+          <p className="text-xs">友情链接</p>
 
           <div className="flex flex-col gap-5 mt-4">
             {links.map((item) => {
               return (
-                <Link href={item.url} key={item.id}>
+                <Link href={item.url} key={item.id} target="_blank">
                   <button
                     className={classNames("btn-xs btn")}
                   >
