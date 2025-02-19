@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && sh build.sh",
+    "build": "next build && node build.js",
     "start": "node dist/build/standalone/projects/blog/server.js",
     "lint": "next lint",
     "blog": "docker compose up blog -d",

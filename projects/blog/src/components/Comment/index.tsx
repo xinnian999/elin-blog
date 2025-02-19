@@ -22,7 +22,6 @@ const CommentBar = ({
     fetchCommentList({ type, articleId })
   );
 
-  console.log(data)
 
   const [replyTarget, setReplyTarget] = useState<CommentEntity | null>(null);
 

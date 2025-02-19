@@ -30,7 +30,7 @@ const Comment = (props: Props) => {
     setReplyTarget(props);
   };
 
-  const onChangeExpand = (e) => {
+  const onChangeExpand = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExpand(e.target.checked);
   };
 
