@@ -8,7 +8,7 @@ import {
   Card,
 } from "@/components";
 import Image from "next/image";
-import { fetchSummary } from "@elin-blog/db";
+import { fetchSummary, getArticleArchive } from "@elin-blog/db";
 import { getTranslations } from "next-intl/server";
 
 interface MainProps {
@@ -19,6 +19,8 @@ const Main: FC<MainProps> = async ({ children }) => {
   const t = await getTranslations("Main");
 
   const data = await fetchSummary();
+
+  const archives = await getArticleArchive();
 
   const links = [
     {
@@ -115,8 +117,19 @@ const Main: FC<MainProps> = async ({ children }) => {
         </Card>
 
         <Card>
-          <p className="text-xs mb-3">归档</p>
-          <div className="flex flex-col items-center gap-4">
+          <p className="text-xs mb-1">归档</p>
+          <div className="flex flex-col items-center">
+            {archives.map((item) => (
+              <div
+                key={item.year}
+                className="text-[14px] mt-2 w-full flex justify-between relative items-center p-2 cursor-pointer rounded hover:bg-base-200"
+              >
+                <span className="ml-2">{item.year}</span>{" "}
+                <span className="bg-base-200 px-3 rounded">
+                  {item.article_count}
+                </span>
+              </div>
+            ))}
           </div>
         </Card>
       </div>

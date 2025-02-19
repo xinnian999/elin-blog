@@ -33,7 +33,7 @@ async function ArticleCard({ data }: { data: Article }) {
       </p>
 
       <p className="mt-2">
-        <span className="text-[2rem] linkText">
+        <span className="text-2xl font-bold linkText">
           <Link href={`/article/${data.id}`}>{data.title}</Link>
         </span>
       </p>
