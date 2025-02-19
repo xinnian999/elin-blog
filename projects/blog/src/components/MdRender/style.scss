@@ -28,12 +28,31 @@
     position: relative;
   }
 
-  ul {
-    list-style: disc;
+  ul,
+  ol {
     padding-left: 1.25rem;
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  table{
+    @apply table;
+    margin: 22px 0;
+  }
+
+  blockquote{
+    @apply border-l-4;
+
+    padding-left: 20px;
   }
 
   pre {

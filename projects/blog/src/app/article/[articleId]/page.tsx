@@ -4,7 +4,11 @@ import MarkdownIt from "markdown-it";
 import { getDayjs } from "@/async";
 import Anchor from "./Anchor";
 
-const md = new MarkdownIt();
+const md = new MarkdownIt({
+  html: true,  // 允许 HTML
+  linkify: true,  // 自动转换链接
+  typographer: true,  // 启用排版功能
+});
 
 export default async function Article({
   params,
