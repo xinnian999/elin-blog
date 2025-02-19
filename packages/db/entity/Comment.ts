@@ -47,7 +47,7 @@ export class Comment {
   targetComments?: Comment[];
 
   // 每一个分类属于一篇文章
-  @ManyToOne("Article", (article: Article) => article.comments, {
+  @ManyToOne("article", (article: Article) => article.comments, {
     nullable: true,
   })
   parentArticle?: Article;

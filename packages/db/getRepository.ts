@@ -2,7 +2,6 @@
 import { DataSource, EntityTarget, ObjectLiteral } from "typeorm";
 import * as entities from "./entity"; // 你需要定义数据库实体
 
-// console.log(process.env.DB_HOST)
 const AppDataSource = new DataSource({
   type: "mysql",
   host: process.env.DB_HOST, // 使用环境变量来设置 host
@@ -11,7 +10,7 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities,
-  synchronize: true,
+  synchronize: process.env.NODE_ENV === 'development', //自动创建表结构
   logging: false,
   charset: "utf8mb4",
   extra: {

@@ -55,6 +55,6 @@ export class Article {
   }
 
   // 文章评论s
-  @OneToMany("Comment", (comment: Comment) => comment.parentArticle)
+  @OneToMany("comment", (comment: Comment) => comment.parentArticle)
   comments?: Comment[];
 }
