@@ -129,7 +129,7 @@ export default function Write({
         <div className="flex justify-between mt-1">
           <div>
             <details className="dropdown">
-              <summary className="btn m-1 text-[20px]">😊</summary>
+              <summary className="btn btn-sm text-[20px] bg-base-300">😊</summary>
               <ul className="dropdown-content bg-base-100 rounded-box z-[1] shadow">
                 <Picker
                   data={data}
@@ -141,7 +141,7 @@ export default function Write({
             </details>
           </div>
           <button
-            className={classNames("btn", "btn-primary", {
+            className={classNames("btn", "btn-primary", "btn-sm", {
               "btn-disabled": !content || !nickname || !email,
             })}
             onClick={handlePublish}

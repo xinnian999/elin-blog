@@ -6,7 +6,7 @@ import { useDayjs, useMounted } from "@/hooks";
 import Image from "next/image";
 import Write from "./Write";
 import { Comment as CommentEntity } from "@elin-blog/db";
-import { useBoolean } from "ahooks";
+import { useState } from "react";
 
 interface Props extends CommentEntity {
   replyTarget: CommentEntity | null;
@@ -21,13 +21,17 @@ const Comment = (props: Props) => {
 
   const dayjs = useDayjs();
 
-  const [expand, { toggle }] = useBoolean(false);
+  const [expand, setExpand] = useState(false);
 
   const handleReplay = () => {
     if (props.id === replyTarget?.id) {
       return setReplyTarget(null);
     }
     setReplyTarget(props);
+  };
+
+  const onChangeExpand = (e) => {
+    setExpand(e.target.checked);
   };
 
   return (
@@ -62,18 +66,19 @@ const Comment = (props: Props) => {
             </div>
           </div>
 
-          {props.targetComment && (
-            <div className="mt-2 text-[14px] text-gray-500">
-              回复 {props.targetComment.nickname} ：
-            </div>
-          )}
+          {props.targetComment &&
+            props.targetComment.id !== props.parentComment?.id && (
+              <div className="mt-2 text-[14px] text-gray-500">
+                回复 {props.targetComment.nickname} ：
+              </div>
+            )}
 
           <div className="mt-2">{props.content}</div>
         </div>
       </div>
 
       {replyTarget && props.id === replyTarget.id && (
-        <div className="pl-14">
+        <div className="pl-14 mb-3">
           <Write
             placeholder={`回复 ${replyTarget.nickname}`}
             publishCallback={async ({ avatar, nickname, content }) => {
@@ -95,33 +100,23 @@ const Comment = (props: Props) => {
         </div>
       )}
 
-      {/* {props.replies?.length ? (
-        <div className="pl-14">
-          <button className="btn btn-sm btn-ghost mb-1">查看{props.replies.length}条回复</button>
-          <div className="bg-base-200 rounded p-2 divide-y">
-            {props.replies?.map((item) => {
-              return (
-                <Comment
-                  {...item}
-                  refreshList={refreshList}
-                  replyTarget={replyTarget}
-                  setReplyTarget={setReplyTarget}
-                  key={item.id}
-                />
-              );
-            })}
-          </div>
-        </div>
-      ) : null} */}
       {props.replies?.length ? (
         <div className="pl-14">
-          <div className="collapse bg-base-200 ">
-            <input type="checkbox" />
-            <div className="collapse-title text-xs font-medium min-h-0">
-              查看{props.replies.length}条回复
+          <div className="collapse bg-base-200">
+            <input type="checkbox" onChange={onChangeExpand} />
+            <div className="collapse-title text-xs font-medium">
+              {!expand && (
+                <div>
+                  <span>{props.replies[0].nickname}：</span>{" "}
+                  <span>{props.replies[0].content}</span>
+                </div>
+              )}
+              <div className="mt-3 text-blue-600">
+                {expand ? "收起回复" : `展开全部${props.replies.length}条回复`}
+              </div>
             </div>
             <div className="collapse-content">
-              <div className="bg-base-200 rounded p-2 divide-y">
+              <div className="bg-base-200 rounded divide-y">
                 {props.replies?.map((item) => {
                   return (
                     <Comment
