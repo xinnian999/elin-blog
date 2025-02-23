@@ -46,6 +46,7 @@ const copyFiles = async () => {
       "dist/standalone/node_modules",
       {
         recursive: true,
+         force: true
       }
     );
 
