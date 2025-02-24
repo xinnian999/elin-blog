@@ -4,11 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "node build.js",
-    "start": "node dist/standalone/server.js",
-    "lint": "next lint",
-    "blog": "docker compose up blog -d",
-    "db": "docker compose up db -d",
-    "db-view": "docker compose up db-view -d"
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   }
 }

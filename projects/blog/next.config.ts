@@ -17,8 +17,7 @@ const nextConfig: NextConfig = {
   distDir: process.env.NODE_ENV === 'production' ? 'dist/build' : 'dist/dev',
   experimental:{
     webpackMemoryOptimizations:true
-  },
-  output: 'standalone',
+  }
 };
 
 export default withNextIntl(nextConfig);
