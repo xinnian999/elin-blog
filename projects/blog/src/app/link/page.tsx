@@ -47,14 +47,14 @@ export default function About() {
 
           <div className="divider" />
 
-          <div className="flex gap-12">
+          <div className="grid grid-cols-3 gap-8">
             {data?.map((item) => {
               if (!item.url.includes("://")) {
                 item.url = "https://" + item.url;
               }
               return (
                 <div
-                  className="basis-1/3 h-20 bg-base-200 rounded-lg flex items-center p-4 gap-4"
+                  className="h-20 bg-base-200 rounded-lg flex items-center p-4 gap-4  overflow-hidden"
                   key={item.id}
                 >
                   <div className="avatar">
@@ -69,7 +69,7 @@ export default function About() {
                         {item.name}
                       </Link>
                     </div>
-                    <div className="text-sm">{item.desc}</div>
+                    <div className="text-sm text-ellipsis whitespace-nowrap">{item.desc}</div>
                   </div>
                 </div>
               );

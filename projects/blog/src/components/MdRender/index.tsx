@@ -8,7 +8,18 @@ import "./style.scss";
 
 const highlighter = await createHighlighter({
   themes: ["github-dark", "github-light"],
-  langs: ["javascript", "ts", "json", "css", "vue"],
+  langs: [
+    "javascript",
+    "ts",
+    "json",
+    "css",
+    "vue",
+    "java",
+    "bash",
+    "docker",
+    "yaml",
+    "nginx"
+  ],
 });
 
 async function MdRender({ content }: { content: string }) {

@@ -13,7 +13,7 @@ export default async function HomeBar({
 }) {
   const page = +(await params).page || 1;
 
-  const { data, totalPages } = await fetchArticleListByPage(page, 10);
+  const { data, totalPages } = await fetchArticleListByPage(page, 5);
 
   const t = await getTranslations("Home");
 
@@ -32,20 +32,23 @@ export default async function HomeBar({
           ))}
         </div>
 
-        <div className="join">
-          {Array.from({ length: totalPages }).map((_, index) => {
-            return (
-              <Link href={`/page/${index + 1}`} key={index}>
-                <button
-                  className={classNames("join-item btn", {
-                    "btn-active": index + 1 === page,
-                  })}
-                >
-                  {index + 1}
-                </button>
-              </Link>
-            );
-          })}
+        <div className="flex justify-end">
+          <div className="join">
+            {Array.from({ length: totalPages }).map((_, index) => {
+              return (
+                <Link href={`/page/${index + 1}`} key={index}>
+                  <button
+                    className={classNames("join-item btn", {
+                      "btn-active": index + 1 === page,
+                      "bg-base-100": index + 1 !== page,
+                    })}
+                  >
+                    {index + 1}
+                  </button>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -70,13 +73,11 @@ export default async function HomeBar({
         <Card className="mt-4">
           <p className="text-xs">友情链接</p>
 
-          <div className="flex flex-col gap-5 mt-4">
+          <div className="flex flex-wrap gap-5 mt-4">
             {links.map((item) => {
               return (
                 <Link href={item.url} key={item.id} target="_blank">
-                  <button
-                    className={classNames("btn-xs btn")}
-                  >
+                  <button className={classNames("btn-xs btn")}>
                     {item.name}
                   </button>
                 </Link>

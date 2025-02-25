@@ -18,23 +18,28 @@ RUN pnpm install
 # 复制其余项目文件
 COPY . .
 
-# 根据目标构建前端或后端
-ARG TARGET=blog
-# WORKDIR /app/projects/$TARGET
 # 构建 Next.js 项目
-RUN pnpm build:$TARGET&&
+RUN pnpm build:blog
+
+RUN rm -rf projects/blog/dist/build/cache
+
+RUN rm -rf projects/admin
 
 # 第二阶段：最终镜像
 FROM node:18-alpine AS production
 
+# 设置工作目录
+WORKDIR /app
+
 # 复制项目文件
-COPY . .
+COPY --from=build /app /app
 
 # 安装 pnpm
 RUN npm install -g pnpm
 
 # 安装依赖
-RUN pnpm install --production
+# RUN pnpm install --production
+RUN pnpm install
 
 # 启动 Next.js 项目
 CMD ["pnpm", "start:blog"]
