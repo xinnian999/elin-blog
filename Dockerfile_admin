@@ -18,12 +18,18 @@ RUN pnpm install
 # 复制其余项目文件
 COPY . .
 
+# 在构建时启用 standalone 模式，输出一个最小化的产物
+ENV NEXT_OUTPUT=standalone
+
 # 构建 Next.js 项目
 RUN pnpm build:admin
 
-RUN rm -rf projects/admin/dist/build/cache
+# 复制产物
+RUN mkdir -p projects/admin/dist/build/standalone/dist/build/static && \
+    cp -r projects/admin/dist/build/static projects/admin/dist/build/standalone/projects/admin/dist/build/static
 
-RUN rm -rf projects/blog
+RUN cp -r projects/admin/public projects/admin/dist/build/standalone/projects/admin/public
+
 
 # 第二阶段：最终镜像
 FROM node:18-alpine AS production
@@ -31,18 +37,15 @@ FROM node:18-alpine AS production
 # 设置工作目录
 WORKDIR /app
 
-# 复制项目文件
-COPY --from=build /app /app
+COPY --from=build /app/projects/admin/dist/build/standalone /app
 
-# 安装 pnpm
-RUN npm install -g pnpm
+EXPOSE 3001
 
-# 安装依赖
-# RUN pnpm install --production
-RUN pnpm install
+ENV PORT=3001
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
+ENV HOSTNAME="0.0.0.0"
 
 # 启动 Next.js 项目
-CMD ["pnpm", "start:admin"]
-
-# 暴露应用的端口
-EXPOSE 3000
+CMD ["node", "projects/admin/server.js"]

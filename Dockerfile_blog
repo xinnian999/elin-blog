@@ -18,12 +18,17 @@ RUN pnpm install
 # 复制其余项目文件
 COPY . .
 
+# 在构建时启用 standalone 模式
+ENV NEXT_OUTPUT=standalone
+
 # 构建 Next.js 项目
 RUN pnpm build:blog
 
-RUN rm -rf projects/blog/dist/build/cache
+RUN mkdir -p projects/blog/dist/build/standalone/dist/build/static && \
+    cp -r projects/blog/dist/build/static projects/blog/dist/build/standalone/projects/blog/dist/build/static
 
-RUN rm -rf projects/admin
+RUN cp -r projects/blog/public projects/blog/dist/build/standalone/projects/blog/public
+
 
 # 第二阶段：最终镜像
 FROM node:18-alpine AS production
@@ -31,18 +36,10 @@ FROM node:18-alpine AS production
 # 设置工作目录
 WORKDIR /app
 
-# 复制项目文件
-COPY --from=build /app /app
-
-# 安装 pnpm
-RUN npm install -g pnpm
-
-# 安装依赖
-# RUN pnpm install --production
-RUN pnpm install
+COPY --from=build /app/projects/blog/dist/build/standalone /app
 
 # 启动 Next.js 项目
-CMD ["pnpm", "start:blog"]
+CMD ["node", "projects/blog/server.js"]
 
 # 暴露应用的端口
 EXPOSE 3000
