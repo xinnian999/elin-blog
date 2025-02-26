@@ -1,6 +1,7 @@
 import { Card } from "@/components";
 import { fetchTagList } from "@elin-blog/db";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
 export default async function Tag() {
   const navT = await getTranslations("Nav");
@@ -13,9 +14,12 @@ export default async function Tag() {
         <div className="flex gap-4 mt-6">
           {tags.map((tag) => {
             return (
-              <span className="badge badge-primary badge-lg flex items-center" key={tag.id}>
-                {tag.name} <span className="ml-3 text-[14px]">{tag.articleCount}</span> 
-              </span>
+              <Link href={`/tag/${tag.id}`} key={tag.id}>
+                <span className="badge badge-primary badge-lg flex items-center">
+                  {tag.name}{" "}
+                  <span className="ml-3 text-[14px]">{tag.articleCount}</span>
+                </span>
+              </Link>
             );
           })}
         </div>

@@ -11,11 +11,11 @@ export default (t: (key: string) => string): MenuItem[] => [
   },
   {
     label: t("Nav Category"),
-    to: "/category",
+    to: "/categories",
   },
   {
     label: t("Nav Tag"),
-    to: "/tag",
+    to: "/tags",
   },
   {
     label: t("Nav Friend Link"),

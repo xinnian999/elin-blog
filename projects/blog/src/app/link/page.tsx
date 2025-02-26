@@ -63,13 +63,13 @@ export default function About() {
                     </div>
                   </div>
 
-                  <div className="flex-1 flex flex-col gap-2">
+                  <div className="flex-1 flex flex-col gap-2  overflow-hidden">
                     <div className="font-bold text-blue-500 hover:text-gray-600">
                       <Link href={item.url} target="_blank">
                         {item.name}
                       </Link>
                     </div>
-                    <div className="text-sm text-ellipsis whitespace-nowrap">{item.desc}</div>
+                    <div className="text-sm text-ellipsis whitespace-nowrap  overflow-hidden" title={item.desc}>{item.desc}</div>
                   </div>
                 </div>
               );

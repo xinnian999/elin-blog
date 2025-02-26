@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import { fetchSummary, getArticleArchive } from "@elin-blog/db";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
 interface MainProps {
   children: ReactNode;
@@ -49,17 +50,17 @@ const Main: FC<MainProps> = async ({ children }) => {
     {
       label: t("Article Count Label"),
       count: data?.articleCount,
-      onClick: () => {},
+      href: "/",
     },
     {
       label: t("Category Count Label"),
       count: data?.categoryCount,
-      onClick: () => {},
+      href: "/categories",
     },
     {
       label: t("Tag Count Label"),
       count: data?.tagCount,
-      onClick: () => {},
+      href: "/tags",
     },
   ];
 
@@ -96,13 +97,12 @@ const Main: FC<MainProps> = async ({ children }) => {
           <div className="flex flex-col items-center gap-4">
             <div className="flex gap-2">
               {counts.map((item) => (
-                <button
-                  className="btn btn-ghost flex flex-col gap-4 flex-nowrap h-16"
-                  key={item.label}
-                >
-                  <div> {item.label}</div>
-                  <div className="text-[25px]"> {item.count}</div>
-                </button>
+                <Link href={item.href} key={item.label}>
+                  <button className="btn btn-ghost flex flex-col gap-4 flex-nowrap h-16">
+                    <div> {item.label}</div>
+                    <div className="text-[25px]"> {item.count}</div>
+                  </button>
+                </Link>
               ))}
             </div>
             {/* <div>

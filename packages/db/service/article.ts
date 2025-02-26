@@ -33,6 +33,38 @@ export async function fetchArticleListByPage(page: number, pageSize: number) {
   };
 }
 
+export async function fetchArticleByCategory(categoryId: number) {
+  const articleRepository = await getRepository(Article);
+
+  const articles = await articleRepository.find({
+    order: { id: "desc" },
+    relations: ["category", "tags"],
+    where: {
+      category: {
+        id: categoryId,
+      },
+    },
+  });
+
+  return articles;
+}
+
+export async function fetchArticleByTag(tagId: number) {
+  const articleRepository = await getRepository(Article);
+
+  const articles = await articleRepository.find({
+    order: { id: "desc" },
+    relations: ["category", "tags"],
+    where: {
+      tags: {
+        id: tagId,
+      },
+    },
+  });
+
+  return articles;
+}
+
 export async function fetchArticleById(id: number) {
   const articleRepository = getRepository(Article);
 
@@ -98,7 +130,6 @@ export const deleteArticle = async (id: number) => {
   return;
 };
 
-
 export const getArticleArchive = async () => {
   const articleRepository = getRepository(Article);
 
@@ -106,12 +137,12 @@ export const getArticleArchive = async () => {
   const archive = (await articleRepository)
     .createQueryBuilder("article")
     .select([
-      "EXTRACT(YEAR FROM article.created_at) AS year",   // 提取年份
-      "COUNT(article.id) AS article_count",               // 统计文章数量
+      "EXTRACT(YEAR FROM article.created_at) AS year", // 提取年份
+      "COUNT(article.id) AS article_count", // 统计文章数量
     ])
-    .groupBy("year")  // 按年和月分组
-    .orderBy("year", "DESC")  // 按年份降序排序
-    .getRawMany();  // 获取原始数据（不经过实体映射）
+    .groupBy("year") // 按年和月分组
+    .orderBy("year", "DESC") // 按年份降序排序
+    .getRawMany(); // 获取原始数据（不经过实体映射）
 
   return archive;
 };
