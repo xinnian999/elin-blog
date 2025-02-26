@@ -6,4 +6,5 @@ export { default as ArticleList } from "./ArticleList";
 export { default as Comment } from "./Comment";
 export { default as MdRender } from "./MdRender";
 export { default as Breadcrumb } from "./Breadcrumb";
+export { default as Modal } from "./Modal";
 export * from "./Icon";

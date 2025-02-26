@@ -1,5 +1,5 @@
 "use client";
-import { Card } from "@/components";
+import { Card, Modal } from "@/components";
 import { createLink, fetchLinkListByPass } from "@elin-blog/db";
 import { useRequest, useSetState } from "ahooks";
 import classNames from "classnames";
@@ -9,6 +9,7 @@ import Link from "next/link";
 
 export default function About() {
   const [tip, setTip] = useState(false);
+  const [open, setOpen] = useState(false);
   const [values, setValues] = useSetState({
     name: "",
     url: "",
@@ -20,28 +21,38 @@ export default function About() {
 
   const { data } = useRequest(fetchLinkListByPass);
 
-  const openModal = () =>
-    (document.getElementById("my_modal_1") as HTMLDialogElement)?.showModal();
-  const closeModal = () =>
-    (document.getElementById("my_modal_1") as HTMLDialogElement)?.close();
+  const clearForm = () => {
+    setValues({
+      name: "",
+      url: "",
+      avatar: "",
+      desc: "",
+    });
+  };
 
   const handleSubmit = async () => {
     await createLink(values);
 
-    closeModal();
+    setOpen(false);
 
     setTip(true);
 
     setTimeout(() => {
       setTip(false);
     }, 3000);
+
+    clearForm();
+  };
+
+  const handleApply = () => {
+    setOpen(true);
   };
 
   return (
     <div className="flex flex-col gap-6">
       <Card title="友情链接">
         <div className="mt-4">
-          <button className="btn btn-primary" onClick={openModal}>
+          <button className="btn btn-primary" onClick={handleApply}>
             申请友链
           </button>
 
@@ -69,7 +80,12 @@ export default function About() {
                         {item.name}
                       </Link>
                     </div>
-                    <div className="text-sm text-ellipsis whitespace-nowrap  overflow-hidden" title={item.desc}>{item.desc}</div>
+                    <div
+                      className="text-sm text-ellipsis whitespace-nowrap  overflow-hidden"
+                      title={item.desc}
+                    >
+                      {item.desc}
+                    </div>
                   </div>
                 </div>
               );
@@ -78,7 +94,7 @@ export default function About() {
         </div>
       </Card>
 
-      <dialog id="my_modal_1" className="modal">
+      {/* <dialog ref={modalRef} className="modal">
         <div className="modal-box">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
@@ -144,7 +160,6 @@ export default function About() {
 
           <div className="modal-action">
             <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
               <button
                 className={classNames("btn", {
                   "btn-disabled": pass,
@@ -159,7 +174,77 @@ export default function About() {
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
-      </dialog>
+      </dialog> */}
+
+      <Modal
+        open={open}
+        close={() => setOpen(false)}
+        title="申请友链"
+        footer={
+          <button
+            className={classNames("btn", {
+              "btn-disabled": pass,
+            })}
+            onClick={handleSubmit}
+          >
+            提交申请
+          </button>
+        }
+      >
+        <div className="flex flex-col gap-4">
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">名称</span>
+            </div>
+            <input
+              type="text"
+              placeholder="你的网站名称"
+              className="input input-bordered w-full"
+              value={values.name}
+              onChange={(e) => setValues({ name: e.target.value })}
+            />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">地址</span>
+            </div>
+            <input
+              type="text"
+              placeholder="你的网站地址"
+              className="input input-bordered w-full"
+              value={values.url}
+              onChange={(e) => setValues({ url: e.target.value })}
+            />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">头像地址</span>
+            </div>
+            <input
+              type="text"
+              placeholder="你的网站头像地址"
+              className="input input-bordered w-full"
+              value={values.avatar}
+              onChange={(e) => setValues({ avatar: e.target.value })}
+            />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">描述</span>
+            </div>
+            <input
+              type="text"
+              placeholder="你的网站描述"
+              className="input input-bordered w-full"
+              value={values.desc}
+              onChange={(e) => setValues({ desc: e.target.value })}
+            />
+          </label>
+        </div>
+      </Modal>
 
       {tip && (
         <div className="toast toast-top toast-center z-30">
