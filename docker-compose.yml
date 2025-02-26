@@ -21,9 +21,7 @@ services:
   admin:
     build:
       context: . # 当前目录
-      dockerfile: Dockerfile
-      args:
-        TARGET: admin # 传递 TARGET 参数为 admin
+      dockerfile: Dockerfile_admin
     image: ${REPO_URL}/elin/elin-blog-admin:latest
     container_name: elin-blog-admin
     ports:

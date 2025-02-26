@@ -11,7 +11,7 @@ export default async function Tag() {
   return (
     <div className="flex flex-col gap-6">
       <Card title={navT("Nav Tag")}>
-        <div className="flex gap-4 mt-6">
+        <div className="flex gap-4 mt-6 flex-wrap">
           {tags.map((tag) => {
             return (
               <Link href={`/tag/${tag.id}`} key={tag.id}>

@@ -15,7 +15,7 @@
     "build:blog": "pnpm -C projects/blog build",
     "build:admin": "pnpm -C projects/admin build",
     "start:blog": "pnpm -C projects/blog start",
-    "start:admin": "pnpm -C projects/blog start",
+    "start:admin": "pnpm -C projects/admin start",
     "image:build": "docker compose build",
     "image:start": "docker compose up -d",
     "image:push": "docker compose push"
