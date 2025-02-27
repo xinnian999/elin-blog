@@ -3,6 +3,7 @@ import LocaleSwitcher from "./LocaleSwitcher";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Nav from "./Nav";
 import { getTheme } from "@/async";
+import Search from "./Search";
 
 const Header = async () => {
   const theme = await getTheme(); // 获取服务端主题
@@ -13,6 +14,7 @@ const Header = async () => {
         <Nav />
 
         <div className="navbar-end">
+          <Search/>
           <ThemeSwitcher initialTheme={theme} />
           <LocaleSwitcher />
         </div>

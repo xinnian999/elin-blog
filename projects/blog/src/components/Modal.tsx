@@ -1,5 +1,6 @@
 "use client";
 import { useUpdateEffect } from "ahooks";
+import classNames from "classnames";
 import { type ReactNode, useRef } from "react";
 
 export default function Modal({
@@ -8,12 +9,14 @@ export default function Modal({
   title,
   footer,
   close,
+  className,
 }: {
   children: ReactNode;
   footer?: ReactNode;
   open: boolean;
   title?: string;
   close: () => void;
+  className?: string;
 }) {
   const modalRef = useRef<HTMLDialogElement>(null);
 
@@ -33,7 +36,7 @@ export default function Modal({
   }, [open]);
 
   return (
-    <dialog ref={modalRef} className="modal">
+    <dialog ref={modalRef} className={classNames("modal", className)}>
       <div className="modal-box">
         <button
           className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
