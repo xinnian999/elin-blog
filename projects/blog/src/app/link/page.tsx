@@ -7,6 +7,13 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+const fields = [
+  { label: "名称", name: "name" },
+  { label: "地址", name: "url" },
+  { label: "头像链接", name: "avatar" },
+  { label: "描述", name: "desc" },
+];
+
 export default function About() {
   const [tip, setTip] = useState(false);
   const [open, setOpen] = useState(false);
@@ -65,7 +72,7 @@ export default function About() {
               }
               return (
                 <div
-                  className="h-20 bg-base-200 rounded-lg flex items-center p-4 gap-4  overflow-hidden"
+                  className="h-20 bg-base-300 rounded-lg flex items-center p-4 gap-4  overflow-hidden"
                   key={item.id}
                 >
                   <div className="avatar">
@@ -75,7 +82,7 @@ export default function About() {
                   </div>
 
                   <div className="flex-1 flex flex-col gap-2  overflow-hidden">
-                    <div className="font-bold text-blue-500 hover:text-gray-600">
+                    <div className="font-bold text-blue-500 hover:text-blue-700">
                       <Link href={item.url} target="_blank">
                         {item.name}
                       </Link>
@@ -94,88 +101,6 @@ export default function About() {
         </div>
       </Card>
 
-      {/* <dialog ref={modalRef} className="modal">
-        <div className="modal-box">
-          <button
-            className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
-            onClick={closeModal}
-          >
-            ✕
-          </button>
-          <h3 className="font-bold text-lg mb-4">申请友链</h3>
-
-          <div className="flex flex-col gap-4">
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">名称</span>
-              </div>
-              <input
-                type="text"
-                placeholder="你的网站名称"
-                className="input input-bordered w-full"
-                value={values.name}
-                onChange={(e) => setValues({ name: e.target.value })}
-              />
-            </label>
-
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">地址</span>
-              </div>
-              <input
-                type="text"
-                placeholder="你的网站地址"
-                className="input input-bordered w-full"
-                value={values.url}
-                onChange={(e) => setValues({ url: e.target.value })}
-              />
-            </label>
-
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">头像地址</span>
-              </div>
-              <input
-                type="text"
-                placeholder="你的网站头像地址"
-                className="input input-bordered w-full"
-                value={values.avatar}
-                onChange={(e) => setValues({ avatar: e.target.value })}
-              />
-            </label>
-
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">描述</span>
-              </div>
-              <input
-                type="text"
-                placeholder="你的网站描述"
-                className="input input-bordered w-full"
-                value={values.desc}
-                onChange={(e) => setValues({ desc: e.target.value })}
-              />
-            </label>
-          </div>
-
-          <div className="modal-action">
-            <form method="dialog">
-              <button
-                className={classNames("btn", {
-                  "btn-disabled": pass,
-                })}
-                onClick={handleSubmit}
-              >
-                提交申请
-              </button>
-            </form>
-          </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog> */}
-
       <Modal
         open={open}
         close={() => setOpen(false)}
@@ -192,57 +117,26 @@ export default function About() {
         }
       >
         <div className="flex flex-col gap-4">
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">名称</span>
-            </div>
-            <input
-              type="text"
-              placeholder="你的网站名称"
-              className="input input-bordered w-full"
-              value={values.name}
-              onChange={(e) => setValues({ name: e.target.value })}
-            />
-          </label>
-
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">地址</span>
-            </div>
-            <input
-              type="text"
-              placeholder="你的网站地址"
-              className="input input-bordered w-full"
-              value={values.url}
-              onChange={(e) => setValues({ url: e.target.value })}
-            />
-          </label>
-
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">头像地址</span>
-            </div>
-            <input
-              type="text"
-              placeholder="你的网站头像地址"
-              className="input input-bordered w-full"
-              value={values.avatar}
-              onChange={(e) => setValues({ avatar: e.target.value })}
-            />
-          </label>
-
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">描述</span>
-            </div>
-            <input
-              type="text"
-              placeholder="你的网站描述"
-              className="input input-bordered w-full"
-              value={values.desc}
-              onChange={(e) => setValues({ desc: e.target.value })}
-            />
-          </label>
+          {fields.map((item) => {
+            const name = item.name as keyof typeof values;
+            return (
+              <label className="input w-full" key={name}>
+                <span className="label w-24 text-right">{item.label}</span>
+                <input
+                  type="text"
+                  placeholder={`你的网站${item.label}`}
+                  className="w-full"
+                  value={values[name]}
+                  onChange={(e) =>
+                    setValues((prev) => ({
+                      ...prev,
+                      [name]: e.target.value,
+                    }))
+                  }
+                />
+              </label>
+            );
+          })}
         </div>
       </Modal>
 

@@ -88,35 +88,33 @@ export default function Write({
       </div>
       <div className="flex-1">
         <div className="flex gap-3">
-          <label className="form-control w-1/2">
-            <div className="label">
-              <span className="label-text">昵称 / QQ号</span>
-            </div>
+
+          <label className="input input-sm w-1/2">
+            <span className="label">昵称 / QQ号</span>
             <input
               type="text"
               placeholder="可根据qq自动获取昵称"
-              className="input input-bordered w-full input-sm"
+              className="w-full"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               onBlur={onNickNameBlur}
             />
           </label>
 
-          <label className="form-control  w-1/2">
-            <div className="label">
-              <span className="label-text">邮箱</span>
-            </div>
+          <label className="input input-sm w-1/2">
+            <span className="label">邮箱</span>
             <input
               type="text"
               placeholder="用于接收回复通知"
-              className="input input-bordered w-full input-sm"
+              className="w-full"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </label>
+
         </div>
 
-        <div className="mt-3">
+        <div className="mt-2 mb-2">
           <textarea
             placeholder={placeholder}
             className="textarea textarea-bordered textarea-md w-full"
@@ -129,7 +127,9 @@ export default function Write({
         <div className="flex justify-between mt-1">
           <div>
             <details className="dropdown">
-              <summary className="btn btn-sm text-[20px] bg-base-300">😊</summary>
+              <summary className="btn btn-sm text-[20px] bg-base-300">
+                😊
+              </summary>
               <ul className="dropdown-content bg-base-100 rounded-box z-[1] shadow">
                 <Picker
                   data={data}

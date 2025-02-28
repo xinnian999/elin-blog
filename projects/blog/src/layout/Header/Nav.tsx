@@ -91,7 +91,7 @@ const Nav = () => {
                 <Link
                   href={item.to!}
                   className={classNames({
-                    active: pathname === item.to,
+                    'bg-primary text-base-100': pathname === item.to,
                   })}
                 >
                   {item.label}

@@ -35,7 +35,7 @@ function Search() {
       <Modal title="全站搜索" open={open} close={() => setOpen(false)} className="items-start pt-[10vh]">
         <div>
           <div>
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered flex items-center gap-2 w-full">
               <input type="text" className="grow" placeholder="Search" />
               <SearchIcon className="h-8 w-8 fill-current" />
             </label>

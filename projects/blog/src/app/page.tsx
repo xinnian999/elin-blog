@@ -18,7 +18,7 @@ export default async function Home() {
                 <Link href={`/page/${index + 1}`} key={index}>
                   <button
                     className={classNames("join-item btn", {
-                      "btn-active": index + 1 === 1,
+                      "btn-primary": index + 1 === 1,
                       "bg-base-100": index + 1 !== 1,
                     })}
                   >

@@ -53,7 +53,7 @@ function Anchor({ headings }: { headings: Heading[] }) {
     <Card className="">
       <p className="text-xs mb-3">目录</p>
 
-      <div className="flex flex-col max-h-[30vh] overflow-auto">
+      <div className="flex flex-col gap-1 max-h-[30vh] overflow-auto">
         {headings.map((item) => {
           return (
             <div

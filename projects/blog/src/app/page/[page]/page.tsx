@@ -28,7 +28,7 @@ export default async function Page({
                 <Link href={`/page/${index + 1}`} key={index}>
                   <button
                     className={classNames("join-item btn", {
-                      "btn-active": index + 1 === page,
+                      "btn-primary": index + 1 === page,
                       "bg-base-100": index + 1 !== page,
                     })}
                   >

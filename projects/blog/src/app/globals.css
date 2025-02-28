@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@plugin "daisyui";
 
 :root {
   --background: #ffffff;
@@ -16,5 +17,5 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  @apply bg-base-200;
+  @apply bg-base-300;
 }

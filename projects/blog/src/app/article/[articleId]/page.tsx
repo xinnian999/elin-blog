@@ -58,7 +58,7 @@ export default async function Article({
             </span>
           </p>
 
-          <p className="text-[2rem] mb-6">{title}</p>
+          <p className="text-[2rem] mb-4">{title}</p>
 
           <div className="overflow-hidden w-full">
             <MdRender content={content} />
