@@ -78,31 +78,33 @@ const Comment = (props: Props) => {
       </div>
 
       {replyTarget && props.id === replyTarget.id && (
-        <div className="pl-14 mb-3">
-          <Write
-            placeholder={`回复 ${replyTarget.nickname}`}
-            publishCallback={async ({ avatar, nickname, content }) => {
-              await replyComment({
-                parentCommentId:
-                  replyTarget.parentComment?.id || replyTarget.id,
-                targetCommentId: replyTarget.id!,
-                params: {
-                  avatar,
-                  nickname,
-                  content,
-                  type,
-                },
-              });
+        <div className="mb-3 mt-5  pl-14">
+          <div className="bg-base-300 p-4 rounded">
+            <Write
+              placeholder={`回复 ${replyTarget.nickname}`}
+              publishCallback={async ({ avatar, nickname, content }) => {
+                await replyComment({
+                  parentCommentId:
+                    replyTarget.parentComment?.id || replyTarget.id,
+                  targetCommentId: replyTarget.id!,
+                  params: {
+                    avatar,
+                    nickname,
+                    content,
+                    type,
+                  },
+                });
 
-              refreshList();
-            }}
-          />
+                refreshList();
+              }}
+            />
+          </div>
         </div>
       )}
 
       {props.replies?.length ? (
         <div className="pl-14">
-          <div className="collapse bg-base-200">
+          <div className="collapse bg-base-200 mt-3">
             <input type="checkbox" onChange={onChangeExpand} />
             <div className="collapse-title text-xs font-medium">
               {!expand && (

@@ -77,7 +77,7 @@ export default function Write({
 
   return (
     <div className="flex gap-5 w-full">
-      <div className="pt-8">
+      <div className="">
         <div className="avatar">
           <div className="w-14">
             {mounted && (
