@@ -16,7 +16,7 @@ export default async function TagId({
   ];
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col gap-6 lg:flex-row">
       <div className="flex-1 overflow-hidden">
         <Breadcrumb data={breadcrumbs} />
 

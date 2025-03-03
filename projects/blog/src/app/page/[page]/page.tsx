@@ -13,7 +13,7 @@ export default async function Page({
   const { data, totalPages } = await fetchArticleListByPage(page, 5);
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col gap-6 lg:flex-row">
       <div className="flex-1 overflow-hidden">
         <Breadcrumb
           data={[{ title: `首页`, to: "/" }, { title: `第 ${page} 页` }]}

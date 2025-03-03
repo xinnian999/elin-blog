@@ -42,7 +42,7 @@ function Search() {
 
   return (
     <>
-      <button className="btn btn-ghost" onClick={() => setOpen(true)}>
+      <button className="btn btn-ghost btn-xs sm:btn-sm md:btn-md" onClick={() => setOpen(true)}>
         <SearchIcon className="h-8 w-8 fill-current" />
       </button>
       <Modal

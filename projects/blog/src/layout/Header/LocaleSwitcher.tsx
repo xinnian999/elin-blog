@@ -15,7 +15,7 @@ const LocaleSwitcher = () => {
 
   return (
     <div className="dropdown dropdown-end">
-      <button className="btn btn-ghost">
+      <button className="btn btn-ghost sm:btn-sm md:btn-md">
         <LangIcon className="h-4 w-4" />
         <ExpandIcon className="hidden h-2 w-2 fill-current opacity-60 sm:inline-block" />
       </button>

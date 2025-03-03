@@ -68,7 +68,7 @@ export default async function Article({
         <Comment type="article" articleId={articleId} className="mt-6" />
       </div>
 
-      <div className="w-2/6">
+      <div className="w-2/6 hidden lg:block">
         <Anchor headings={headings} />
       </div>
     </div>

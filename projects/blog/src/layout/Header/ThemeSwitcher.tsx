@@ -10,7 +10,7 @@ const ThemeSwitcher = ({ initialTheme }: { initialTheme: Theme }) => {
 
   return (
     <>
-      <button className="btn btn-ghost">
+      <button className="btn btn-ghost btn-xs sm:btn-sm md:btn-md">
         <label className="swap swap-rotate">
           <input
             type="checkbox"
