@@ -1,43 +1,22 @@
-import { getTheme } from "@/async";
-import { createHighlighter } from "shiki";
 import parse from "html-react-parser";
 import Image from "next/image";
 import anchor from "markdown-it-anchor";
 import MarkdownIt from "markdown-it";
 import "./style.scss";
-
-const highlighter = await createHighlighter({
-  themes: ["github-dark", "github-light"],
-  langs: [
-    "javascript",
-    "ts",
-    "json",
-    "css",
-    "vue",
-    "java",
-    "bash",
-    "docker",
-    "yaml",
-    "nginx",
-  ],
-});
+import Pre from "./Pre";
 
 async function MdRender({ content }: { content: string }) {
-  const theme = await getTheme();
-
-  const md = new MarkdownIt({
-    highlight: (str, lang) => {
-      if (lang) {
-        return highlighter.codeToHtml(str, {
-          lang,
-          theme: `github-${theme}`,
-        });
-      }
-      return ""; // 默认返回空字符串
-    },
-  }).use(anchor, {
+  const md = new MarkdownIt().use(anchor, {
     slugify: (s) => s,
   });
+
+  md.renderer.rules.fence = (tokens, idx) => {
+    const token = tokens[idx];
+    const lang = token.info.trim();
+    const rawCode = token.content;
+
+    return `<pre lang=${lang} code="${rawCode}"></pre>`;
+  };
 
   return (
     <div id="md">
@@ -56,6 +35,12 @@ async function MdRender({ content }: { content: string }) {
                 className="w-full"
               />
             );
+          }
+
+          if (domNode.name === "pre") {
+            const { lang, code } = domNode.attribs;
+
+            return <Pre lang={lang} code={code} />;
           }
         },
       })}

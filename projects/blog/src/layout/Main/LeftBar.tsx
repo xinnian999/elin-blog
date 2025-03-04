@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
-import { useSize } from "ahooks";
+import classNames from "classnames";
 
 interface Props {
   summary: Record<string, any>;
@@ -15,7 +15,7 @@ interface Props {
 const LeftBar: FC<Props> = ({ summary, archives }) => {
   const t = useTranslations("Main");
 
-  const size = useSize(() => document.body);
+  // const size = useSize(() => document.body);
 
   const pathname = usePathname();
 
@@ -60,12 +60,13 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
     },
   ];
 
-  if (pathname.includes("/article/") && size && size.width < 1024) {
-    return null;
-  }
-
   return (
-    <div className="basis-1/4 flex-grow flex flex-col gap-5 md:mb-6">
+    <div
+      className={classNames({
+        "flex flex-col gap-5": true,
+        "hidden lg:flex flex-col gap-5": pathname !== "/",
+      })}
+    >
       <Card>
         <div className="flex flex-col items-center gap-4">
           <div className="avatar">
