@@ -18,7 +18,7 @@ const highlighter = await createHighlighter({
     "bash",
     "docker",
     "yaml",
-    "nginx"
+    "nginx",
   ],
 });
 

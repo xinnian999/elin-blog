@@ -5,13 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
-import { configResponsive, useResponsive } from "ahooks";
-
-configResponsive({
-  small: 640,
-  middle: 768,
-  large: 1024,
-});
+import { useSize } from "ahooks";
 
 interface Props {
   summary: Record<string, any>;
@@ -21,7 +15,7 @@ interface Props {
 const LeftBar: FC<Props> = ({ summary, archives }) => {
   const t = useTranslations("Main");
 
-  const responsive = useResponsive();
+  const size = useSize(() => document.body);
 
   const pathname = usePathname();
 
@@ -66,7 +60,7 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
     },
   ];
 
-  if (!responsive.large && pathname.includes("/article/")) {
+  if (pathname.includes("/article/") && size && size.width < 1024) {
     return null;
   }
 
@@ -82,8 +76,11 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
 
           <div className="font-bold text-xl">{t("Auther Say")}</div>
 
-          <div className="w-full">
-            <button className="btn bg-primary btn-block text-white">
+          <div className="w-full text-center">
+            <button
+              className="btn bg-primary btn-block text-white max-w-[300px]"
+              onClick={() => window.open("https://github.com/xinnian999")}
+            >
               <svg
                 aria-label="GitHub logo"
                 width="16"

@@ -15,7 +15,8 @@
     "build:blog": "pnpm -C projects/blog build",
     "build:admin": "pnpm -C projects/admin build",
     "start:blog": "pnpm -C projects/blog start",
-    "start:admin": "pnpm -C projects/admin start"
+    "start:admin": "pnpm -C projects/admin start",
+    "release:blog": "docker compose build blog && docker compose push blog"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",

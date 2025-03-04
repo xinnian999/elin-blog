@@ -76,10 +76,10 @@ export default function Write({
   };
 
   return (
-    <div className="flex gap-5 w-full">
+    <div className="flex gap-2 w-full lg:gap-5">
       <div className="">
         <div className="avatar">
-          <div className="w-14">
+          <div className="w-10 lg:w-14">
             {mounted && (
               <Image src={avatar!} fill alt="" className="rounded-xl" />
             )}
@@ -87,9 +87,9 @@ export default function Write({
         </div>
       </div>
       <div className="flex-1">
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-col lg:flex-row">
 
-          <label className="input input-sm w-1/2">
+          <label className="input input-sm flex-1">
             <span className="label">昵称 / QQ号</span>
             <input
               type="text"
@@ -101,7 +101,7 @@ export default function Write({
             />
           </label>
 
-          <label className="input input-sm w-1/2">
+          <label className="input input-sm flex-1">
             <span className="label">邮箱</span>
             <input
               type="text"

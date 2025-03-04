@@ -72,4 +72,10 @@
     @apply text-blue-500;
     @apply hover:text-primary;
   }
+
+  code{
+    @apply p-1;
+    @apply bg-base-200;
+    @apply text-primary;
+  }
 }

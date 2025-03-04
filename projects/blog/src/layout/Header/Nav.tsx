@@ -41,17 +41,16 @@ const Nav = () => {
               //   );
               // }
               return (
-                <Link
-                  key={index}
-                  href={item.to!}
-                  className={classNames('rounded',{
-                    "bg-primary text-base-100": pathname === item.to,
-                  })}
-                >
-                  <li>
-                    <a>{item.label}</a>
-                  </li>
-                </Link>
+                <li key={index}>
+                  <Link
+                    href={item.to!}
+                    className={classNames("rounded", {
+                      "bg-primary text-base-100": pathname === item.to,
+                    })}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
               );
             })}
           </ul>
