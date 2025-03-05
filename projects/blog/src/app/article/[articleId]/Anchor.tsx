@@ -59,11 +59,11 @@ function Anchor({ headings }: { headings: Heading[] }) {
             <div
               key={item.title}
               className={classNames("anchor-item", {
-                "p-1 rounded-lg  cursor-pointer text-[14px] hover:bg-base-300":
+                "p-2 rounded-lg  cursor-pointer text-[14px] hover:bg-base-300":
                   item.level === "h2",
                 "pl-5 py-1 rounded-lg text-gray-500 text-[12px] cursor-pointer hover:bg-base-300":
                   item.level === "h3",
-                "bg-primary-content": currentKey === item.key,
+                "bg-primary text-primary-content": currentKey === item.key,
               })}
               onClick={() => handleScroll(item.title)}
             >

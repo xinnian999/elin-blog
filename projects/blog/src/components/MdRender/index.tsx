@@ -40,7 +40,7 @@ async function MdRender({ content }: { content: string }) {
           if (domNode.name === "pre") {
             const { lang, code } = domNode.attribs;
 
-            return <Pre lang={lang} code={code} />;
+            return <Pre lang={lang} code={code.replace(/\n$/, "")} />;
           }
         },
       })}

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
+import { BackendIcon } from "@elin-blog/icons";
 
 interface Props {
   summary: Record<string, any>;
@@ -59,6 +60,7 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
       href: "/tags",
     },
   ];
+  console.log(process.env.NEXT_PUBLIC_GO_ADMIN_URL);
 
   return (
     <div
@@ -125,14 +127,17 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
               </div>
             ))}
           </div>
-          {/* <div>
-          <button
-            className="btn btn-primary btn-wide btn-sm"
-          >
-            <BackendIcon className="h-5 w-5 fill-current" />{" "}
-            {t("Admin Label")}
-          </button>
-        </div> */}
+          <div className="w-full text-center">
+            {process.env.NEXT_PUBLIC_GO_ADMIN_URL && (
+              <button
+                className="btn bg-primary btn-block text-white max-w-[300px]"
+                onClick={() => window.open(process.env.NEXT_PUBLIC_GO_ADMIN_URL)}
+              >
+                <BackendIcon className="h-5 w-5 fill-current" />{" "}
+                {t("Admin Label")}
+              </button>
+            )}
+          </div>
         </div>
       </Card>
 

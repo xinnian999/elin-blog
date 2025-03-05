@@ -77,9 +77,9 @@ const App: React.FC<LayoutProps> = ({ children }) => {
     });
   }, [pathname]);
 
-  const goHome = () => {
-    router.push("/");
-  };
+  // const goHome = () => {
+  //   router.push("/");
+  // };
 
   const isLoginPage = pathname.includes("/login");
 
@@ -121,9 +121,9 @@ const App: React.FC<LayoutProps> = ({ children }) => {
                 </div>
 
                 <div className={styles.right}>
-                  <Button onClick={goHome}>
+                  {/* <Button onClick={goHome}>
                     <HomeOutlined />
-                  </Button>
+                  </Button> */}
                   <Button onClick={logout}>
                     <LogoutOutlined />
                   </Button>
