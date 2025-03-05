@@ -1,8 +1,7 @@
 "use client";
-import { useTheme } from "@/hooks";
+import { useMessage, useTheme } from "@/hooks";
 import { CopyIcon } from "@elin-blog/icons";
 import parse from "html-react-parser";
-import { useState } from "react";
 import { createHighlighter } from "shiki";
 
 const highlighter = await createHighlighter({
@@ -20,10 +19,11 @@ const highlighter = await createHighlighter({
     "nginx",
   ],
 });
+
 function Pre({ lang, code }: { lang: string; code: string }) {
   const theme = useTheme();
 
-  const [tip, setTip] = useState(false);
+  const message = useMessage();
 
   const _html = highlighter.codeToHtml(code, {
     lang,
@@ -37,11 +37,8 @@ function Pre({ lang, code }: { lang: string; code: string }) {
     textArea.select();
     document.execCommand("copy");
     document.body.removeChild(textArea);
-    setTip(true);
 
-    setTimeout(() => {
-      setTip(false);
-    }, 3000);
+    message.success('复制成功！')
   };
 
   return (
@@ -50,14 +47,6 @@ function Pre({ lang, code }: { lang: string; code: string }) {
         <CopyIcon className="w-6 h-6" />
       </button>
       {parse(_html)}
-
-      {tip && (
-        <div className="toast toast-top toast-center z-30">
-          <div className="alert alert-success">
-            <span>复制成功！</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

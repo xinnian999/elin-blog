@@ -1,22 +1,24 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
 
-interface GlobalStore {
-  dark: boolean;
-  setDark: (val: boolean) => void;
+interface MessageProps {
+  open: boolean;
+  type?: "success";
+  content: string;
+}
+interface MessageStore {
+  messageProps: MessageProps;
+  setMessageProps: (props: Partial<MessageProps>) => void;
 }
 
-const useGlobalStore = create(
-  persist<GlobalStore>(
-    (set) => ({
-      dark: false,
-      setDark: (val) => set({ dark: val }),
-    }),
-    {
-      name: "global", // unique name
-      storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
-    }
-  )
-);
+const useMessageStore = create<MessageStore>((set) => ({
+  messageProps: {
+    open: false,
+    type: "success",
+    content: "",
+  },
+  setMessageProps: (props) => {
+    set((state) => ({ messageProps: { ...state, ...props } as MessageProps }));
+  },
+}));
 
-export default useGlobalStore;
+export default useMessageStore;

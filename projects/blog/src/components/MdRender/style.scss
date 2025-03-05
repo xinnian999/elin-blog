@@ -87,10 +87,18 @@
       opacity: 1;
     }
 
+    pre{
+      padding: 20px;
+    }
+
+    code{
+      background-color: inherit;
+    }
+
     .copy {
       position: absolute;
-      right: 20px;
-      top: 20px;
+      right: 10px;
+      top: 10px;
       @apply text-gray-500;
       visibility: hidden;
       opacity: 0;
