@@ -14,7 +14,7 @@ function withAffix<P extends object>(
 
   const HOC: React.FC<P> = (props) => {
     return (
-      <Affix offsetTop={offsetTop} target={target}>
+      <Affix offsetTop={offsetTop} target={target} className="z-50 relative">
         <WrappedComponent {...props} />
       </Affix>
     );

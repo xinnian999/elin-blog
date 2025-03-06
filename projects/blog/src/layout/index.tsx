@@ -3,6 +3,7 @@ import Header from "./Header";
 import Main from "./Main";
 import BackTop from "./BackTop";
 import Message from "./Message";
+import Background from "./Background";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,6 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <Footer />
       <BackTop />
       <Message />
+      <Background/>
     </>
   );
 };

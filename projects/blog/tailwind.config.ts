@@ -20,4 +20,5 @@ export default {
   daisyui: {
     themes: ["light", "dark", "cupcake"],
   },
+  darkMode: ["class", '[data-theme="dark"]'], // 让 Tailwind 识别 data-theme="dark"
 } satisfies Config;

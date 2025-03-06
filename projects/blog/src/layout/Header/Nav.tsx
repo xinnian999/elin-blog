@@ -26,20 +26,6 @@ const Nav = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             {navConfig.map((item, index) => {
-              // if (item.children) {
-              //   return (
-              //     <li key={item.label}>
-              //       <a>{item.label}</a>
-              //       <ul className="p-2">
-              //         {item.children.map((v) => (
-              //           <li key={v.label}>
-              //             <a>{v.label}</a>
-              //           </li>
-              //         ))}
-              //       </ul>
-              //     </li>
-              //   );
-              // }
               return (
                 <li key={index}>
                   <Link
@@ -63,42 +49,12 @@ const Nav = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-3">
           {navConfig.map((item, index) => {
-            // if (item.children) {
-            //   return (
-            //     <li
-            //       key={item.label}
-            //       className={classNames({
-            //         "font-bold": item.children.some((v) => v.to === pathname),
-            //       })}
-            //     >
-            //       <details>
-            //         <summary>{item.label}</summary>
-            //         <ul className="p-2 flex flex-col gap-2">
-            //           {item.children.map((v) => (
-            //             <li key={v.label} className="whitespace-nowrap">
-            //               <Link
-            //                 href={v.to!}
-            //                 className={
-            //                   pathname === v.to
-            //                     ? "active whitespace-nowrap"
-            //                     : "whitespace-nowrap"
-            //                 }
-            //               >
-            //                 {v.label}
-            //               </Link>
-            //             </li>
-            //           ))}
-            //         </ul>
-            //       </details>
-            //     </li>
-            //   );
-            // }
             return (
               <li key={index}>
                 <Link
                   href={item.to!}
                   className={classNames({
-                    "bg-primary text-base-100": pathname === item.to,
+                    "bg-primary text-primary-content": pathname === item.to,
                   })}
                 >
                   {item.label}
