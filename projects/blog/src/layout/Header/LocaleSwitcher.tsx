@@ -21,7 +21,7 @@ const LocaleSwitcher = () => {
       </button>
       <ul
         tabIndex={0}
-        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow flex flex-col gap-3"
+        className="dropdown-content menu bg-base rounded-box z-[1] w-52 p-2 shadow flex flex-col gap-3"
       >
         {locales.map((item) => (
           <li key={item.label} onClick={onChangeLocale.bind(this, item.value)}>

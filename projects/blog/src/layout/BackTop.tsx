@@ -11,7 +11,7 @@ function BackTop() {
         },
       }}
     >
-      <FloatButton.BackTop className="bg-base-100" />
+      <FloatButton.BackTop className="bg-base" />
     </ConfigProvider>
   );
 }

@@ -4,7 +4,7 @@ const Footer = async () => {
   const visits = await fetchVisits();
 
   return (
-    <div className="bg-base-100 h-52 z-10 relative dark:opacity-80">
+    <div className="bg-base h-52 z-10 relative">
       <div className="container h-full mx-auto flex items-center justify-between px-8">
         <div className="flex flex-col gap-2">
           <div className="text-2xl font-bold">Elin&apos;s Blog</div>

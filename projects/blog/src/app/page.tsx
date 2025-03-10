@@ -19,7 +19,7 @@ export default async function Home() {
                   <button
                     className={classNames("join-item btn", {
                       "btn-primary": index + 1 === 1,
-                      "bg-base-100": index + 1 !== 1,
+                      "bg-base": index + 1 !== 1,
                     })}
                   >
                     {index + 1}

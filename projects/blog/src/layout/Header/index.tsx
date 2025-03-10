@@ -9,7 +9,7 @@ const Header = async () => {
   const theme = await getTheme(); // 获取服务端主题
 
   return (
-    <header className="w-full bg-base-100 shadow-sm z-50 relative dark:opacity-80">
+    <header className="w-full bg-base shadow-sm z-50 relative">
       <div className="container mx-auto navbar base-100  ">
         <Nav />
 

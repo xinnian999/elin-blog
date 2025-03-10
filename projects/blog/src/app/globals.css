@@ -3,6 +3,12 @@
 @tailwind utilities;
 @plugin "daisyui";
 
+@layer components {
+  .bg-base {
+    @apply bg-white dark:bg-gray-800/50;
+  }
+}
+
 
 :root {
   --background: #ffffff;

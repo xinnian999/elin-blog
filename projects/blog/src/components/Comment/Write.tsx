@@ -130,7 +130,7 @@ export default function Write({
               <summary className="btn btn-sm text-[20px] bg-base-300">
                 😊
               </summary>
-              <ul className="dropdown-content bg-base-100 rounded-box z-[1] shadow">
+              <ul className="dropdown-content bg-base rounded-box z-[1] shadow">
                 <Picker
                   data={data}
                   theme={theme}

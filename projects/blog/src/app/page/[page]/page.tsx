@@ -29,7 +29,7 @@ export default async function Page({
                   <button
                     className={classNames("join-item btn", {
                       "btn-primary": index + 1 === page,
-                      "bg-base-100": index + 1 !== page,
+                      "bg-base": index + 1 !== page,
                     })}
                   >
                     {index + 1}

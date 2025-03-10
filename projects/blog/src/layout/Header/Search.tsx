@@ -67,7 +67,7 @@ function Search() {
 
           {results.length ? (
             <div>
-              <ul className="list bg-base-100 rounded-box shadow-md">
+              <ul className="list bg-base rounded-box shadow-md">
                 <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
                   文章
                 </li>
