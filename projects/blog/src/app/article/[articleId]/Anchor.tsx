@@ -18,10 +18,10 @@ function Anchor({ headings }: { headings: Heading[] }) {
   const [currentKey, setCurrentKey] = useState<string>();
 
   const handleScroll = (title: string) => {
-    const target = document.getElementById(title);
-    target?.scrollIntoView({
-      behavior: "smooth", // 平滑滚动
-      block: "center", // 使元素滚动到视口顶部
+    const target = document.getElementById(title)!;
+    window.scrollTo({
+      top: target?.offsetTop - 100,
+      behavior: "smooth",
     });
   };
 
@@ -39,14 +39,6 @@ function Anchor({ headings }: { headings: Heading[] }) {
     );
 
     setCurrentKey(lastEl?.key);
-
-    // 滚动到高亮锚点
-    const element = document.querySelector(".anchor-item.bg-primary-content");
-
-    element?.scrollIntoView({
-      behavior: "smooth", // 平滑滚动
-      block: "center", // 使元素滚动到视口顶部
-    });
   }, [scroll]);
 
   return (
@@ -63,7 +55,7 @@ function Anchor({ headings }: { headings: Heading[] }) {
                   item.level === "h2",
                 "pl-5 py-1 rounded-lg text-gray-500 text-[12px] cursor-pointer hover:bg-base-300":
                   item.level === "h3",
-                "bg-primary text-primary-content": currentKey === item.key,
+                "bg-primary text-primary-content hover:bg-primary": currentKey === item.key,
               })}
               onClick={() => handleScroll(item.title)}
             >

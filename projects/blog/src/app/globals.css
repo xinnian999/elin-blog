@@ -7,8 +7,11 @@
   .bg-base {
     @apply bg-white dark:bg-gray-800/50;
   }
-}
 
+  .bg-base-top {
+    @apply bg-white dark:bg-gray-800/80;
+  }
+}
 
 :root {
   --background: #ffffff;
