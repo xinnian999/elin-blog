@@ -42,7 +42,7 @@ export default async function Article({
   return (
     <div className="flex gap-6">
       <div className="flex-1 overflow-hidden">
-        <Card className="bg-base">
+        <Card>
           <p className="text-xs text-gray-500 flex gap-5  mb-3">
             <span>{dayjs(created_at).fromNow()}发表</span>
             <span className="flex gap-[2px] datas-center">
