@@ -5,7 +5,7 @@ const Footer = async () => {
 
   return (
     <div className="bg-base z-10 relative">
-      <div className="container h-full mx-auto flex items-center justify-between py-5 text-[14px]">
+      <div className="container h-full mx-auto flex flex-col gap-3 items-center justify-between py-5 text-[14px] lg:flex-row">
         <div>
           <span>© 2023 - 2025 Powered by Elin</span>
         </div>

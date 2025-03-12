@@ -39,6 +39,14 @@ function Anchor({ headings }: { headings: Heading[] }) {
     );
 
     setCurrentKey(lastEl?.key);
+
+    // 滚动到高亮锚点
+    const element = document.querySelector(".anchor-item.bg-primary");
+
+    element?.scrollIntoView({
+      behavior: "smooth", // 平滑滚动
+      block: "center", // 使元素滚动到视口顶部
+    });
   }, [scroll]);
 
   return (

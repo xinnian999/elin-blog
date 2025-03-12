@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <header
       className={classNames("w-full bg-base shadow-sm z-50 relative", {
-        "bg-base-top": scroll?.top > 50,
+        "bg-base-top": scroll && scroll.top > 50,
       })}
     >
       <div className="container mx-auto navbar base-100">
