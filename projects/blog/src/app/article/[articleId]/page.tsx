@@ -3,11 +3,13 @@ import { fetchArticleById } from "@elin-blog/db";
 import MarkdownIt from "markdown-it";
 import { getDayjs } from "@/async";
 import Anchor from "./Anchor";
+import Relate from "./Relate";
+import { Affix } from "antd";
 
 const md = new MarkdownIt({
-  html: true,  // 允许 HTML
-  linkify: true,  // 自动转换链接
-  typographer: true,  // 启用排版功能
+  html: true, // 允许 HTML
+  linkify: true, // 自动转换链接
+  typographer: true, // 启用排版功能
 });
 
 export default async function Article({
@@ -69,7 +71,12 @@ export default async function Article({
       </div>
 
       <div className="w-2/6 hidden lg:block">
-        <Anchor headings={headings} />
+        <Affix offsetTop={100}>
+          <div>
+            <Anchor headings={headings} />
+            <Relate articleId={articleId} />
+          </div>
+        </Affix>
       </div>
     </div>
   );

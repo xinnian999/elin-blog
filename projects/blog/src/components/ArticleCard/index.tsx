@@ -10,24 +10,28 @@ async function ArticleCard({ data }: { data: Article }) {
 
   const dayjs = await getDayjs();
 
-  const lines = data.content.split('\n');
-  
+  const lines = data.content.split("\n");
+
   // 截取前 15 行
-  const content = lines.slice(0, 8).join('\n');
+  const content = lines.slice(0, 8).join("\n");
 
   return (
     <Card key={data.id}>
       <p className="text-[12px] text-gray-500 flex gap-5">
         <span>{dayjs(data.created_at).fromNow()}发表</span>
-        <span className="flex gap-[2px] datas-center">
-          <CategoryIcon className="scale-75" /> {data.categoryText}
-        </span>
+        <Link href={`/category/${data.categoryId}`}>
+          <span className="flex gap-[2px] datas-center hover:text-primary">
+            <CategoryIcon className="scale-75" /> {data.categoryText}
+          </span>
+        </Link>
 
         <span className="flex gap-3 datas-center">
           {data.tags.map((tag) => (
-            <span key={tag.id} className="flex gap-[2px] datas-center">
-              <TagIcon className="scale-90" /> {tag.name}
-            </span>
+            <Link href={`/tag/${tag.id}`} key={tag.id}>
+              <span className="flex gap-[2px] datas-center hover:text-primary">
+                <TagIcon className="scale-90" /> {tag.name}
+              </span>
+            </Link>
           ))}
         </span>
       </p>

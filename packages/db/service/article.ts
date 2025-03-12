@@ -3,10 +3,12 @@
 import { Article, getRepository, Tag } from "@elin-blog/db";
 import { instanceToPlain } from "class-transformer";
 
+const relations = ["category", "tags"];
+
 export const fetchArticleList = async () => {
   const postRepository = await getRepository(Article);
   const data = await postRepository.find({
-    relations: ["category", "tags"], // 明确指定要加载 `category` 关联
+    relations, // 明确指定要加载 `category` 关联
   }); // 查询所有文章
 
   // 直接使用 plainToClass 进行深度序列化，所有字段都会被序列化
@@ -22,7 +24,7 @@ export async function fetchArticleListByPage(page: number, pageSize: number) {
     skip: (page - 1) * pageSize, // 跳过前面的记录
     take: pageSize, // 每页返回的记录数
     order: { id: "desc" },
-    relations: ["category", "tags"],
+    relations,
   });
 
   return {
@@ -38,7 +40,7 @@ export async function fetchArticleByCategory(categoryId: number) {
 
   const articles = await articleRepository.find({
     order: { id: "desc" },
-    relations: ["category", "tags"],
+    relations,
     where: {
       category: {
         id: categoryId,
@@ -54,7 +56,7 @@ export async function fetchArticleByTag(tagId: number) {
 
   const articles = await articleRepository.find({
     order: { id: "desc" },
-    relations: ["category", "tags"],
+    relations,
     where: {
       tags: {
         id: tagId,
@@ -72,7 +74,7 @@ export async function fetchArticleById(id: number) {
     await articleRepository
   ).findOne({
     where: { id },
-    relations: ["category", "tags"], // 明确指定要加载 `category` 关联
+    relations, // 明确指定要加载 `category` 关联
   });
 
   return article || null;
@@ -102,7 +104,7 @@ export const updateArticle = async (id: number, params: Article) => {
   // 查找文章并加载关联的标签
   const article = await postRepository.findOne({
     where: { id },
-    relations: ["tags"],
+    relations,
   });
 
   if (!article) {
@@ -146,3 +148,28 @@ export const getArticleArchive = async () => {
 
   return archive;
 };
+
+export async function fetchRelateArticleById(id: number) {
+  const articleRepository = await getRepository(Article);
+
+  // 根据id查找文章数据
+  const article = await articleRepository.findOne({
+    where: { id },
+    relations,
+  });
+
+  // 根据文章分类查找相关文章
+  const relateArticles = await articleRepository.find({
+    where: {
+      // tags: {
+      //   id: article?.tags.map((tag) => tag.id),
+      // },
+      category: {
+        id: article?.category.id,
+      },
+    },
+    relations
+  });
+
+  return relateArticles.filter((article) => article.id !== id);
+}

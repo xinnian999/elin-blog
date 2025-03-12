@@ -16,30 +16,28 @@ interface Props {
 const LeftBar: FC<Props> = ({ summary, archives }) => {
   const t = useTranslations("Main");
 
-  // const size = useSize(() => document.body);
-
   const pathname = usePathname();
 
   const links = [
     {
-      label: "微信",
+      label: <Image src="/wechat.jpg" alt="微信" width={180} height={180} />,
       icon: <WechatIcon className="h-6 w-6 fill-current" />,
-      onClick: () => {},
+      link: "",
     },
     {
       label: "QQ",
       icon: <QQIcon className="h-6 w-6 fill-current" />,
-      onClick: () => {},
+      link: "https://qm.qq.com/q/Si0egMv7sk",
     },
     {
       label: "邮箱",
       icon: <EmailIcon className="h-6 w-6 fill-current" />,
-      onClick: () => {},
+      link: "mailto:3307578337@qq.com",
     },
     {
       label: "B站",
       icon: <BliIcon className="h-6 w-6 fill-current" />,
-      onClick: () => {},
+      link: "https://space.bilibili.com/428595129",
     },
   ];
 
@@ -60,7 +58,6 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
       href: "/tags",
     },
   ];
-  console.log(process.env.NEXT_PUBLIC_GO_ADMIN_URL);
 
   return (
     <div
@@ -101,11 +98,16 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
           </div>
 
           <div className="flex gap-2">
-            {links.map((item) => (
-              <button className="btn btn-ghost" key={item.label}>
-                {item.icon}
-              </button>
-            ))}
+            {links.map((item) => {
+              return (
+                <div className="tooltip" key={item.link}>
+                  <div className="tooltip-content">{item.label}</div>
+                  <Link href={item.link} target="_blank">
+                    <button className="btn btn-ghost">{item.icon}</button>
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </Card>
@@ -131,7 +133,9 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
             {process.env.NEXT_PUBLIC_GO_ADMIN_URL && (
               <button
                 className="btn bg-primary btn-block text-white max-w-[300px]"
-                onClick={() => window.open(process.env.NEXT_PUBLIC_GO_ADMIN_URL)}
+                onClick={() =>
+                  window.open(process.env.NEXT_PUBLIC_GO_ADMIN_URL)
+                }
               >
                 <BackendIcon className="h-5 w-5 fill-current" />{" "}
                 {t("Admin Label")}

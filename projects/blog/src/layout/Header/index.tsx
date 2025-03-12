@@ -19,7 +19,7 @@ const Header = () => {
         "bg-base-top": scroll?.top > 50,
       })}
     >
-      <div className="container mx-auto navbar base-100  ">
+      <div className="container mx-auto navbar base-100">
         <Nav />
 
         <div className="navbar-end">

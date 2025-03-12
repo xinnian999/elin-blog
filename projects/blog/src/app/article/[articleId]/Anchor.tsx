@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Card, withAffix } from "@/components";
+import { Card } from "@/components";
 import { useScroll } from "ahooks";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
@@ -55,7 +55,8 @@ function Anchor({ headings }: { headings: Heading[] }) {
                   item.level === "h2",
                 "pl-5 py-1 rounded-lg text-gray-500 text-[12px] cursor-pointer hover:bg-base-300":
                   item.level === "h3",
-                "bg-primary text-primary-content hover:bg-primary": currentKey === item.key,
+                "bg-primary text-primary-content hover:bg-primary":
+                  currentKey === item.key,
               })}
               onClick={() => handleScroll(item.title)}
             >
@@ -68,4 +69,4 @@ function Anchor({ headings }: { headings: Heading[] }) {
   );
 }
 
-export default withAffix(Anchor, { offsetTop: 100 });
+export default Anchor;
