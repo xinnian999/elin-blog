@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DropdownIcon } from "@/components";
+import { DropdownIcon } from "@elin-blog/icons";
 import { useTranslations } from "next-intl";
 import nav from "@/nav";
 import classNames from "classnames";

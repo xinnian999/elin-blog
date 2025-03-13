@@ -5,12 +5,12 @@ interface MessageProps {
   type?: "success";
   content: string;
 }
-interface MessageStore {
+interface GlobalStore {
   messageProps: MessageProps;
   setMessageProps: (props: Partial<MessageProps>) => void;
 }
 
-const useMessageStore = create<MessageStore>((set) => ({
+const useGlobalStore = create<GlobalStore>((set) => ({
   messageProps: {
     open: false,
     type: "success",
@@ -21,4 +21,4 @@ const useMessageStore = create<MessageStore>((set) => ({
   },
 }));
 
-export default useMessageStore;
+export default useGlobalStore;

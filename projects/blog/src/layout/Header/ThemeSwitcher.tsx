@@ -1,11 +1,13 @@
 "use client";
-
-import { SunIcon, MoonIcon } from "@/components/Icon";
+import { setTheme } from "@/async";
+import { SunIcon, MoonIcon } from "@elin-blog/icons";
 import { useTheme } from "@/hooks";
 
-const ThemeSwitcher = ({ initialTheme }: { initialTheme: Theme }) => {
+const ThemeSwitcher = () => {
+  const theme = useTheme();
+
   const onChange = (e: { target: { checked: boolean } }): void => {
-    useTheme.setTheme(e.target.checked ? "dark" : "light");
+    setTheme(e.target.checked ? "dark" : "light");
   };
 
   return (
@@ -14,7 +16,7 @@ const ThemeSwitcher = ({ initialTheme }: { initialTheme: Theme }) => {
         <label className="swap swap-rotate">
           <input
             type="checkbox"
-            checked={initialTheme === "dark"}
+            checked={theme === "dark"}
             onChange={onChange}
           />
 

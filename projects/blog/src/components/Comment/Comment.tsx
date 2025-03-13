@@ -1,6 +1,6 @@
 "use client";
 
-import { ReplyIcon } from "@/components";
+import { ReplyIcon } from "@elin-blog/icons";
 import { replyComment } from "@elin-blog/db";
 import { useDayjs, useMounted } from "@/hooks";
 import Image from "next/image";

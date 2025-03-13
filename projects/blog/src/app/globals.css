@@ -9,7 +9,7 @@
   }
 
   .bg-base-top {
-    @apply bg-white dark:bg-gray-800/80;
+    @apply bg-white dark:bg-gray-800/70;
   }
 }
 

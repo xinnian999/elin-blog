@@ -4,11 +4,8 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import Nav from "./Nav";
 import Search from "./Search";
 import classNames from "classnames";
-import { getTheme } from "@/async";
 
 const Header = async () => {
-  const theme = await getTheme(); // 获取服务端主题
-
   return (
     <header
       className={classNames("w-full bg-base-top shadow-sm z-50 relative")}
@@ -18,7 +15,7 @@ const Header = async () => {
 
         <div className="navbar-end">
           <Search />
-          <ThemeSwitcher initialTheme={theme} />
+          <ThemeSwitcher />
           <LocaleSwitcher />
         </div>
       </div>

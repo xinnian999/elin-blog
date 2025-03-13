@@ -1,8 +1,8 @@
 "use client";
-import useMessageStore from "@/store/global";
+import useGlobalStore from "@/store/global";
 
 function Message() {
-  const { open, type, content } = useMessageStore(
+  const { open, type, content } = useGlobalStore(
     (state) => state.messageProps
   );
 

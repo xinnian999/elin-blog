@@ -1,5 +1,5 @@
 "use client";
-import { useMessage } from "@/hooks";
+import { useMessage, useTheme } from "@/hooks";
 import { CopyIcon } from "@elin-blog/icons";
 import parse from "html-react-parser";
 import { createHighlighter } from "shiki";
@@ -23,13 +23,13 @@ const highlighter = await createHighlighter({
 function Pre({
   lang,
   code,
-  theme,
 }: {
   lang: string;
   code: string;
-  theme: Theme;
 }) {
   const message = useMessage();
+
+  const theme = useTheme();
 
   const _html = highlighter.codeToHtml(code, {
     lang,

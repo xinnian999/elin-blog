@@ -1,10 +1,10 @@
 "use client";
 
-import { ExpandIcon, LangIcon } from "@/components";
 import { setUserLocale } from "@/i18n/service";
 import { locales } from "@/i18n/config";
 import "dayjs/locale/zh-cn";
 import { useLocale } from "next-intl";
+import { LangIcon, ExpandIcon } from "@elin-blog/icons";
 
 const LocaleSwitcher = () => {
   const locale = useLocale();
