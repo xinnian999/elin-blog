@@ -1,23 +1,17 @@
-"use client";
 import { withAffix } from "@/components";
 import LocaleSwitcher from "./LocaleSwitcher";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Nav from "./Nav";
 import Search from "./Search";
-import { useTheme } from "@/hooks";
 import classNames from "classnames";
-import { useScroll } from "ahooks";
+import { getTheme } from "@/async";
 
-const Header = () => {
-  const theme = useTheme(); // 获取服务端主题
-
-  const scroll = useScroll();
+const Header = async () => {
+  const theme = await getTheme(); // 获取服务端主题
 
   return (
     <header
-      className={classNames("w-full bg-base shadow-sm z-50 relative", {
-        "bg-base-top": scroll && scroll.top > 50,
-      })}
+      className={classNames("w-full bg-base-top shadow-sm z-50 relative")}
     >
       <div className="container mx-auto navbar base-100">
         <Nav />

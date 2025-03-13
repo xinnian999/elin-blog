@@ -4,8 +4,11 @@ import anchor from "markdown-it-anchor";
 import MarkdownIt from "markdown-it";
 import "./style.scss";
 import Pre from "./Pre";
+import { getTheme } from "@/async";
 
 async function MdRender({ content }: { content: string }) {
+  const theme = await getTheme();
+
   const md = new MarkdownIt().use(anchor, {
     slugify: (s) => s,
   });
@@ -40,7 +43,7 @@ async function MdRender({ content }: { content: string }) {
           if (domNode.name === "pre") {
             const { lang, code } = domNode.attribs;
 
-            return <Pre lang={lang} code={code.replace(/\n$/, "")} />;
+            return <Pre lang={lang} code={code.replace(/\n$/, "")} theme={theme} />;
           }
         },
       })}

@@ -8,7 +8,7 @@ function Message() {
 
   return (
     open && (
-      <div className="toast toast-top toast-center z-30">
+      <div className="toast toast-top toast-center z-[9999]">
         <div className={`alert alert-${type}`}>
           <span>{content}</span>
         </div>

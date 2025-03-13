@@ -1,5 +1,5 @@
 "use client";
-import { useMessage, useTheme } from "@/hooks";
+import { useMessage } from "@/hooks";
 import { CopyIcon } from "@elin-blog/icons";
 import parse from "html-react-parser";
 import { createHighlighter } from "shiki";
@@ -20,9 +20,15 @@ const highlighter = await createHighlighter({
   ],
 });
 
-function Pre({ lang, code }: { lang: string; code: string }) {
-  const theme = useTheme();
-
+function Pre({
+  lang,
+  code,
+  theme,
+}: {
+  lang: string;
+  code: string;
+  theme: Theme;
+}) {
   const message = useMessage();
 
   const _html = highlighter.codeToHtml(code, {
@@ -38,7 +44,7 @@ function Pre({ lang, code }: { lang: string; code: string }) {
     document.execCommand("copy");
     document.body.removeChild(textArea);
 
-    message.success('复制成功！')
+    message.success("复制成功！");
   };
 
   return (
