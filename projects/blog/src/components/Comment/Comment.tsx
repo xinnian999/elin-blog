@@ -7,6 +7,7 @@ import Image from "next/image";
 import Write from "./Write";
 import { Comment as CommentEntity } from "@elin-blog/db";
 import { useState } from "react";
+import { useMount } from "ahooks";
 
 interface Props extends CommentEntity {
   replyTarget: CommentEntity | null;
@@ -34,8 +35,22 @@ const Comment = (props: Props) => {
     setExpand(e.target.checked);
   };
 
+  useMount(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    const target = params.get("target");
+
+    if (target) {
+      props.replies?.forEach((item) => {
+        if (item.id === Number(target)) {
+          setExpand(true);
+        }
+      });
+    }
+  });
+
   return (
-    <div className="p-4">
+    <div className="p-4" id={props.id!.toString()}>
       <div className="flex gap-4">
         <div className="">
           <div className="avatar">
@@ -82,7 +97,7 @@ const Comment = (props: Props) => {
           <div className="bg-base-300 p-4 rounded">
             <Write
               placeholder={`回复 ${replyTarget.nickname}`}
-              publishCallback={async ({ avatar, nickname, content }) => {
+              publishCallback={async ({ avatar, nickname, content, email }) => {
                 await replyComment({
                   parentCommentId:
                     replyTarget.parentComment?.id || replyTarget.id,
@@ -92,6 +107,7 @@ const Comment = (props: Props) => {
                     nickname,
                     content,
                     type,
+                    email,
                   },
                 });
 
@@ -105,7 +121,7 @@ const Comment = (props: Props) => {
       {props.replies?.length ? (
         <div className="pl-14">
           <div className="collapse bg-base-200 mt-3">
-            <input type="checkbox" onChange={onChangeExpand} />
+            <input type="checkbox" onChange={onChangeExpand} checked={expand} />
             <div className="collapse-title text-xs font-medium">
               {!expand && (
                 <div>

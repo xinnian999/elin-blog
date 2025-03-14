@@ -3,6 +3,17 @@
 import { Article, Comment, getRepository } from "@elin-blog/db";
 import { instanceToPlain } from "class-transformer";
 import { FindOptionsWhere, IsNull } from "typeorm";
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.qq.com",
+  port: 465,
+  secure: true, // 使用 SSL
+  auth: {
+    user: "3307578337@qq.com",
+    pass: "sefenhrhbimgcjec", // SMTP授权码
+  },
+});
 
 export const fetchAllCommentList = async () => {
   const postRepository = await getRepository(Comment);
@@ -117,6 +128,33 @@ export const replyComment = async ({
 
   if (targetComment) {
     comment.targetComment = targetComment; // 关联目标评论
+
+    // 如果目标评论绑定了邮箱，则发送邮件通知
+    if (targetComment.email) {
+      const mailOptions = {
+        from: '"Elin" <3307578337@qq.com>',
+        to: targetComment.email,
+        subject: "【Elin's Blog】通知",
+        html: `
+        <p>你在我的博客的留言：</p>
+        <p><b>${targetComment.content}</b></p>
+        <br/>
+        <p>收到新的回复：</p>
+        <p><b>${comment.content}</b></p>
+        <br/>
+        <p>点击<a href="https://elin521.cn/comment?target=${comment.id}">前往查看</a></p>
+        <br/>
+        <p>—— 来自 <a href="https://elin521.cn">Elin's Blog</a></p>
+      `,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return console.log("发送失败:", error);
+        }
+        console.log("邮件发送成功:", info.response);
+      });
+    }
   }
 
   await postRepository.save(comment);

@@ -10,7 +10,8 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities,
-  synchronize: process.env.NODE_ENV === 'development', //自动创建表结构
+  // synchronize: process.env.NODE_ENV === 'development', //自动创建表结构
+  synchronize: true, //自动创建表结构
   logging: false,
   charset: "utf8mb4",
   extra: {

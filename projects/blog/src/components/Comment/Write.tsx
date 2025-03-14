@@ -25,7 +25,7 @@ export default function Write({
   publishCallback: (params: {
     nickname: string;
     avatar: string;
-    email: string;
+    email?: string;
     content: string;
   }) => Promise<any>;
 }) {
@@ -65,7 +65,7 @@ export default function Write({
       avatar: avatar!,
       nickname: nickname!,
       content: content!,
-      email: content!,
+      email,
     });
 
     setContent("");

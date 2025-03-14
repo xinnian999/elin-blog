@@ -22,6 +22,9 @@ export class Comment {
   @Column()
   nickname: string; // 用户昵称
 
+  @Column({ nullable: true })
+  email?: string; // 用户邮箱
+
   @Column("text")
   content: string; // 评论内容
 
