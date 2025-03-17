@@ -89,33 +89,39 @@ const Comment = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 gap-1 flex flex-col ">
           <div className="flex justify-between text-[14px]">
-            <div className="flex gap-3 items-center">
-              <div className="font-bold">{props.nickname}</div>
-
-              <div className="text-gray-500">
-                {dayjs(props.created_at).fromNow()}
-              </div>
+            <div className="flex gap-3 items-center text-gray-500">
+              <div className="">{props.nickname}</div>
             </div>
           </div>
 
-          <div className="mt-2">{props.content}</div>
+          <div className="text-gray-500 flex gap-2">
+            <div>{dayjs(props.created_at).fromNow()}</div>
 
-          {props.targetComment &&
-            props.targetComment.id !== props.parentComment?.id && (
-              <div className="mt-2 text-[14px]">
-                <b
-                  className="link-text"
-                  onClick={() => handleScrollToComment(props.targetComment?.id)}
-                >
-                  —— {props.targetComment.nickname}：{" "}
-                  {props.targetComment.content}
-                </b>{" "}
-              </div>
-            )}
+            <div>来自北京</div>
+          </div>
 
-          <div className="mt-2 flex items-center gap-4">
+          <div className="my-2">
+            <div>{props.content}</div>
+
+            {props.targetComment &&
+              props.targetComment.id !== props.parentComment?.id && (
+                <div className="mt-1 text-[14px]">
+                  <b
+                    className="link-text"
+                    onClick={() =>
+                      handleScrollToComment(props.targetComment?.id)
+                    }
+                  >
+                    —— {props.targetComment.nickname}：{" "}
+                    {props.targetComment.content}
+                  </b>{" "}
+                </div>
+              )}
+          </div>
+
+          <div className="flex items-center gap-4">
             <span
               className={classNames(
                 "cursor-pointer flex items-center gap-1 hover:text-success",
@@ -136,7 +142,7 @@ const Comment = (props: Props) => {
       </div>
 
       {replyTarget && props.id === replyTarget.id && (
-        <div className="mb-3 mt-2  lg:pl-14">
+        <div className="mt-3 lg:pl-14">
           <div className="bg-base-300 p-4 rounded">
             <Write
               id={props.id}
@@ -163,8 +169,8 @@ const Comment = (props: Props) => {
       )}
 
       {firstReply ? (
-        <div className="lg:pl-14">
-          <div className="collapse bg-base-200 mt-3">
+        <div className="mt-3 lg:pl-14">
+          <div className="collapse bg-base-200">
             <input
               style={{ width: "50%" }}
               type="checkbox"

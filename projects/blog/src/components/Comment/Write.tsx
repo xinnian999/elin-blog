@@ -22,7 +22,6 @@ const locales = {
 export default function Write({
   publishCallback,
   placeholder = "留言点什么吧～",
-  top = false,
   id,
 }: {
   placeholder?: string;

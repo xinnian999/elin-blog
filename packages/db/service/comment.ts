@@ -4,6 +4,7 @@ import { Article, Comment, getRepository } from "@elin-blog/db";
 import { instanceToPlain } from "class-transformer";
 import { FindOptionsWhere, IsNull } from "typeorm";
 import nodemailer from "nodemailer";
+import { headers } from "next/headers";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.qq.com",
@@ -70,11 +71,11 @@ export const fetchCommentList = async ({
       "replies.targetComment",
       "parentArticle",
     ],
-    order: { 
+    order: {
       id: "DESC",
       replies: {
-        id: "DESC"
-      }
+        id: "DESC",
+      },
     },
     where,
   });
@@ -85,6 +86,20 @@ export const fetchCommentList = async ({
 export const createComment = async (params: Comment, articleId?: number) => {
   const commentRepository = await getRepository(Comment);
   const articleRepository = await getRepository(Article);
+
+  const headersList = await headers();
+
+  const forwarded = headersList.get("x-forwarded-for");
+
+  console.log(forwarded);
+  
+  // const ip = forwarded?.split("ffff:")[1] || "172.26.105.221";
+
+  // const response = await fetch(`http://ip-api.com/json/${ip}?lang=zh-CN`);
+
+  // const data = await response.json();
+
+  // console.log(data);
 
   const comment = new Comment();
 
