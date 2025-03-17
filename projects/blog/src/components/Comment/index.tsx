@@ -11,16 +11,17 @@ import { Comment as CommentEntity } from "@elin-blog/db";
 const CommentBar = ({
   articleId,
   className,
+  initialData = [],
 }: {
   type: CommentEntity["type"];
   articleId?: number;
   className?: string;
+  initialData?: CommentEntity[];
 }) => {
   const type = articleId ? "article" : "comment";
 
-
-  const { data = [], run } = useRequest(
-    () => fetchCommentList({ type, articleId })
+  const { data = initialData, run } = useRequest(() =>
+    fetchCommentList({ type, articleId })
   );
 
   const [replyTarget, setReplyTarget] = useState<CommentEntity | null>(null);
@@ -30,26 +31,25 @@ const CommentBar = ({
     setReplyTarget(null);
   };
 
+  // 跳转至目标评论
   useMount(() => {
     const params = new URLSearchParams(window.location.search);
 
     const target = params.get("target");
 
     if (target) {
-      setTimeout(() => {
-        const targetComment = document.getElementById(target);
-        console.log(targetComment);
+      const targetComment = document.getElementById(target);
 
-        if (targetComment) {
-          targetComment.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      },2000);
+      if (targetComment) {
+        targetComment.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     }
   });
 
   return (
     <Card className={className}>
       <Write
+        top={data.length < 2}
         publishCallback={async ({ avatar, nickname, content, email }) => {
           await createComment(
             {

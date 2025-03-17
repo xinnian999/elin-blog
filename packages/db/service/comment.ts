@@ -70,7 +70,12 @@ export const fetchCommentList = async ({
       "replies.targetComment",
       "parentArticle",
     ],
-    order: { id: "DESC" },
+    order: { 
+      id: "DESC",
+      replies: {
+        id: "DESC"
+      }
+    },
     where,
   });
 
@@ -167,4 +172,40 @@ export const deleteComment = async (id: number) => {
   await postRepository.delete(id);
 
   return;
+};
+
+export const likeComment = async (id: number) => {
+  const postRepository = await getRepository(Comment);
+  const comment = await postRepository.findOneBy({ id });
+
+  if (!comment) {
+    throw new Error("评论不存在");
+  }
+
+  if (comment.likes) {
+    comment.likes++;
+  } else {
+    comment.likes = 1;
+  }
+
+  await postRepository.save(comment);
+
+  return comment.likes;
+};
+
+export const dislikeComment = async (id: number) => {
+  const postRepository = await getRepository(Comment);
+  const comment = await postRepository.findOneBy({ id });
+
+  if (!comment) {
+    throw new Error("评论不存在");
+  }
+
+  if (comment.likes) {
+    comment.likes++;
+  } else {
+    comment.likes = 1;
+  }
+
+  await postRepository.save(comment);
 };

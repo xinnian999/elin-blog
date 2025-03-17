@@ -1,4 +1,4 @@
-import { fetchArticleById } from "@elin-blog/db";
+import { fetchArticleById, fetchCommentList } from "@elin-blog/db";
 import MarkdownIt from "markdown-it";
 import { getDayjs } from "@/async";
 import Anchor from "./Anchor";
@@ -27,6 +27,8 @@ export default async function Article({
     categoryText,
     tags = [],
   } = (await fetchArticleById(articleId)) || {};
+
+  const commentList = await fetchCommentList({ type: "article", articleId });
 
   const dayjs = await getDayjs();
 
@@ -68,7 +70,12 @@ export default async function Article({
           </div>
         </Card>
 
-        <Comment type="article" articleId={articleId} className="mt-6" />
+        <Comment
+          type="article"
+          articleId={articleId}
+          initialData={commentList}
+          className="mt-6"
+        />
       </div>
 
       <div className="w-2/6 hidden lg:block">

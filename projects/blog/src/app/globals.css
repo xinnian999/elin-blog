@@ -11,6 +11,14 @@
   .bg-base-top {
     @apply bg-white dark:bg-gray-800/70;
   }
+
+  .action-text {
+    @apply cursor-pointer hover:opacity-85;
+  }
+
+  .link-text {
+    @apply text-blue-500 cursor-pointer hover:text-blue-400;
+  }
 }
 
 :root {
@@ -28,4 +36,9 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   @apply bg-base-300;
+}
+
+.ant-popover-inner {
+  background-color: transparent !important;
+  padding: 0 !important;
 }

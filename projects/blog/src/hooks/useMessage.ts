@@ -15,8 +15,21 @@ const useMessage = () => {
     }, 3000);
   };
 
+  const info = (content: string) => {
+    setMessageProps({
+      content,
+      open: true,
+      type: "info",
+    });
+
+    setTimeout(() => {
+      setMessageProps({ open: false });
+    }, 3000);
+  };
+
   return {
     success,
+    info
   };
 };
 

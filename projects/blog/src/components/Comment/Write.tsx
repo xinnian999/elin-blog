@@ -11,6 +11,8 @@ import classNames from "classnames";
 import en from "@emoji-mart/data/i18n/en.json";
 import zh from "@emoji-mart/data/i18n/zh.json";
 import { useLocale } from "next-intl";
+import "./write.css";
+import { Popover } from "antd";
 
 const locales = {
   en,
@@ -20,8 +22,12 @@ const locales = {
 export default function Write({
   publishCallback,
   placeholder = "留言点什么吧～",
+  top = false,
+  id,
 }: {
   placeholder?: string;
+  top?: boolean;
+  id?: number;
   publishCallback: (params: {
     nickname: string;
     avatar: string;
@@ -88,7 +94,6 @@ export default function Write({
       </div>
       <div className="flex-1">
         <div className="flex gap-3 flex-col lg:flex-row">
-
           <label className="input input-sm flex-1">
             <span className="label">昵称 / QQ号</span>
             <input
@@ -111,7 +116,6 @@ export default function Write({
               onChange={(e) => setEmail(e.target.value)}
             />
           </label>
-
         </div>
 
         <div className="mt-2 mb-2">
@@ -126,20 +130,26 @@ export default function Write({
 
         <div className="flex justify-between mt-1">
           <div>
-            <details className="dropdown">
-              <summary className="btn btn-sm text-[20px] bg-base-300">
-                😊
-              </summary>
-              <ul className="dropdown-content bg-base rounded-box z-[1] shadow">
+            <Popover
+              content={
                 <Picker
                   data={data}
                   theme={theme}
                   i18n={locales[lang]}
                   onEmojiSelect={onEmojiSelect}
                 />
-              </ul>
-            </details>
+              }
+              trigger="click"
+            >
+              <button
+                className={classNames("btn btn-sm text-[20px] bg-base-300")}
+                popoverTarget={`popover-${id}`}
+              >
+                😊
+              </button>
+            </Popover>
           </div>
+
           <button
             className={classNames("btn", "btn-primary", "btn-sm", {
               "btn-disabled": !content || !nickname || !email,

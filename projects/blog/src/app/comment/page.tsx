@@ -1,7 +1,10 @@
 import { Card } from "@/components";
 import { Comment } from "@/components";
+import { fetchCommentList } from "@elin-blog/db";
 
 export default async function CommentPage() {
+  const commentList = await fetchCommentList({ type: "comment" });
+
   return (
     <div className="flex flex-col gap-6">
       <Card title="留言板">
@@ -26,7 +29,7 @@ export default async function CommentPage() {
         </div>
       </Card>
 
-      <Comment type="comment" />
+      <Comment type="comment" initialData={commentList} />
     </div>
   );
 }
