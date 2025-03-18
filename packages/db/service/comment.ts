@@ -167,38 +167,38 @@ export const replyComment = async ({
 
   if (targetComment) {
     comment.targetComment = targetComment; // 关联目标评论
-
-    // 如果目标评论绑定了邮箱，则发送邮件通知
-    if (targetComment.email) {
-      const mailOptions = {
-        from: '"Elin" <3307578337@qq.com>',
-        to: targetComment.email,
-        subject: "【Elin's Blog】通知",
-        html: `
-        <p>你在我的博客的留言：</p>
-        <p><b>${targetComment.content}</b></p>
-        <br/>
-        <p>收到新的回复：</p>
-        <p><b>${comment.content}</b></p>
-        <br/>
-        <p>点击<a href="https://elin521.cn/comment?target=${comment.id}">前往查看</a></p>
-        <br/>
-        <p>—— 来自 <a href="https://elin521.cn">Elin's Blog</a></p>
-      `,
-      };
-
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          return console.log("发送失败:", error);
-        }
-        console.log("邮件发送成功:", info.response);
-      });
-    }
   }
 
   await setCommentInfo(comment);
 
-  await postRepository.save(comment);
+  const reply = await postRepository.save(comment);
+
+  // 如果目标评论绑定了邮箱，则发送邮件通知
+  if (targetComment?.email) {
+    const mailOptions = {
+      from: '"Elin" <3307578337@qq.com>',
+      to: targetComment.email,
+      subject: "【Elin's Blog】通知",
+      html: `
+        <p>你在我的博客的留言：</p>
+        <p><b>${targetComment.content}</b></p>
+        <br/>
+        <p>收到新的回复：</p>
+        <p><b>${reply.content}</b></p>
+        <br/>
+        <p>点击<a href="https://elin521.cn/comment?target=${reply.id}">前往查看</a></p>
+        <br/>
+        <p>—— 来自 <a href="https://elin521.cn">Elin's Blog</a></p>
+      `,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log("发送失败:", error);
+      }
+      console.log("邮件发送成功:", info.response);
+    });
+  }
 
   return;
 };
