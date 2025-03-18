@@ -5,6 +5,7 @@ import { instanceToPlain } from "class-transformer";
 import { FindOptionsWhere, IsNull } from "typeorm";
 import nodemailer from "nodemailer";
 import { headers } from "next/headers";
+import { UAParser } from "ua-parser-js";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.qq.com",
@@ -15,6 +16,12 @@ const transporter = nodemailer.createTransport({
     pass: "sefenhrhbimgcjec", // SMTP授权码
   },
 });
+
+function isIPv4(ip: string) {
+  return /^(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})\.(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})\.(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})\.(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})$/.test(
+    ip
+  );
+}
 
 export const fetchAllCommentList = async () => {
   const postRepository = await getRepository(Comment);
@@ -83,27 +90,39 @@ export const fetchCommentList = async ({
   return instanceToPlain(data) as Comment[];
 };
 
+const setCommentInfo = async (comment: Comment) => {
+  const headersList = await headers();
+  const ip = headersList.get("x-forwarded-for");
+
+  const userAgent = headersList.get("user-agent");
+
+  if (isIPv4(ip!)) {
+    const response = await fetch(`http://ip-api.com/json/${ip}?lang=zh-CN`);
+
+    const data = await response.json();
+
+    comment.ip = data.query;
+    comment.country = data.country;
+    comment.region = data.regionName;
+    comment.city = data.city;
+  }
+
+  if (userAgent) {
+    const ua = UAParser(userAgent);
+    comment.browser = `${ua.browser.name} ${ua.browser.version}`;
+    comment.os = `${ua.os.name} ${ua.os.version}`;
+  }
+};
+
 export const createComment = async (params: Comment, articleId?: number) => {
   const commentRepository = await getRepository(Comment);
   const articleRepository = await getRepository(Article);
 
-  const headersList = await headers();
-
-  const forwarded = headersList.get("x-forwarded-for");
-
-  console.log(forwarded);
-  
-  // const ip = forwarded?.split("ffff:")[1] || "172.26.105.221";
-
-  // const response = await fetch(`http://ip-api.com/json/${ip}?lang=zh-CN`);
-
-  // const data = await response.json();
-
-  // console.log(data);
-
   const comment = new Comment();
 
   Object.assign(comment, params);
+
+  await setCommentInfo(comment);
 
   if (params.type === "article" && articleId) {
     const parentArticle = await articleRepository.findOneBy({
@@ -176,6 +195,8 @@ export const replyComment = async ({
       });
     }
   }
+
+  await setCommentInfo(comment);
 
   await postRepository.save(comment);
 

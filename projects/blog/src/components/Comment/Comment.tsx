@@ -1,6 +1,6 @@
 "use client";
 
-import { LikeIcon } from "@elin-blog/icons";
+import { BrowserIcon, LikeIcon, RegionIcon } from "@elin-blog/icons";
 import { likeComment, replyComment } from "@elin-blog/db";
 import { useDayjs, useMessage, useMounted } from "@/hooks";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useMount } from "ahooks";
 import useGlobalStore from "@/store/global";
 import classNames from "classnames";
+import { getOsIcon } from "./utils";
 
 interface Props extends CommentEntity {
   replyTarget: CommentEntity | null;
@@ -78,11 +79,11 @@ const Comment = (props: Props) => {
   const firstReply = props.replies?.[0];
 
   return (
-    <div className="p-4" id={props.id!.toString()}>
-      <div className="flex gap-4">
+    <div className="py-4" id={props.id!.toString()}>
+      <div className="flex gap-3 md:gap-4">
         <div className="">
           <div className="avatar">
-            <div className="w-14">
+            <div className="w-10 md:w-14">
               {mounted && (
                 <Image src={props.avatar} fill alt="" className="rounded-xl" />
               )}
@@ -93,13 +94,27 @@ const Comment = (props: Props) => {
           <div className="flex justify-between text-[14px]">
             <div className="flex gap-3 items-center text-gray-500">
               <div className="">{props.nickname}</div>
+
+              <div>{dayjs(props.created_at).fromNow()}</div>
             </div>
-          </div>
 
-          <div className="text-gray-500 flex gap-2">
-            <div>{dayjs(props.created_at).fromNow()}</div>
+            <div className="flex items-center gap-3 text-gray-500 lg:gap-4">
+              <span
+                className={classNames(
+                  "cursor-pointer flex items-center gap-1 hover:text-success",
+                  {
+                    "text-success": likeCommentIds.includes(props.id!),
+                  }
+                )}
+                onClick={() => handleLike()}
+              >
+                <LikeIcon className="w-4 h-4" /> {props.likes}
+              </span>
 
-            <div>来自北京</div>
+              <span className="action-text" onClick={handleReplay}>
+                {replyTarget && props.id === replyTarget.id ? "取消" : "回复"}
+              </span>
+            </div>
           </div>
 
           <div className="my-2">
@@ -121,23 +136,29 @@ const Comment = (props: Props) => {
               )}
           </div>
 
-          <div className="flex items-center gap-4">
-            <span
-              className={classNames(
-                "cursor-pointer flex items-center gap-1 hover:text-success",
-                {
-                  "text-success": likeCommentIds.includes(props.id!),
-                }
+          {/* 位置/浏览器/操作系统 */}
+          {(props.region || props.browser || props.os) && (
+            <div className="text-gray-500 flex gap-x-3 items-center flex-wrap">
+              {props.region && (
+                <div className="flex items-center gap-[2px]">
+                  <RegionIcon className="w-3 h-3" /> {props.region.slice(0, -1)}
+                </div>
               )}
-              onClick={() => handleLike()}
-            >
-              <LikeIcon className="w-4 h-4" /> {props.likes}
-            </span>
 
-            <span className="action-text" onClick={handleReplay}>
-              {replyTarget && props.id === replyTarget.id ? "取消" : "回复"}
-            </span>
-          </div>
+              {props.os && (
+                <div className="flex items-center gap-[2px]">
+                  {getOsIcon(props.os)}
+                  {props.os}
+                </div>
+              )}
+
+              {props.browser && (
+                <div className="flex items-center gap-1">
+                  <BrowserIcon className="w-3 h-3" /> {props.browser}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

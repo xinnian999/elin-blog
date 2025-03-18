@@ -72,7 +72,7 @@ const CommentBar = ({
         共{data.length}条{articleId ? "评论" : "留言"}
       </div>
 
-      <div className="mt-6 flex flex-col divide-y">
+      <div className=" flex flex-col divide-y">
         {data.map((item) => {
           return (
             <Comment

@@ -12,8 +12,8 @@ const Main: FC<MainProps> = async ({ children }) => {
   const archives = await getArticleArchive();
 
   return (
-    <main className="container z-10 relative mx-auto min-h-screen p-8 flex flex-col gap-6 lg:flex-row lg:px-0">
-      <div className="basis-1/4">
+    <main className="container z-10 relative mx-auto py-6 min-h-screen flex flex-col gap-6 lg:flex-row md:p-8">
+      <div className="basis-1/4 hidden lg:block">
         <LeftBar summary={data} archives={archives} />
       </div>
       <div className="basis-3/4 flex-grow overflow-hidden"> {children} </div>

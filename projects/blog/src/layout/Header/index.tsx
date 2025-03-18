@@ -8,7 +8,7 @@ import classNames from "classnames";
 const Header = async () => {
   return (
     <header
-      className={classNames("w-full bg-base-top shadow-sm z-40 relative")}
+      className={classNames("w-full bg-base-top shadow z-40 relative")}
     >
       <div className="container mx-auto navbar base-100">
         <Nav />

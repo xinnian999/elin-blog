@@ -57,4 +57,22 @@ export class Comment {
 
   @Column({ default: 0 })
   likes?: number;
+
+  @Column({ nullable: true })
+  ip?: string;
+
+  @Column({ nullable: true })
+  country?: string;
+
+  @Column({ nullable: true })
+  region?: string;
+
+  @Column({ nullable: true })
+  city?: string;
+
+  @Column({ nullable: true })
+  browser?: string;
+
+  @Column({ nullable: true })
+  os?: string;
 }
