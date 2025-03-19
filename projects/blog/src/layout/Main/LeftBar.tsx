@@ -1,6 +1,6 @@
 "use client";
 import { FC } from "react";
-import { Affix, Card } from "@/components";
+import { Card } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -13,6 +13,7 @@ import {
   QQIcon,
   WechatIcon,
 } from "@elin-blog/icons";
+import { Sticky } from "@/components";
 
 interface Props {
   summary: Record<string, any>;
@@ -67,12 +68,12 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
 
   return (
     <div
-      className={classNames({
+      className={classNames("left-bar", "h-full", {
         "flex flex-col": true,
-        "hidden lg:flex flex-col gap-5": pathname !== "/",
+        "hidden lg:flex flex-col": pathname !== "/",
       })}
     >
-      <Card>
+      <Card className="mb-5" key="1">
         <div className="flex flex-col items-center gap-4">
           <div className="avatar">
             <div className="w-24 rounded-full overflow-hidden relative">
@@ -117,9 +118,9 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
           </div>
         </div>
       </Card>
-      <Affix top={80} className="mt-5">
+      <Sticky top={80} bottomBoundary=".left-bar">
         <div>
-          <Card>
+          <Card key="2">
             <div className="flex flex-col gap-4">
               <div className="flex gap-5 justify-center">
                 {counts.map((item) => (
@@ -152,7 +153,7 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
             </div>
           </Card>
 
-          <Card className="mt-5">
+          <Card className="mt-5" key="3">
             <p className="text-xs mb-1">归档</p>
             <div className="flex flex-col items-center">
               {archives.map((item) => (
@@ -169,7 +170,7 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
             </div>
           </Card>
         </div>
-      </Affix>
+      </Sticky>
     </div>
   );
 };
