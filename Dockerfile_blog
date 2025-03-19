@@ -18,6 +18,9 @@ RUN pnpm install
 # 复制其余项目文件
 COPY . .
 
+# 删除源环境变量文件
+COPY .env projects/blog/.env.local
+
 # 在构建时启用 standalone 模式
 ENV NEXT_OUTPUT=standalone
 

@@ -8,7 +8,7 @@ import Write from "./Write";
 import { Comment as CommentEntity } from "@elin-blog/db";
 import { useState } from "react";
 import { useMount } from "ahooks";
-import useGlobalStore from "@/store/global";
+import useStore from "@/store";
 import classNames from "classnames";
 import { getOsIcon } from "./utils";
 
@@ -27,7 +27,7 @@ const Comment = (props: Props) => {
 
   const [expand, setExpand] = useState(false);
 
-  const { likeCommentIds, addLikeComment } = useGlobalStore();
+  const { likeCommentIds, addLikeComment } = useStore();
 
   const message = useMessage();
 

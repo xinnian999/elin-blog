@@ -1,7 +1,7 @@
-import useGlobalStore from "@/store/global";
+import useStore from "@/store";
 
 const useMessage = () => {
-  const setMessageProps = useGlobalStore((state) => state.setMessageProps);
+  const setMessageProps = useStore((state) => state.setMessageProps);
 
   const success = (content: string) => {
     setMessageProps({

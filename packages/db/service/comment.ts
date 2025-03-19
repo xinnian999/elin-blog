@@ -3,51 +3,33 @@
 import { Article, Comment, getRepository } from "@elin-blog/db";
 import { instanceToPlain } from "class-transformer";
 import { FindOptionsWhere, IsNull } from "typeorm";
-import nodemailer from "nodemailer";
 import { headers } from "next/headers";
 import { UAParser } from "ua-parser-js";
+import { isIPv4, sendEmail } from "./utils";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.qq.com",
-  port: 465,
-  secure: true, // 使用 SSL
-  auth: {
-    user: "3307578337@qq.com",
-    pass: "sefenhrhbimgcjec", // SMTP授权码
-  },
-});
 
-function isIPv4(ip: string) {
-  return /^(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})\.(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})\.(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})\.(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})$/.test(
-    ip
-  );
-}
+const setCommentInfo = async (comment: Comment) => {
+  const headersList = await headers();
+  const ip = headersList.get("x-forwarded-for");
 
-export const fetchAllCommentList = async () => {
-  const postRepository = await getRepository(Comment);
-  const data = await postRepository.find({
-    relations: [
-      "parentComment",
-      "targetComment",
-      "replies",
-      "replies.parentComment",
-      "replies.targetComment",
-    ],
-    order: { id: "DESC" },
-  });
+  const userAgent = headersList.get("user-agent");
 
-  return instanceToPlain(data) as Comment[];
-};
+  if (isIPv4(ip!)) {
+    const response = await fetch(`http://ip-api.com/json/${ip}?lang=zh-CN`);
 
-export const fetchHomeCommentList = async () => {
-  const postRepository = await getRepository(Comment);
-  const data = await postRepository.find({
-    relations: [],
-    order: { id: "DESC" },
-    take: 5, // 每页返回的记录数
-  });
+    const data = await response.json();
 
-  return instanceToPlain(data) as Comment[];
+    comment.ip = data.query;
+    comment.country = data.country;
+    comment.region = data.regionName;
+    comment.city = data.city;
+  }
+
+  if (userAgent) {
+    const ua = UAParser(userAgent);
+    comment.browser = `${ua.browser.name} ${ua.browser.version}`;
+    comment.os = `${ua.os.name} ${ua.os.version}`;
+  }
 };
 
 export const fetchCommentList = async ({
@@ -90,28 +72,31 @@ export const fetchCommentList = async ({
   return instanceToPlain(data) as Comment[];
 };
 
-const setCommentInfo = async (comment: Comment) => {
-  const headersList = await headers();
-  const ip = headersList.get("x-forwarded-for");
+export const fetchAllCommentList = async () => {
+  const postRepository = await getRepository(Comment);
+  const data = await postRepository.find({
+    relations: [
+      "parentComment",
+      "targetComment",
+      "replies",
+      "replies.parentComment",
+      "replies.targetComment",
+    ],
+    order: { id: "DESC" },
+  });
 
-  const userAgent = headersList.get("user-agent");
+  return instanceToPlain(data) as Comment[];
+};
 
-  if (isIPv4(ip!)) {
-    const response = await fetch(`http://ip-api.com/json/${ip}?lang=zh-CN`);
+export const fetchHomeCommentList = async () => {
+  const postRepository = await getRepository(Comment);
+  const data = await postRepository.find({
+    relations: [],
+    order: { id: "DESC" },
+    take: 5, // 每页返回的记录数
+  });
 
-    const data = await response.json();
-
-    comment.ip = data.query;
-    comment.country = data.country;
-    comment.region = data.regionName;
-    comment.city = data.city;
-  }
-
-  if (userAgent) {
-    const ua = UAParser(userAgent);
-    comment.browser = `${ua.browser.name} ${ua.browser.version}`;
-    comment.os = `${ua.os.name} ${ua.os.version}`;
-  }
+  return instanceToPlain(data) as Comment[];
 };
 
 export const createComment = async (params: Comment, articleId?: number) => {
@@ -175,29 +160,20 @@ export const replyComment = async ({
 
   // 如果目标评论绑定了邮箱，则发送邮件通知
   if (targetComment?.email) {
-    const mailOptions = {
-      from: '"Elin" <3307578337@qq.com>',
-      to: targetComment.email,
-      subject: "【Elin's Blog】通知",
-      html: `
+    sendEmail(
+      targetComment.email,
+      `
         <p>你在我的博客的留言：</p>
         <p><b>${targetComment.content}</b></p>
         <br/>
         <p>收到新的回复：</p>
         <p><b>${reply.content}</b></p>
         <br/>
-        <p>点击<a href="https://elin521.cn/comment?target=${reply.id}">前往查看</a></p>
+        <p>点击<a href="https://elin521.cn/${reply.type}?target=${reply.id}">前往查看</a></p>
         <br/>
         <p>—— 来自 <a href="https://elin521.cn">Elin's Blog</a></p>
-      `,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.log("发送失败:", error);
-      }
-      console.log("邮件发送成功:", info.response);
-    });
+      `
+    );
   }
 
   return;

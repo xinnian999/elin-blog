@@ -14,7 +14,7 @@ export class Comment {
   id?: number; // 自动生成的主键
 
   @Column()
-  type: "article" | "comment"; // 类型
+  type: "article" | "comment" | "about" | "link"; // 类型
 
   @Column()
   avatar: string; // 用户头像
@@ -49,7 +49,7 @@ export class Comment {
   @OneToMany(() => Comment, (comment) => comment.targetComment)
   targetComments?: Comment[];
 
-  // 每一个分类属于一篇文章
+  // 评论可能属于某篇文章
   @ManyToOne("article", (article: Article) => article.comments, {
     nullable: true,
   })

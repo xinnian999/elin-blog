@@ -1,4 +1,4 @@
-import { withAffix } from "@/components";
+import { Affix } from "@/components";
 import LocaleSwitcher from "./LocaleSwitcher";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Nav from "./Nav";
@@ -7,20 +7,20 @@ import classNames from "classnames";
 
 const Header = async () => {
   return (
-    <header
-      className={classNames("w-full bg-base-top shadow z-40 relative")}
-    >
-      <div className="container mx-auto navbar base-100">
-        <Nav />
+    <Affix>
+      <header className={classNames("w-full bg-base-top shadow z-40 relative")}>
+        <div className="container mx-auto navbar base-100">
+          <Nav />
 
-        <div className="navbar-end">
-          <Search />
-          <ThemeSwitcher />
-          <LocaleSwitcher />
+          <div className="navbar-end">
+            <Search />
+            <ThemeSwitcher />
+            <LocaleSwitcher />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </Affix>
   );
 };
 
-export default withAffix(Header, { offsetTop: 0.1 });
+export default Header;

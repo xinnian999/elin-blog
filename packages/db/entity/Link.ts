@@ -37,4 +37,7 @@ export class Link {
 
   @UpdateDateColumn()
   updated_at?: Date; // 更新时间
+
+  @Column({ type: "text", nullable: true })
+  email?: string; // 邮箱
 }

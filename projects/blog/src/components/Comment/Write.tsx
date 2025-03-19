@@ -2,7 +2,6 @@
 
 import { fetchQQInfo } from "@elin-blog/db";
 import { useMounted, useTheme } from "@/hooks";
-import { useLocalStorageState } from "ahooks";
 import Image from "next/image";
 import { useState } from "react";
 import data from "@emoji-mart/data";
@@ -13,6 +12,7 @@ import zh from "@emoji-mart/data/i18n/zh.json";
 import { useLocale } from "next-intl";
 import "./write.css";
 import { Popover } from "antd";
+import useStore from "@/store";
 
 const locales = {
   en,
@@ -38,18 +38,9 @@ export default function Write({
 
   const lang = useLocale() as Lang;
 
-  const [nickname, setNickname] = useLocalStorageState("nickname", {
-    defaultValue: "",
-  });
+  const { nickname, avatar, email } = useStore((state) => state.userInfo);
 
-  const [avatar, setAvatar] = useLocalStorageState("avatar", {
-    defaultValue:
-      "https://b0.bdstatic.com/0df6c8c7f109aa7b67e7cb15e6f8d025.jpg@h_1280",
-  });
-
-  const [email, setEmail] = useLocalStorageState("email", {
-    defaultValue: "",
-  });
+  const setUserInfo = useStore((state) => state.setUserInfo);
 
   const [content, setContent] = useState("");
 
@@ -59,17 +50,15 @@ export default function Write({
     if (!nickname) return;
     if (!isNaN(Number(nickname))) {
       const { name, avatar, qq } = await fetchQQInfo(nickname!);
-      setNickname(name);
-      setAvatar(avatar);
-      setEmail(`${qq}@qq.com`);
+      setUserInfo({ nickname: name, avatar, email: `${qq}@qq.com` });
     }
   };
 
   const handlePublish = async () => {
     await publishCallback({
-      avatar: avatar!,
-      nickname: nickname!,
-      content: content!,
+      avatar,
+      nickname,
+      content,
       email,
     });
 
@@ -86,7 +75,7 @@ export default function Write({
         <div className="avatar">
           <div className="w-10 lg:w-14">
             {mounted && (
-              <Image src={avatar!} fill alt="" className="rounded-xl" />
+              <Image src={avatar} fill alt="" className="rounded-xl" />
             )}
           </div>
         </div>
@@ -100,7 +89,7 @@ export default function Write({
               placeholder="可根据qq自动获取昵称"
               className="w-full"
               value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
+              onChange={(e) => setUserInfo({ nickname: e.target.value })}
               onBlur={onNickNameBlur}
             />
           </label>
@@ -112,7 +101,7 @@ export default function Write({
               placeholder="用于接收回复通知"
               className="w-full"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setUserInfo({ email: e.target.value })}
             />
           </label>
         </div>

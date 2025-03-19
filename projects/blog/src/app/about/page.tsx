@@ -1,8 +1,11 @@
-import { Card } from "@/components";
+import { Card, Comment } from "@/components";
+import { fetchCommentList } from "@elin-blog/db";
 import { getTranslations } from "next-intl/server";
 
 export default async function About() {
   const t = await getTranslations("About");
+
+  const commentList = await fetchCommentList({ type: "about" });
 
   return (
     <div className="flex flex-col gap-6">
@@ -27,6 +30,8 @@ export default async function About() {
           </p>
         </div>
       </Card>
+
+      <Comment type="about" initialData={commentList} />
     </div>
   );
 }

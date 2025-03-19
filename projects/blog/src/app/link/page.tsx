@@ -1,27 +1,39 @@
 "use client";
-import { Card, Modal } from "@/components";
+import { Card, Comment, Modal } from "@/components";
 import { createLink, fetchLinkListByPass } from "@elin-blog/db";
 import { useRequest, useSetState } from "ahooks";
 import classNames from "classnames";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import useStore from "@/store";
+import { useMessage } from "@/hooks";
 
 const fields = [
-  { label: "名称", name: "name" },
-  { label: "地址", name: "url" },
-  { label: "头像链接", name: "avatar" },
-  { label: "描述", name: "desc" },
+  { label: "名称", name: "name", placeholder: "你的网站名称" },
+  { label: "地址", name: "url", placeholder: "你的网站地址" },
+  { label: "头像链接", name: "avatar", placeholder: "你的网站头像链接" },
+  { label: "描述", name: "desc", placeholder: "你的网站描述" },
+  {
+    label: "邮箱",
+    name: "email",
+    placeholder: "选填，友链通过后会收到邮件提醒",
+  },
 ];
 
-export default function About() {
-  const [tip, setTip] = useState(false);
+export default function LinkPage() {
   const [open, setOpen] = useState(false);
+
+  const email = useStore((state) => state.userInfo.email);
+
+  const message = useMessage();
+
   const [values, setValues] = useSetState({
     name: "",
     url: "",
     avatar: "",
     desc: "",
+    email,
   });
 
   const pass = Object.values(values).some((value) => !value);
@@ -42,23 +54,44 @@ export default function About() {
 
     setOpen(false);
 
-    setTip(true);
-
-    setTimeout(() => {
-      setTip(false);
-    }, 3000);
+    message.success("申请成功！请等待博主审核！");
 
     clearForm();
   };
 
   const handleApply = () => {
     setOpen(true);
+    setValues({
+      email,
+    });
   };
 
   return (
     <div className="flex flex-col gap-6">
       <Card title="友情链接">
         <div className="mt-4">
+          <div role="alert" className="alert my-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="stroke-info h-6 w-6 shrink-0"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <span>
+              {" "}
+              本页友链随机排序！
+              <br />
+              申请友链请点击下方按钮！如果需要修改友联信息，请在下方评论区留言！
+            </span>
+          </div>
+
           <button className="btn btn-primary" onClick={handleApply}>
             申请友链
           </button>
@@ -124,7 +157,7 @@ export default function About() {
                 <span className="label w-24 text-right">{item.label}</span>
                 <input
                   type="text"
-                  placeholder={`你的网站${item.label}`}
+                  placeholder={item.placeholder}
                   className="w-full"
                   value={values[name]}
                   onChange={(e) =>
@@ -140,13 +173,7 @@ export default function About() {
         </div>
       </Modal>
 
-      {tip && (
-        <div className="toast toast-top toast-center z-30">
-          <div className="alert alert-success">
-            <span>申请成功！审核通过后展示</span>
-          </div>
-        </div>
-      )}
+      <Comment type="link" />
     </div>
   );
 }

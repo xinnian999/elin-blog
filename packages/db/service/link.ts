@@ -1,8 +1,9 @@
 "use server";
 
-import { Link,  getRepository } from "@elin-blog/db";
+import { Link, getRepository } from "@elin-blog/db";
 import { instanceToPlain } from "class-transformer";
 import { LinkStatus } from "../enums";
+import { sendEmail } from "./utils";
 
 export const fetchLinkList = async () => {
   const postRepository = await getRepository(Link);
@@ -15,15 +16,22 @@ export const fetchLinkList = async () => {
 export const fetchLinkListByPass = async () => {
   const postRepository = await getRepository(Link);
 
-  const data = await postRepository.find({ where: { status: LinkStatus['审核通过'].toString() as any } }); // 查询所有通过的友联
+  const data = await postRepository
+    .createQueryBuilder("link")
+    .where("link.status = :status", {
+      status: LinkStatus["审核通过"].toString(),
+    })
+    .orderBy("RAND()")
+    .getMany();
 
-
-  // 直接使用 plainToClass 进行深度序列化，所有字段都会被序列化
   return instanceToPlain(data) as Link[];
 };
 
 export const createLink = async (params: Link) => {
+  console.log(params);
+  
   const postRepository = await getRepository(Link);
+  
   const link = postRepository.create(params);
 
   await postRepository.save(link);
@@ -38,6 +46,19 @@ export const passLink = async (id: number) => {
   if (link) {
     link.status = 2;
     await postRepository.save(link);
+
+    if (link.email) {
+      sendEmail(
+        link.email,
+        `
+        <p>你的友链申请已通过审核</p>
+        <br/>
+        <p>点击<a href="https://elin521.cn/link">前往查看</a></p>
+        <br/>
+        <p>—— 来自 <a href="https://elin521.cn">Elin's Blog</a></p>
+      `
+      );
+    }
   }
 
   return;

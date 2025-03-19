@@ -9,6 +9,7 @@ import Comment from "./Comment";
 import { Comment as CommentEntity } from "@elin-blog/db";
 
 const CommentBar = ({
+  type = "comment",
   articleId,
   className,
   initialData = [],
@@ -18,7 +19,7 @@ const CommentBar = ({
   className?: string;
   initialData?: CommentEntity[];
 }) => {
-  const type = articleId ? "article" : "comment";
+  // const type = articleId ? "article" : "comment";
 
   const { data = initialData, run } = useRequest(() =>
     fetchCommentList({ type, articleId })

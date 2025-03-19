@@ -1,6 +1,6 @@
 "use client";
 import { FC } from "react";
-import { Card } from "@/components";
+import { Affix, Card } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -68,7 +68,7 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
   return (
     <div
       className={classNames({
-        "flex flex-col gap-5": true,
+        "flex flex-col": true,
         "hidden lg:flex flex-col gap-5": pathname !== "/",
       })}
     >
@@ -117,56 +117,59 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
           </div>
         </div>
       </Card>
-
-      <Card>
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-5 justify-center">
-            {counts.map((item) => (
-              <div
-                className="flex flex-col gap-2 flex-nowrap h-16 text-center"
-                key={item.label}
-              >
-                <div> {item.label}</div>
-                <Link href={item.href}>
-                  <button className="btn btn-ghost">
-                    <div className="text-[25px]"> {item.count}</div>
-                  </button>
-                </Link>
+      <Affix top={80} className="mt-5">
+        <div>
+          <Card>
+            <div className="flex flex-col gap-4">
+              <div className="flex gap-5 justify-center">
+                {counts.map((item) => (
+                  <div
+                    className="flex flex-col gap-2 flex-nowrap h-16 text-center"
+                    key={item.label}
+                  >
+                    <div> {item.label}</div>
+                    <Link href={item.href}>
+                      <button className="btn btn-ghost">
+                        <div className="text-[25px]"> {item.count}</div>
+                      </button>
+                    </Link>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="w-full text-center">
-            {process.env.NEXT_PUBLIC_GO_ADMIN_URL && (
-              <button
-                className="btn bg-primary btn-block text-white max-w-[300px]"
-                onClick={() =>
-                  window.open(process.env.NEXT_PUBLIC_GO_ADMIN_URL)
-                }
-              >
-                <BackendIcon className="h-5 w-5 fill-current" />{" "}
-                {t("Admin Label")}
-              </button>
-            )}
-          </div>
-        </div>
-      </Card>
-
-      <Card>
-        <p className="text-xs mb-1">归档</p>
-        <div className="flex flex-col items-center">
-          {archives.map((item) => (
-            <div
-              key={item.year}
-              className="text-[14px] mt-2 w-full flex justify-between relative items-center p-2 cursor-pointer rounded hover:bg-base-200"
-            >
-              <span className="ml-2">{item.year}</span>{" "}
-              <span className="bg-base-200 px-3 rounded">
-                {item.article_count}
-              </span>
+              <div className="w-full text-center">
+                {process.env.NEXT_PUBLIC_GO_ADMIN_URL && (
+                  <button
+                    className="btn bg-primary btn-block text-white max-w-[300px]"
+                    onClick={() =>
+                      window.open(process.env.NEXT_PUBLIC_GO_ADMIN_URL)
+                    }
+                  >
+                    <BackendIcon className="h-5 w-5 fill-current" />{" "}
+                    {t("Admin Label")}
+                  </button>
+                )}
+              </div>
             </div>
-          ))}
+          </Card>
+
+          <Card className="mt-5">
+            <p className="text-xs mb-1">归档</p>
+            <div className="flex flex-col items-center">
+              {archives.map((item) => (
+                <div
+                  key={item.year}
+                  className="text-[14px] mt-2 w-full flex justify-between relative items-center p-2 cursor-pointer rounded hover:bg-base-200"
+                >
+                  <span className="ml-2">{item.year}</span>{" "}
+                  <span className="bg-base-200 px-3 rounded">
+                    {item.article_count}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Card>
         </div>
-      </Card>
+      </Affix>
     </div>
   );
 };

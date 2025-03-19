@@ -7,3 +7,4 @@ export { default as Comment } from "./Comment";
 export { default as MdRender } from "./MdRender";
 export { default as Breadcrumb } from "./Breadcrumb";
 export { default as Modal } from "./Modal";
+export { default as Affix } from "./Affix";
