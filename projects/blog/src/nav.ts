@@ -26,6 +26,10 @@ export default (t: (key: string) => string): MenuItem[] => [
     to: "/comment",
   },
   {
+    label: "作品",
+    to: "/works",
+  },
+  {
     label: t("Nav About"),
     to: "/about",
   },

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import {
   BarChartOutlined,
-  HomeOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,

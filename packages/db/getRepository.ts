@@ -15,18 +15,23 @@ const AppDataSource = new DataSource({
   logging: false,
   charset: "utf8mb4",
   extra: {
-    connectionLimit: 10,           // 最大连接数
-    waitForConnections: true,      // 是否等待连接池中的连接
-    queueLimit: 0,                 // 队列中的最大连接数，0 表示不限制
+    connectionLimit: 10, // 最大连接数
+    waitForConnections: true, // 是否等待连接池中的连接
+    queueLimit: 0, // 队列中的最大连接数，0 表示不限制
   },
 });
-
 
 export const getRepository = async <T extends ObjectLiteral>(
   entity: EntityTarget<T>
 ) => {
   if (!AppDataSource.isInitialized) {
-    await AppDataSource.initialize();
+    try {
+      await AppDataSource.initialize();
+    } catch (e: any) {
+      if (e.code === "ECONNREFUSED") {
+        return Promise.reject("数据库连接失败");
+      }
+    }
   }
 
   return AppDataSource.getRepository(entity);

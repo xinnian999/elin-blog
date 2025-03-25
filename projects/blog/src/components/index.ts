@@ -8,3 +8,4 @@ export { default as Breadcrumb } from "./Breadcrumb";
 export { default as Modal } from "./Modal";
 export { default as Affix } from "./Affix";
 export { default as Sticky } from "./Sticky";
+export { default as Alert } from "./Alert";

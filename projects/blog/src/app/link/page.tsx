@@ -1,5 +1,5 @@
 "use client";
-import { Card, Comment, Modal } from "@/components";
+import { Card, Comment, Modal, Alert } from "@/components";
 import { createLink, fetchLinkListByPass } from "@elin-blog/db";
 import { useRequest, useSetState } from "ahooks";
 import classNames from "classnames";
@@ -70,27 +70,11 @@ export default function LinkPage() {
     <div className="flex flex-col gap-6">
       <Card title="友情链接">
         <div className="mt-4">
-          <div role="alert" className="alert my-5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="stroke-info h-6 w-6 shrink-0"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-            <span>
-              {" "}
-              本页友链随机排序！
-              <br />
-              申请友链请点击下方按钮！如果需要修改友联信息，请在下方评论区留言！
-            </span>
-          </div>
+          <Alert>
+            本页友链随机排序！
+            <br />
+            申请友链请点击下方按钮！如果需要修改友联信息，请在下方评论区留言！
+          </Alert>
 
           <button className="btn btn-primary" onClick={handleApply}>
             申请友链
