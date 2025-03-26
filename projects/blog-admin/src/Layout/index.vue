@@ -1,23 +1,20 @@
 <template>
   <el-container id="layout" v-if="globalStore.loginStatus">
-    <el-aside :width="globalStore.isCollapse ? '64px' : '250px'" id="side">
-      <el-menu
-        :router="true"
-        :default-active="route.path"
-        class="menu"
-        :collapse="globalStore.isCollapse"
-        active-text-color="#ffd04b"
-        background-color="#545c64"
-        text-color="#fff"
-      >
-        <div :class="`${globalStore.isCollapse ? 'logoBarBack' : 'logoBar'}`">
-          <div class="logoBox">
-            <el-tag class="logo" type="warning" v-if="!globalStore.isCollapse"
-              >Elin's Blog 后台管理系统</el-tag
-            >
-          </div>
+    <el-aside :width="globalStore.isCollapse ? '64px' : '250px'" id="sidebar">
+      <el-menu :default-active="route.path" class="menus" :collapse="globalStore.isCollapse">
+        <div class="logoBar">
+          <div class="logo" v-show="!globalStore.isCollapse">Elin's Blog Admin</div>
+
+          <el-button :icon="globalStore.isCollapse ? Right : Back" @click="toggleCollapse" text>
+          </el-button>
         </div>
-        <el-menu-item v-for="item in menus" :key="item.title" :index="item.path">
+
+        <el-menu-item
+          v-for="item in menus"
+          :key="item.path"
+          :index="item.path"
+          @click="onMenuClick(item)"
+        >
           <el-icon><component :is="item.icon" /></el-icon>
           <span>{{ item.title }}</span>
         </el-menu-item>
@@ -26,25 +23,21 @@
 
     <el-container>
       <el-header id="header">
-        <el-button :icon="globalStore.isCollapse ? Right : Back" @click="toggleCollapse" />
-        <el-space class="headToolbar" :size="20">
-          <el-tooltip
-            v-for="{ name, icon, event } in toolbarBtn"
-            class="box-item"
-            effect="dark"
-            :content="name"
-            placement="bottom"
-            :key="name"
+        <div class="header-tabs">
+          <el-tag
+            v-for="item in globalStore.cacheMenus"
+            closable
+            size="large"
+            class="tab"
+            :key="item.path"
+            :effect="route.path === item.path ? 'dark' : 'light'"
+            @close="onTabClose(item)"
+            @click="onMenuClick(item)"
+            >{{ item.title }}</el-tag
           >
-            <span class="headerBtn" @click="event">
-              <i :class="`iconfont ${icon}`"></i>
-            </span>
-          </el-tooltip>
-        </el-space>
+        </div>
       </el-header>
-      <el-main id="main">
-        <router-view></router-view>
-      </el-main>
+      <el-main id="main"> <router-view></router-view></el-main>
     </el-container>
   </el-container>
 
@@ -57,6 +50,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { Back, Right } from '@element-plus/icons-vue'
 import { useGlobalStore } from '@/stores/global'
 import routeList from '@/router/list'
+import type { RouteItem } from '@/global'
 
 const route = useRoute()
 const router = useRouter()
@@ -85,52 +79,49 @@ const toolbarBtn = [
 const toggleCollapse = () => {
   globalStore.setIsCollapse(!globalStore.isCollapse)
 }
+
+const onMenuClick = (data: RouteItem) => {
+  globalStore.addCacheMenus(data)
+  router.push(data.path)
+}
+
+const onTabClose = (data: RouteItem) => {
+  globalStore.reduceCacheMenus(data)
+}
 </script>
 
 <style lang="less">
-@import '//at.alicdn.com/t/c/font_3569918_ek26kxlmkqw.css';
-
 #layout {
   height: 100%;
+  padding: 15px;
+  display: flex;
+  gap: 20px;
 
-  #side {
+  #sidebar {
     position: relative;
     display: flex;
     flex-direction: column;
     transition: width 0.5s;
-    // background-color: #545c64;
-    .menu {
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+
+    .menus {
       height: 100%;
-      padding-top: 10px;
       overflow: auto;
-      color: #fff;
-      .back {
-        color: #fff;
-        cursor: pointer;
-        &:hover {
-          color: rgb(248, 82, 82);
-        }
-      }
+      border: none;
+
       .logoBar {
         display: flex;
-        height: 56px;
         position: relative;
-
-        .logoBox {
-          margin: auto;
-        }
+        padding: 10px;
+        background-color: #fcfcfc;
+        justify-content: space-between;
+        align-items: center;
 
         .logo {
-          padding: 15px 10px;
-          margin: auto;
           font-weight: bold;
-          font-size: 14px;
-        }
-        .back {
-          position: absolute;
-          top: 50%;
-          margin-top: -8px;
-          right: 18px;
+          font-size: 20px;
+          color: rgb(64, 158, 255);
         }
       }
 
@@ -165,38 +156,31 @@ const toggleCollapse = () => {
         }
       }
     }
-  }
-  #header {
-    position: relative;
-    background: #fff;
-    box-shadow: 0 0 10px rgb(0 0 0 / 40%);
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-    #title {
-      position: absolute;
-      left: 30px;
-      line-height: 50px;
+    .main {
+      padding: 0;
     }
-    .headerBtn {
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 10px;
-      cursor: pointer;
-      &:hover {
-        background-color: rgb(224, 219, 219);
-        box-shadow: 0 0 10px rgb(0 0 0 / 80%);
-      }
-      .iconfont {
-        font-size: 20px;
+  }
+
+  #header {
+    padding: 0;
+    display: flex;
+    height: auto;
+
+    .header-tabs {
+      display: flex;
+      gap: 20px;
+      padding-top: 10px;
+      padding-bottom: 15px;
+
+      .tab{
+        cursor: pointer;
       }
     }
   }
+
   #main {
-    padding: 15px;
-    height: 100%;
+    padding: 0;
   }
 }
 </style>

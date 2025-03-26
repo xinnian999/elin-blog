@@ -2,13 +2,13 @@ import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import router from './router'
-import components from './components/index'
 import App from './App.vue'
 import vueFormCraft from 'vue-form-craft'
 // // import vueFormCraft from "./dist/vue-form-craft.mjs";
 import { request } from '@/utils'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 // // morkDown
 // import VMdEditor from "@kangc/v-md-editor";
 // import createEmojiPlugin from "@kangc/v-md-editor/lib/plugins/emoji/index";
@@ -38,8 +38,9 @@ const vue = createApp(App)
 
 vue.use(pinia)
 vue.use(router)
-vue.use(ElementPlus)
-vue.use(components)
+vue.use(ElementPlus, {
+  locale: zhCn,
+})
 // vue.use(VMdEditor);
 vue.use(vueFormCraft, {
   request,

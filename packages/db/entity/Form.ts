@@ -16,7 +16,7 @@ export class Form {
   name: string; // 表单名称
 
   @Column("text")
-  content: string; // 表单schema
+  schema: string; // 表单schema
 
   @CreateDateColumn()
   created_at: Date; // 创建时间

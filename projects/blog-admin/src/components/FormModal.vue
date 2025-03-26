@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     :center="true"
-    v-model="modelVisible"
+    v-model="visible"
     :title="title"
     :width="width"
     top="5vh"
@@ -9,102 +9,51 @@
     :append-to-body="true"
     destroy-on-close
   >
-    <schema-form
-      v-if="schema"
-      v-model="formValues"
-      :schema="schema"
-      ref="formRef"
-    />
-
-    <remote-schema-form
-      v-else
-      v-model="formValues"
-      :schemaId="schemaId"
-      ref="formRef"
-    />
+    <div class="formContent">
+      <form-render v-model="values" :schema="schema" ref="form" />
+    </div>
 
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="handleOk">提交</el-button>
+        <el-button type="primary" @click="handleOk" :loading>提交</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 
-<script setup lang="jsx">
-import { ref, defineProps, computed, defineEmits } from "vue";
+<script setup lang="ts">
+import { onMounted, useTemplateRef } from 'vue'
+import type { FormSchema } from 'vue-form-craft'
 
-const formRef = ref();
+const form = useTemplateRef('form')
 
-const props = defineProps({
-  width: {},
-  title: {},
-  currentRecord: {},
-  visible: {},
-  schemaId: String,
-  modelValue: Object,
-  schema: Object,
-});
+defineProps<{
+  width?: number | string
+  title?: string
+  schemaId?: String
+  schema?: FormSchema
+  loading?: boolean
+}>()
 
-const emit = defineEmits(["update:modelValue", "onSave", "update:visible"]);
+const visible = defineModel<boolean>('visible')
 
-const formValues = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(values) {
-    emit("update:modelValue", values);
-  },
-});
+const values = defineModel<Record<string, any>>('values')
 
-const modelVisible = computed({
-  get() {
-    return props.visible;
-  },
-  set(val) {
-    emit("update:visible", val);
-  },
-});
+const emits = defineEmits(['onOk'])
 
 const handleOk = async () => {
-  const values = await formRef.value.submit();
+  await form.value?.validate()
 
-  emit("onSave", values);
-};
+  emits('onOk', values.value)
+}
+
+// onMounted(() => {
+//   console.log(props)
+// })
 </script>
 
 <style lang="less">
-.avatar-uploader .avatar {
-  width: 278px;
-  height: 178px;
-  display: block;
-}
-
-.avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
-}
-
-.el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 278px;
-  height: 178px;
-  text-align: center;
-}
-
-.md-title {
-  font-size: 20px;
-  font-weight: bold;
-  flex: 1;
-  text-indent: 2em;
+.formContent {
+  padding: 20px;
 }
 </style>

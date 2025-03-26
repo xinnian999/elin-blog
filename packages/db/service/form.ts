@@ -4,17 +4,15 @@ import { getRepository } from "@elin-blog/db";
 import { Form } from "../entity";
 import { FindOptionsOrder } from "typeorm";
 
-interface Params {
-  pageNum?: number;
-  pageSize?: number;
-  order?: FindOptionsOrder<Form>;
-}
-
 export const fetchFormList = async ({
   pageNum = 1,
   pageSize = 10,
   order = { id: "desc" },
-}: Params) => {
+}: {
+  pageNum?: number;
+  pageSize?: number;
+  order?: FindOptionsOrder<Form>;
+}) => {
   const formRepository = await getRepository(Form);
 
   const [forms, total] = await formRepository.findAndCount({
@@ -29,4 +27,14 @@ export const fetchFormList = async ({
     totalPages: Math.ceil(total / pageSize), // 总页数
     currentPage: pageNum,
   };
+};
+
+export const createForm = async (params: Form) => {
+  const formRepository = await getRepository(Form);
+
+  const form = formRepository.create(params);
+
+  await formRepository.save(form);
+
+  return form
 };

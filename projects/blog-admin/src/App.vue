@@ -13,7 +13,7 @@ import Layout from "./Layout/index.vue";
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   height: 100%;
-  background-color: rgba(242, 243, 245);
+  background-color: #f5f5f5
 }
 
 html,

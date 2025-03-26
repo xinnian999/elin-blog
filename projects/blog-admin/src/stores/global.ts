@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import type { RouteItem } from '@/global'
 
 export const useGlobalStore = defineStore(
   'global',
@@ -7,6 +8,8 @@ export const useGlobalStore = defineStore(
     const loginStatus = ref(false)
 
     const isCollapse = ref(false)
+
+    const cacheMenus = ref<RouteItem[]>([])
 
     const setLoginStatus = (val: boolean) => {
       loginStatus.value = val
@@ -16,7 +19,18 @@ export const useGlobalStore = defineStore(
       isCollapse.value = val
     }
 
-    return { loginStatus, setLoginStatus, isCollapse, setIsCollapse }
+    const addCacheMenus = (data: RouteItem) => {
+      if (cacheMenus.value.some((item) => item.path === data.path)) {
+        return
+      }
+      cacheMenus.value.push(data)
+    }
+
+    const reduceCacheMenus = (data: RouteItem) => {
+      cacheMenus.value = cacheMenus.value.filter((item) => item.path !== data.path)
+    }
+
+    return { loginStatus, isCollapse, cacheMenus, setLoginStatus, setIsCollapse, addCacheMenus,reduceCacheMenus }
   },
   {
     persist: true,
