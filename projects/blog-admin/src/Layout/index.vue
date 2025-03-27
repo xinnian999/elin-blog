@@ -36,6 +36,10 @@
             >{{ item.title }}</el-tag
           >
         </div>
+
+        <el-button-group class="ml-4">
+          <el-button v-for="{ icon, onClick } in toolbarBtns" :icon="icon" @click="onClick" />
+        </el-button-group>
       </el-header>
 
       <el-main id="main">
@@ -54,11 +58,11 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { Expand, Fold } from '@element-plus/icons-vue'
+import { Expand, Fold, Monitor, SwitchButton, FullScreen } from '@element-plus/icons-vue'
 import { useGlobalStore } from '@/stores/global'
 import routeList from '@/router/list'
 import type { RouteItem } from '@/global'
-import { computed, onMounted, watch } from 'vue'
+import { computed, watch } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -71,22 +75,26 @@ const cached = computed(() => {
   return globalStore.cacheMenus.filter((item) => item.name).map((item) => item.name) as string[]
 })
 
-// const toolbarBtn = [
-//   {
-//     name: '前往博客首页',
-//     icon: 'icon-home',
-//     event: () => window.open('https://www.hyl999.co'),
-//   },
-
-//   {
-//     name: '退出登陆',
-//     icon: 'icon-tuichu',
-//     event: () => {
-//       router.push({ path: '/login', query: { auth: 0 } })
-//       globalStore.setLoginStatus(false)
-//     },
-//   },
-// ]
+const toolbarBtns = [
+  {
+    name: '全屏',
+    icon: FullScreen,
+    onClick: () => document.documentElement.requestFullscreen(),
+  },
+  {
+    name: '前往博客首页',
+    icon: Monitor,
+    onClick: () => window.open('https://www.hyl999.co'),
+  },
+  {
+    name: '退出登陆',
+    icon: SwitchButton,
+    onClick: () => {
+      router.push({ path: '/login', query: { auth: 0 } })
+      globalStore.setLoginStatus(false)
+    },
+  },
+]
 
 const toggleCollapse = () => {
   globalStore.setIsCollapse(!globalStore.isCollapse)
@@ -188,12 +196,13 @@ watch(route, (newVal) => {
     padding: 0;
     display: flex;
     height: auto;
+    align-items: center;
+    padding: 10px 0;
+    justify-content: space-between;
 
     .header-tabs {
       display: flex;
       gap: 20px;
-      padding-top: 10px;
-      padding-bottom: 15px;
 
       .tab {
         cursor: pointer;

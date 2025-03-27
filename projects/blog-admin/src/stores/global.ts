@@ -22,9 +22,10 @@ export const useGlobalStore = defineStore(
     }
 
     const addCacheMenus = (data: RouteItem) => {
-      if (cacheMenus.value.some((item) => item.path === data.path)) {
-        return
-      }
+      if (data.path === '/login') return
+      
+      if (cacheMenus.value.some((item) => item.path === data.path)) return
+
       cacheMenus.value.push(data)
     }
 

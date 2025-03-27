@@ -14,13 +14,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 import type { FormInstance, FormSchema } from 'vue-form-craft'
 import { useGlobalStore } from '@/stores/global'
+import Cookies from 'js-cookie'
+
+const route = useRoute()
 
 const router = useRouter()
+
 const loading = ref(false)
 
 const form = useTemplateRef<FormInstance>('form')
@@ -79,12 +83,25 @@ const handleLogin = async () => {
   setTimeout(() => {
     if (formValues.value.username === 'admin' && formValues.value.password === 'admin') {
       loading.value = false
+
       ElMessage.success('登录成功')
-      router.push('/home')
+
       globalStore.setLoginStatus(true)
+
+      Cookies.set('auth', 'true', { expires: 1 })
+
+      if (route.query.auth) {
+        router.back()
+      } else {
+        router.push('/home')
+      }
     }
   }, 1000)
 }
+
+onMounted(() => {
+  globalStore.setLoginStatus(false)
+})
 </script>
 
 <style lang="less">
