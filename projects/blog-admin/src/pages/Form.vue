@@ -30,12 +30,8 @@ import type { TablePlusColumns } from '@/global'
 import { useRequest } from '@/use'
 import { formatTime } from '@/utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { onActivated, onDeactivated, onMounted, onUnmounted, reactive, useTemplateRef } from 'vue'
+import { reactive, useTemplateRef } from 'vue'
 import type { FormSchema } from 'vue-form-craft'
-
-defineOptions({
-  name: 'Form',
-})
 
 const table = useTemplateRef('table')
 
@@ -160,22 +156,6 @@ const onClickDelete = async (data: Record<string, any>) => {
   ElMessage.success('删除成功！')
   table.value?.refresh()
 }
-
-onMounted(() => {
-  console.log('🚀 组件首次加载');
-});
-
-onActivated(() => {
-  console.log('✅ 组件被 KeepAlive 缓存并重新激活');
-});
-
-onDeactivated(() => {
-  console.log('❌ 组件被 KeepAlive 缓存，但暂时失活');
-});
-
-onUnmounted(() => {
-  console.log('💀 组件被彻底销毁');
-});
 </script>
 
 <style lang="scss">

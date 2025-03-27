@@ -11,6 +11,8 @@ export const useGlobalStore = defineStore(
 
     const cacheMenus = ref<RouteItem[]>([])
 
+    const currentMenu = ref<RouteItem>()
+
     const setLoginStatus = (val: boolean) => {
       loginStatus.value = val
     }
@@ -30,9 +32,20 @@ export const useGlobalStore = defineStore(
       cacheMenus.value = cacheMenus.value.filter((item) => item.path !== data.path)
     }
 
-    return { loginStatus, isCollapse, cacheMenus, setLoginStatus, setIsCollapse, addCacheMenus,reduceCacheMenus }
+    return {
+      loginStatus,
+      isCollapse,
+      cacheMenus,
+      currentMenu,
+      setLoginStatus,
+      setIsCollapse,
+      addCacheMenus,
+      reduceCacheMenus,
+    }
   },
   {
-    persist: true,
+    persist: {
+      pick: ['loginStatus', 'isCollapse'],
+    },
   },
 )

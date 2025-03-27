@@ -5,7 +5,7 @@
         <div class="logoBar">
           <div class="logo" v-show="!globalStore.isCollapse">Elin's Blog Admin</div>
 
-          <el-button :icon="globalStore.isCollapse ? Right : Back" @click="toggleCollapse" text>
+          <el-button :icon="globalStore.isCollapse ? Expand : Fold" @click="toggleCollapse" text>
           </el-button>
         </div>
 
@@ -39,9 +39,11 @@
       </el-header>
 
       <el-main id="main">
-        <KeepAlive>
-          <router-view />
-        </KeepAlive>
+        <router-view v-slot="{ Component }">
+          <KeepAlive :include="cached">
+            <component :is="Component" />
+          </KeepAlive>
+        </router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -52,14 +54,11 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { Back, Right } from '@element-plus/icons-vue'
+import { Expand, Fold } from '@element-plus/icons-vue'
 import { useGlobalStore } from '@/stores/global'
 import routeList from '@/router/list'
 import type { RouteItem } from '@/global'
-
-defineOptions({
-  name: 'Layout',
-})
+import { computed, onMounted, watch } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -68,35 +67,48 @@ const globalStore = useGlobalStore()
 
 const menus = routeList.filter((item) => item.title)
 
-const toolbarBtn = [
-  {
-    name: '前往博客首页',
-    icon: 'icon-home',
-    event: () => window.open('https://www.hyl999.co'),
-  },
+const cached = computed(() => {
+  return globalStore.cacheMenus.filter((item) => item.name).map((item) => item.name) as string[]
+})
 
-  {
-    name: '退出登陆',
-    icon: 'icon-tuichu',
-    event: () => {
-      router.push({ path: '/login', query: { auth: 0 } })
-      globalStore.setLoginStatus(false)
-    },
-  },
-]
+// const toolbarBtn = [
+//   {
+//     name: '前往博客首页',
+//     icon: 'icon-home',
+//     event: () => window.open('https://www.hyl999.co'),
+//   },
+
+//   {
+//     name: '退出登陆',
+//     icon: 'icon-tuichu',
+//     event: () => {
+//       router.push({ path: '/login', query: { auth: 0 } })
+//       globalStore.setLoginStatus(false)
+//     },
+//   },
+// ]
 
 const toggleCollapse = () => {
   globalStore.setIsCollapse(!globalStore.isCollapse)
 }
 
 const onMenuClick = (data: RouteItem) => {
-  globalStore.addCacheMenus(data)
   router.push(data.path)
 }
 
 const onTabClose = (data: RouteItem) => {
   globalStore.reduceCacheMenus(data)
+
+  // 如果关闭的当前页，自动跳转到最后一个缓存页
+  if (data.path === route.path) {
+    router.push(globalStore.cacheMenus[globalStore.cacheMenus.length - 1].path)
+  }
 }
+
+watch(route, (newVal) => {
+  const currentMenu = routeList.find((item) => item.path === newVal.path)!
+  globalStore.addCacheMenus(currentMenu)
+})
 </script>
 
 <style lang="less">
@@ -131,6 +143,7 @@ const onTabClose = (data: RouteItem) => {
           font-weight: bold;
           font-size: 20px;
           color: rgb(64, 158, 255);
+          white-space: nowrap;
         }
       }
 

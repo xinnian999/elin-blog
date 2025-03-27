@@ -56,10 +56,6 @@ import { request } from '@/utils'
 import * as echarts from 'echarts'
 import cookie from 'cookies-js'
 
-defineOptions({
-  name: 'Home',
-})
-
 const data = ref([
   { name: '文章数', value: 0, key: 'article' },
   { name: '用户数', value: 0, key: 'user' },

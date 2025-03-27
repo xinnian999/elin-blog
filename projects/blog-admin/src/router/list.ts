@@ -3,17 +3,13 @@ import { HomeFilled, MapLocation } from '@element-plus/icons-vue'
 
 export default [
   {
-    path: '/',
-    redirect: '/home',
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () => import('@/pages/Login.vue'),
   },
   {
     title: '首页',
-    path: '/home',
+    path: '/',
     icon: HomeFilled,
     name: 'Home',
     component: () => import('@/pages/Home.vue'),

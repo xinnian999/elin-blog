@@ -1,10 +1,10 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import routes from "./list";
 
 // 创建路由实例
 const router = createRouter({
   routes,
-  history: createWebHashHistory("./"),
+  history: createWebHistory("./"),
 });
 
 // 路由守卫监听登陆状态，非登陆状态下只能访问/login
