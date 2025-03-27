@@ -6,6 +6,7 @@ declare interface RouteItem {
   path: string
   icon?: Component
   redirect?: string
+  name?:string
   component?: () => Promise<any>
 }
 

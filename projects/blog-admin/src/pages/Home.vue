@@ -9,9 +9,7 @@
           /> -->
           <article>
             <h1>
-              晚上好，<span>{{
-                cookie.get("super_admin_blog_token") ? "超级管理员" : "游客"
-              }}</span
+              晚上好，<span>{{ cookie.get('super_admin_blog_token') ? '超级管理员' : '游客' }}</span
               >！
             </h1>
             <p>{{ lines.content }}</p>
@@ -52,20 +50,24 @@
   </div>
 </template>
 
-<script setup lang="jsx">
-import { onMounted, ref } from "vue";
-import { request } from "@/utils";
-import * as echarts from "echarts";
-import cookie from "cookies-js";
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { request } from '@/utils'
+import * as echarts from 'echarts'
+import cookie from 'cookies-js'
+
+defineOptions({
+  name: 'Home',
+})
 
 const data = ref([
-  { name: "文章数", value: 0, key: "article" },
-  { name: "用户数", value: 0, key: "user" },
-  { name: "留言数", value: 0, key: "comment" },
-  { name: "说说数", value: 0, key: "mood" },
-]);
+  { name: '文章数', value: 0, key: 'article' },
+  { name: '用户数', value: 0, key: 'user' },
+  { name: '留言数', value: 0, key: 'comment' },
+  { name: '说说数', value: 0, key: 'mood' },
+])
 
-const lines = ref("");
+const lines = ref('')
 
 // onMounted(() => {
 //   echarts.init(document.querySelector("#allEcharts")).dispose();
@@ -118,7 +120,6 @@ const lines = ref("");
 //       ],
 //     });
 //   });
-
 
 // });
 </script>

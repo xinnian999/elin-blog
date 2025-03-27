@@ -1,16 +1,17 @@
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
-const useRequest = (api: () => Promise<any>) => {
+const useRequest = (api: (params: Record<string, any>) => Promise<any>) => {
   const loading = ref(false)
-  const run = async () => {
+
+  const run = async (pars: Record<string, any> = {}) => {
     loading.value = true
 
-    await api()
+    await api(pars)
 
     loading.value = false
   }
 
-  return reactive({ loading, run })
+  return { loading, run }
 }
 
 export default useRequest

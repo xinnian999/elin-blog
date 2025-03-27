@@ -11,6 +11,7 @@
   >
     <div class="formContent">
       <form-render v-model="values" :schema="schema" ref="form" />
+      <slot />
     </div>
 
     <template #footer>

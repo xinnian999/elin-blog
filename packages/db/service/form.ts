@@ -36,5 +36,17 @@ export const createForm = async (params: Form) => {
 
   await formRepository.save(form);
 
-  return form
+  return form;
+};
+
+export const updateForm = async (id: number, params: Form) => {
+  const formRepository = await getRepository(Form);
+
+  return await formRepository.update({ id }, params);
+};
+
+export const deleteForm = async (id: number) => {
+  const formRepository = await getRepository(Form);
+
+  return await formRepository.delete(id);
 };

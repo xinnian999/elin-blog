@@ -9,14 +9,18 @@
   />
 
   <FormModal
-    v-model:visible="formVisible"
-    v-model:values="formValues"
-    :schema
-    :width="500"
-    title="新增表单"
-    :loading="createFormApi.loading"
-    @onOk="onOk"
-  />
+    v-model:visible="formState.visible"
+    v-model:values="formState.values"
+    :schema="formState.schema"
+    width="90vw"
+    :title="formState.title"
+    :loading="formState.loading"
+    @onOk="formState.onOk"
+  >
+    <el-form-item label="表单" labelPosition="top">
+      <FormDesign class="design" v-model="formState.values.schema" />
+    </el-form-item>
+  </FormModal>
 </template>
 
 <script setup lang="tsx">
@@ -25,9 +29,13 @@ import { FormModal, TablePlus } from '@/components'
 import type { TablePlusColumns } from '@/global'
 import { useRequest } from '@/use'
 import { formatTime } from '@/utils'
-import { ElMessage } from 'element-plus'
-import { ref, useTemplateRef } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { onActivated, onDeactivated, onMounted, onUnmounted, reactive, useTemplateRef } from 'vue'
 import type { FormSchema } from 'vue-form-craft'
+
+defineOptions({
+  name: 'Form',
+})
 
 const table = useTemplateRef('table')
 
@@ -57,13 +65,13 @@ const columns = [
   {
     label: '操作',
     prop: 'actions',
-    formatter(row, column, cellValue, index) {
+    formatter(row) {
       return (
         <el-space>
-          <el-button type="primary" size="small">
-            表单设计
+          <el-button type="primary" size="small" onClick={() => onClickEdit(row)}>
+            修改
           </el-button>
-          <el-button type="danger" size="small">
+          <el-button type="danger" size="small" onClick={() => onClickDelete(row)}>
             删除
           </el-button>
         </el-space>
@@ -72,47 +80,110 @@ const columns = [
   },
 ] satisfies TablePlusColumns
 
-const schema = {
-  labelWidth: 150,
-  labelAlign: 'top',
-  size: 'default',
-  items: [
-    {
-      label: '表单名称',
-      component: 'Input',
-      props: {
-        placeholder: '请输入...',
+const formState = reactive({
+  visible: false,
+  values: {
+    name: '',
+    schema: { items: [] },
+  },
+  title: '新增表单',
+  loading: false,
+  onOk: () => {},
+  schema: {
+    labelWidth: 150,
+    labelAlign: 'top',
+    size: 'default',
+    items: [
+      {
+        label: '表单名称',
+        component: 'Input',
+        props: {
+          placeholder: '请输入...',
+        },
+        name: 'name',
+        required: true,
       },
-      name: 'name',
-      required: true,
-    },
-  ],
-} satisfies FormSchema
-
-const formVisible = ref(false)
-
-const formValues = ref({
-  name: '',
+    ],
+  } satisfies FormSchema,
 })
 
-const createFormApi = useRequest(() =>
-  formApi.create({
-    name: formValues.value.name,
-    schema: JSON.stringify({}),
-  }),
-)
+const createFormRequest = useRequest(formApi.create)
+
+const updateFormRequest = useRequest(formApi.update)
 
 const onClickAdd = () => {
-  formVisible.value = true
-  formValues.value = {
-    name: '',
-  }
+  Object.assign(formState, {
+    title: '新增表单',
+    visible: true,
+    values: {
+      name: '',
+      schema: { items: [] },
+    },
+    loading: createFormRequest.loading,
+    onOk: async () => {
+      await createFormRequest.run({
+        name: formState.values.name,
+        schema: JSON.stringify(formState.values.schema),
+      })
+      ElMessage.success('新增表单成功！')
+      formState.visible = false
+      table.value?.refresh()
+    },
+  })
 }
 
-const onOk = async () => {
-  await createFormApi.run()
-  ElMessage.success('新增表单成功！')
-  formVisible.value = false
+const onClickEdit = (data: Record<string, any>) => {
+  Object.assign(formState, {
+    title: '修改表单',
+    visible: true,
+    values: {
+      name: data.name,
+      schema: JSON.parse(data.schema),
+    },
+    loading: updateFormRequest.loading,
+    onOk: async () => {
+      await updateFormRequest.run({
+        id: data.id,
+        name: formState.values.name,
+        schema: JSON.stringify(formState.values.schema),
+      }),
+        ElMessage.success('修改表单成功！')
+      formState.visible = false
+      table.value?.refresh()
+    },
+  })
+}
+
+const onClickDelete = async (data: Record<string, any>) => {
+  await ElMessageBox.confirm('确认删除吗？')
+  await formApi.deleteForm({ id: data.id })
+  ElMessage.success('删除成功！')
   table.value?.refresh()
 }
+
+onMounted(() => {
+  console.log('🚀 组件首次加载');
+});
+
+onActivated(() => {
+  console.log('✅ 组件被 KeepAlive 缓存并重新激活');
+});
+
+onDeactivated(() => {
+  console.log('❌ 组件被 KeepAlive 缓存，但暂时失活');
+});
+
+onUnmounted(() => {
+  console.log('💀 组件被彻底销毁');
+});
 </script>
+
+<style lang="scss">
+.design {
+  width: 100%;
+  height: 70vh;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+</style>

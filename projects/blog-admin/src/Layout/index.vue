@@ -37,7 +37,12 @@
           >
         </div>
       </el-header>
-      <el-main id="main"> <router-view></router-view></el-main>
+
+      <el-main id="main">
+        <KeepAlive>
+          <router-view />
+        </KeepAlive>
+      </el-main>
     </el-container>
   </el-container>
 
@@ -51,6 +56,10 @@ import { Back, Right } from '@element-plus/icons-vue'
 import { useGlobalStore } from '@/stores/global'
 import routeList from '@/router/list'
 import type { RouteItem } from '@/global'
+
+defineOptions({
+  name: 'Layout',
+})
 
 const route = useRoute()
 const router = useRouter()
@@ -173,7 +182,7 @@ const onTabClose = (data: RouteItem) => {
       padding-top: 10px;
       padding-bottom: 15px;
 
-      .tab{
+      .tab {
         cursor: pointer;
       }
     }
