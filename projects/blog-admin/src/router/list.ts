@@ -51,6 +51,11 @@ export default [
     icon: MapLocation,
     component: () => import('@/pages/Form.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/pages/NotFound.vue'),
+  },
   // {
   //   title: '表单设计器',
   //   path: '/form-design',

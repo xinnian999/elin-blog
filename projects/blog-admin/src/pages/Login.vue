@@ -88,20 +88,14 @@ const handleLogin = async () => {
 
       globalStore.setLoginStatus(true)
 
-      Cookies.set('auth', 'true', { expires: 1 })
-
       if (route.query.auth) {
         router.back()
       } else {
-        router.push('/home')
+        router.push('/')
       }
     }
   }, 1000)
 }
-
-onMounted(() => {
-  globalStore.setLoginStatus(false)
-})
 </script>
 
 <style lang="less">

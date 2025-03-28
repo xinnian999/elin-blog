@@ -38,7 +38,13 @@
         </div>
 
         <el-button-group class="ml-4">
-          <el-button v-for="{ icon, onClick } in toolbarBtns" :icon="icon" @click="onClick" />
+          <el-tooltip
+            v-for="{ message, icon, onClick } in toolbarBtns"
+            :content="message"
+            placement="top"
+          >
+            <el-button :icon="icon" @click="onClick" />
+          </el-tooltip>
         </el-button-group>
       </el-header>
 
@@ -63,6 +69,7 @@ import { useGlobalStore } from '@/stores/global'
 import routeList from '@/router/list'
 import type { RouteItem } from '@/global'
 import { computed, watch } from 'vue'
+import Cookies from 'js-cookie'
 
 const route = useRoute()
 const router = useRouter()
@@ -77,17 +84,23 @@ const cached = computed(() => {
 
 const toolbarBtns = [
   {
-    name: '全屏',
+    message: '全屏',
     icon: FullScreen,
-    onClick: () => document.documentElement.requestFullscreen(),
+    onClick: () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen()
+      } else {
+        document.documentElement.requestFullscreen()
+      }
+    },
   },
   {
-    name: '前往博客首页',
+    message: '前往博客首页',
     icon: Monitor,
     onClick: () => window.open('https://www.hyl999.co'),
   },
   {
-    name: '退出登陆',
+    message: '退出登陆',
     icon: SwitchButton,
     onClick: () => {
       router.push({ path: '/login', query: { auth: 0 } })
@@ -117,6 +130,18 @@ watch(route, (newVal) => {
   const currentMenu = routeList.find((item) => item.path === newVal.path)!
   globalStore.addCacheMenus(currentMenu)
 })
+
+watch(
+  () => globalStore.loginStatus,
+  (newVal) => {
+    if (newVal) {
+      Cookies.set('auth', '1', { expires: 1 })
+    } else {
+      Cookies.remove('auth')
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="less">
