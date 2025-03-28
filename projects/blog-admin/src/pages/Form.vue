@@ -1,9 +1,9 @@
 <template>
   <TablePlus
     :columns="columns"
-    :api="{
-      path: '/form',
-    }"
+    :rowActions="rowActions"
+    :batchActions="batchActions"
+    :api="formApi.fetchList"
     @onClickAdd="onClickAdd"
     ref="table"
   />
@@ -26,9 +26,10 @@
 <script setup lang="tsx">
 import formApi from '@/api/form'
 import { FormModal, TablePlus } from '@/components'
-import type { TablePlusColumns } from '@/global'
+import type { TablePlusBatchActions, TablePlusColumns, TablePlusRowActions } from '@/global'
 import { useRequest } from '@/use'
 import { formatTime } from '@/utils'
+import { Delete, Edit } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { reactive, useTemplateRef } from 'vue'
 import type { FormSchema } from 'vue-form-craft'
@@ -39,6 +40,7 @@ const columns = [
   {
     label: '表单id',
     prop: 'id',
+    sortable: true,
   },
   {
     label: '表单名称',
@@ -56,22 +58,6 @@ const columns = [
     prop: 'updated_at',
     formatter(row, column, cellValue, index) {
       return formatTime(cellValue)
-    },
-  },
-  {
-    label: '操作',
-    prop: 'actions',
-    formatter(row) {
-      return (
-        <el-space>
-          <el-button type="primary" size="small" onClick={() => onClickEdit(row)}>
-            修改
-          </el-button>
-          <el-button type="danger" size="small" onClick={() => onClickDelete(row)}>
-            删除
-          </el-button>
-        </el-space>
-      )
     },
   },
 ] satisfies TablePlusColumns
@@ -128,34 +114,59 @@ const onClickAdd = () => {
   })
 }
 
-const onClickEdit = (data: Record<string, any>) => {
-  Object.assign(formState, {
-    title: '修改表单',
-    visible: true,
-    values: {
-      name: data.name,
-      schema: JSON.parse(data.schema),
+const rowActions = [
+  {
+    name: '修改',
+    type: 'primary',
+    icon: Edit,
+    onClick: (data: Record<string, any>) => {
+      Object.assign(formState, {
+        title: '修改表单',
+        visible: true,
+        values: {
+          name: data.name,
+          schema: JSON.parse(data.schema),
+        },
+        loading: updateFormRequest.loading,
+        onOk: async () => {
+          await updateFormRequest.run({
+            id: data.id,
+            name: formState.values.name,
+            schema: JSON.stringify(formState.values.schema),
+          }),
+            ElMessage.success('修改表单成功！')
+          formState.visible = false
+          table.value?.refresh()
+        },
+      })
     },
-    loading: updateFormRequest.loading,
-    onOk: async () => {
-      await updateFormRequest.run({
-        id: data.id,
-        name: formState.values.name,
-        schema: JSON.stringify(formState.values.schema),
-      }),
-        ElMessage.success('修改表单成功！')
-      formState.visible = false
+  },
+  {
+    name: '删除',
+    type: 'danger',
+    icon: Delete,
+    onClick: async (data: Record<string, any>) => {
+      await ElMessageBox.confirm('确认删除吗？')
+      await formApi.deleteForm({ ids: data.id })
+      ElMessage.success('删除成功！')
       table.value?.refresh()
     },
-  })
-}
+  },
+] satisfies TablePlusRowActions
 
-const onClickDelete = async (data: Record<string, any>) => {
-  await ElMessageBox.confirm('确认删除吗？')
-  await formApi.deleteForm({ id: data.id })
-  ElMessage.success('删除成功！')
-  table.value?.refresh()
-}
+const batchActions = [
+  {
+    name: '删除',
+    type: 'danger',
+    icon: Delete,
+    onClick:async ({keys}) => {
+      await ElMessageBox.confirm('确认删除吗？')
+      await formApi.deleteForm({ ids: keys })
+      ElMessage.success('删除成功！')
+      table.value?.refresh()
+    },
+  },
+] satisfies TablePlusBatchActions
 </script>
 
 <style lang="scss">

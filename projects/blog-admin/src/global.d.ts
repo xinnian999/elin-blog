@@ -6,7 +6,7 @@ declare interface RouteItem {
   path: string
   icon?: Component
   redirect?: string
-  name?:string
+  name?: string
   component?: () => Promise<any>
 }
 
@@ -15,6 +15,7 @@ interface Column {
   prop: string
   width?: number
   fixed?: string
+  sortable?: boolean
   formatter?: (
     row: any,
     column: TableColumnCtx<any>,
@@ -24,3 +25,21 @@ interface Column {
 }
 
 type TablePlusColumns = Column[]
+
+type RowAction = {
+  name: string
+  type: 'default' | 'success' | 'warning' | 'info' | 'text' | 'primary' | 'danger'
+  icon?: Component
+  onClick: (row: Record<string, any>) => void
+}
+
+type TablePlusRowActions = RowAction[]
+
+type BatchAction = {
+  name: string
+  type: 'default' | 'success' | 'warning' | 'info' | 'text' | 'primary' | 'danger'
+  icon?: Component
+  onClick: (selected: { rows: Record<string, any>[]; keys: any[] }) => void
+}
+
+type TablePlusBatchActions = BatchAction[]
