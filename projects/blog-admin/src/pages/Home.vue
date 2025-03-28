@@ -8,11 +8,7 @@
             src="http://img.crcz.com/allimg/202002/24/1582515688693328-lp.jpg"
           /> -->
           <article>
-            <h1>
-              晚上好，<span>{{ cookie.get('super_admin_blog_token') ? '超级管理员' : '游客' }}</span
-              >！
-            </h1>
-            <p>{{ lines.content }}</p>
+            <h1>晚上好，<span>超级管理员</span>！</h1>
           </article>
         </div>
       </el-col>
@@ -51,10 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { request } from '@/utils'
-import * as echarts from 'echarts'
-import cookie from 'cookies-js'
+import { ref } from 'vue'
 
 const data = ref([
   { name: '文章数', value: 0, key: 'article' },
@@ -64,60 +57,6 @@ const data = ref([
 ])
 
 const lines = ref('')
-
-// onMounted(() => {
-//   echarts.init(document.querySelector("#allEcharts")).dispose();
-//   echarts.init(document.querySelector("#categoryEcharts")).dispose();
-
-//   request.get("/experience/queryRandOne").then(({ data, status }) => {
-//     if (status === 0) {
-//       lines.value = data[0];
-//     }
-//   });
-
-//   request("/all/allDataCount").then((res) => {
-//     res.data.forEach((item) => {
-//       data.value.forEach((v) => {
-//         if (v.key === item.TABLE_NAME) {
-//           v.value = item.TABLE_ROWS;
-//         }
-//       });
-//     });
-//     // 基于准备好的dom，初始化echarts实例
-//     const myChart = echarts.init(document.querySelector("#allEcharts"));
-//     // 绘制图表
-//     myChart.setOption({
-//       title: {
-//         text: "博客总体概览",
-//         subtext: "Fake Data",
-//         left: "center",
-//       },
-//       tooltip: {
-//         trigger: "item",
-//       },
-//       legend: {
-//         orient: "vertical",
-//         left: "left",
-//       },
-//       series: [
-//         {
-//           name: "Access From",
-//           type: "pie",
-//           radius: "50%",
-//           data: data.value,
-//           emphasis: {
-//             itemStyle: {
-//               shadowBlur: 10,
-//               shadowOffsetX: 0,
-//               shadowColor: "rgba(0, 0, 0, 0.5)",
-//             },
-//           },
-//         },
-//       ],
-//     });
-//   });
-
-// });
 </script>
 
 <style lang="less">

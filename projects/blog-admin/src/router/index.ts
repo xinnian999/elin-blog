@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Cookies from 'js-cookie'
 import routes from './list'
 import { ElMessage } from 'element-plus'
-import { useGlobalStore } from '@/stores/global'
+import { useStore } from '@/store'
 
 // 创建路由实例
 const router = createRouter({
@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next({ path: '/login' })
     ElMessage.error('请先登录')
-    useGlobalStore().setLoginStatus(false)
+    useStore().setLoginStatus(false)
   }
 })
 

@@ -2,8 +2,8 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { RouteItem } from '@/global'
 
-export const useGlobalStore = defineStore(
-  'global',
+export const useStore = defineStore(
+  'globalStore',
   () => {
     const loginStatus = ref(false)
 

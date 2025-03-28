@@ -4,12 +4,12 @@ const fetchList = (params: Record<string, any>) => {
   return request.get('/form', { params })
 }
 
-const create = (params: Record<string, any>) => {
-  return request.post('/form', params)
+const create = (data: Record<string, any>) => {
+  return request.post('/form', data)
 }
 
-const update = (params: Record<string, any>) => {
-  return request.put('/form', params)
+const update = (data: Record<string, any>) => {
+  return request.put('/form', data)
 }
 
 const deleteForm = (params: Record<string, any>) => {

@@ -1,11 +1,11 @@
 <template>
-  <el-container id="layout" v-if="globalStore.loginStatus">
-    <el-aside :width="globalStore.isCollapse ? '64px' : '250px'" id="sidebar">
-      <el-menu :default-active="route.path" class="menus" :collapse="globalStore.isCollapse">
+  <el-container id="layout" v-if="store.loginStatus">
+    <el-aside :width="store.isCollapse ? '64px' : '250px'" id="sidebar">
+      <el-menu :default-active="route.path" class="menus" :collapse="store.isCollapse">
         <div class="logoBar">
-          <div class="logo" v-show="!globalStore.isCollapse">Elin's Blog Admin</div>
+          <div class="logo" v-show="!store.isCollapse">Elin's Blog Admin</div>
 
-          <el-button :icon="globalStore.isCollapse ? Expand : Fold" @click="toggleCollapse" text>
+          <el-button :icon="store.isCollapse ? Expand : Fold" @click="toggleCollapse" text>
           </el-button>
         </div>
 
@@ -25,7 +25,7 @@
       <el-header id="header">
         <div class="header-tabs">
           <el-tag
-            v-for="item in globalStore.cacheMenus"
+            v-for="item in store.cacheMenus"
             closable
             size="large"
             class="tab"
@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
 import { Expand, Fold, Monitor, SwitchButton, FullScreen } from '@element-plus/icons-vue'
-import { useGlobalStore } from '@/stores/global'
+import { useStore } from '@/store'
 import routeList from '@/router/list'
 import type { RouteItem } from '@/global'
 import { computed, watch } from 'vue'
@@ -74,12 +74,12 @@ import Cookies from 'js-cookie'
 const route = useRoute()
 const router = useRouter()
 
-const globalStore = useGlobalStore()
+const store= useStore()
 
 const menus = routeList.filter((item) => item.title)
 
 const cached = computed(() => {
-  return globalStore.cacheMenus.filter((item) => item.name).map((item) => item.name) as string[]
+  return store.cacheMenus.filter((item) => item.name).map((item) => item.name) as string[]
 })
 
 const toolbarBtns = [
@@ -104,13 +104,13 @@ const toolbarBtns = [
     icon: SwitchButton,
     onClick: () => {
       router.push({ path: '/login', query: { auth: 0 } })
-      globalStore.setLoginStatus(false)
+      store.setLoginStatus(false)
     },
   },
 ]
 
 const toggleCollapse = () => {
-  globalStore.setIsCollapse(!globalStore.isCollapse)
+  store.setIsCollapse(!store.isCollapse)
 }
 
 const onMenuClick = (data: RouteItem) => {
@@ -118,21 +118,21 @@ const onMenuClick = (data: RouteItem) => {
 }
 
 const onTabClose = (data: RouteItem) => {
-  globalStore.reduceCacheMenus(data)
+  store.reduceCacheMenus(data)
 
   // 如果关闭的当前页，自动跳转到最后一个缓存页
   if (data.path === route.path) {
-    router.push(globalStore.cacheMenus[globalStore.cacheMenus.length - 1].path)
+    router.push(store.cacheMenus[store.cacheMenus.length - 1].path)
   }
 }
 
 watch(route, (newVal) => {
   const currentMenu = routeList.find((item) => item.path === newVal.path)!
-  globalStore.addCacheMenus(currentMenu)
+  store.addCacheMenus(currentMenu)
 })
 
 watch(
-  () => globalStore.loginStatus,
+  () => store.loginStatus,
   (newVal) => {
     if (newVal) {
       Cookies.set('auth', '1', { expires: 1 })

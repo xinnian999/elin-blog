@@ -2,7 +2,7 @@
   <div class="login">
     <el-card class="login-form">
       <template #header>
-        <div class="title">心 念 Blog 后 台 管 理</div>
+        <div class="title">Elin's Blog Admin</div>
       </template>
       <div class="form">
         <form-render v-model="formValues" :schema ref="form" />
@@ -14,12 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef } from 'vue'
+import {ref, useTemplateRef } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 import type { FormInstance, FormSchema } from 'vue-form-craft'
-import { useGlobalStore } from '@/stores/global'
-import Cookies from 'js-cookie'
+import { useStore } from '@/store'
 
 const route = useRoute()
 
@@ -29,7 +28,7 @@ const loading = ref(false)
 
 const form = useTemplateRef<FormInstance>('form')
 
-const globalStore = useGlobalStore()
+const store= useStore()
 
 const formValues = ref({
   username: '',
@@ -86,7 +85,7 @@ const handleLogin = async () => {
 
       ElMessage.success('登录成功')
 
-      globalStore.setLoginStatus(true)
+      store.setLoginStatus(true)
 
       if (route.query.auth) {
         router.back()

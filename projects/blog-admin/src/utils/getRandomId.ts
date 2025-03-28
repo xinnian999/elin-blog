@@ -1,5 +1,5 @@
 //可指定长度，生成随机id
-export default function getRandomId(length) {
+export default function getRandomId(length: number) {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let randomId = "";

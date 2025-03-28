@@ -19,6 +19,14 @@ const nextConfig: NextConfig = {
     webpackMemoryOptimizations: true,
   },
   output: process.env.NEXT_OUTPUT === "standalone" ? "standalone" : undefined,
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/admin/:path*', // 匹配 /api 开头的请求
+  //       destination: 'http://localhost:5173/:path*', // 代理到后台管理
+  //     },
+  //   ];
+  // },
 };
 
 export default withNextIntl(nextConfig);
