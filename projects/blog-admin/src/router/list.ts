@@ -1,5 +1,5 @@
 import type { RouteItem } from '@/global'
-import { HomeFilled, MapLocation } from '@element-plus/icons-vue'
+import { HomeFilled, MapLocation, Document } from '@element-plus/icons-vue'
 
 export default [
   {
@@ -14,12 +14,13 @@ export default [
     name: 'Home',
     component: () => import('@/pages/Home.vue'),
   },
-  // {
-  //   title: '文章管理',
-  //   path: '/article',
-  //   icon: Document,
-  //   component: () => import('@/pages/article/ArticleList.vue'),
-  // },
+  {
+    title: '文章管理',
+    path: '/article',
+    icon: Document,
+    name: 'Article',
+    component: () => import('@/pages/Article.vue'),
+  },
   // {
   //   title: '分类管理',
   //   path: '/category',

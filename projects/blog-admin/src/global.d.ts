@@ -16,6 +16,7 @@ interface Column {
   width?: number
   fixed?: string
   sortable?: boolean
+  width?: number
   formatter?: (
     row: any,
     column: TableColumnCtx<any>,

@@ -1,5 +1,9 @@
 import { request } from '@/utils'
 
+const fetchOne = (params: Record<string, any>) => {
+  return request.get(`/form/${params.id}`)
+}
+
 const fetchList = (params: Record<string, any>) => {
   return request.get('/form', { params })
 }
@@ -21,4 +25,5 @@ export default {
   create,
   update,
   deleteForm,
+  fetchOne
 }

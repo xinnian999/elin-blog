@@ -10,7 +10,7 @@
     destroy-on-close
   >
     <div class="formContent">
-      <form-render v-model="values" :schema="schema" ref="form" />
+      <form-render v-model="values" :schema="formSchema" ref="form" />
       <slot />
     </div>
 
@@ -23,12 +23,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, useTemplateRef } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 import type { FormSchema } from 'vue-form-craft'
+import formApi from '@/api/form'
 
 const form = useTemplateRef('form')
 
-defineProps<{
+const props = defineProps<{
   width?: number | string
   title?: string
   schemaId?: String
@@ -42,15 +43,31 @@ const values = defineModel<Record<string, any>>('values')
 
 const emits = defineEmits(['onOk'])
 
+const formSchema = ref<FormSchema>({
+  items: [],
+})
+
 const handleOk = async () => {
   await form.value?.validate()
 
   emits('onOk', values.value)
 }
 
-// onMounted(() => {
-//   console.log(props)
-// })
+onMounted(async () => {
+  // 如果传入了schema，则直接使用传入的schema
+  if (props.schema) {
+    formSchema.value = props.schema
+    return
+  }
+
+  // 如果传入了schemaId，则从后端获取schema
+  if (props.schemaId) {
+    const res = await formApi.fetchOne({ id: props.schemaId })
+
+    formSchema.value = JSON.parse(res.data.schema)
+    console.log(formSchema.value)
+  }
+})
 </script>
 
 <style lang="less">

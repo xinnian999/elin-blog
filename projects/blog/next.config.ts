@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
   //   return [
   //     {
   //       source: '/admin/:path*', // 匹配 /api 开头的请求
-  //       destination: 'http://localhost:5173/:path*', // 代理到后台管理
+  //       destination: 'http://localhost:5173/admin/:path*', // 代理到后端
   //     },
   //   ];
   // },
