@@ -11,7 +11,7 @@
   "license": "ISC",
   "scripts": {
     "dev:blog": "pnpm -C projects/blog dev",
-    "dev:admin": "pnpm -C projects/blog-admin dev",
+    "dev:admin": "pnpm -C projects/admin dev",
     "build:blog": "pnpm -C projects/blog build",
     "build:admin": "pnpm -C projects/admin build",
     "start:blog": "pnpm -C projects/blog start",
