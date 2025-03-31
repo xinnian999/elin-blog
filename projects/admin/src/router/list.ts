@@ -1,5 +1,5 @@
 import type { RouteItem } from '@/global'
-import { HomeFilled, MapLocation, Document } from '@element-plus/icons-vue'
+import { HomeFilled, MapLocation, Document, Collection, PriceTag } from '@element-plus/icons-vue'
 
 export default [
   {
@@ -21,24 +21,27 @@ export default [
     name: 'Article',
     component: () => import('@/pages/Article.vue'),
   },
-  // {
-  //   title: '分类管理',
-  //   path: '/category',
-  //   icon: Link,
-  //   component: () => import('../pages/Category.vue'),
-  // },
+  {
+    title: '分类管理',
+    path: '/category',
+    icon: Collection,
+    name: 'Category',
+    component: () => import('@/pages/Category.vue'),
+  },
+    {
+    title: '标签管理',
+    path: '/tag',
+    icon: PriceTag,
+    name: 'Tag',
+    component: () => import('@/pages/Tag.vue'),
+  },
   // {
   //   title: '友链管理',
   //   path: '/link',
   //   icon: Link,
   //   component: () => import('../pages/Link.vue'),
   // },
-  // {
-  //   title: '标签管理',
-  //   path: '/tag',
-  //   icon: CollectionTag,
-  //   component: () => import('../pages/Tag.vue'),
-  // },
+
   // {
   //   title: '评论留言管理',
   //   path: '/comment',

@@ -3,7 +3,7 @@
     :columns="columns"
     :rowActions="rowActions"
     :batchActions="batchActions"
-    :api="formApi.fetch"
+    :api="categoryApi.fetch"
     @onClickAdd="onClickAdd"
     ref="table"
   />
@@ -11,20 +11,15 @@
   <FormModal
     v-model:visible="formState.visible"
     v-model:values="formState.values"
-    :schema="formState.schema"
-    width="90vw"
+    schemaId="24"
     :title="formState.title"
     :loading="formState.loading"
     @onOk="formState.onOk"
-  >
-    <el-form-item label="表单" labelPosition="top">
-      <FormDesign class="design" v-model="formState.values.schema" />
-    </el-form-item>
-  </FormModal>
+  />
 </template>
 
 <script setup lang="tsx">
-import formApi from '@/api/form'
+import categoryApi from '@/api/category'
 import { FormModal, TablePlus } from '@/components'
 import type { TablePlusBatchActions, TablePlusColumns, TablePlusRowActions } from '@/global'
 import { useRequest } from '@/use'
@@ -38,13 +33,19 @@ const table = useTemplateRef('table')
 
 const columns = [
   {
-    label: '表单id',
+    label: 'ID',
     prop: 'id',
     sortable: true,
+    width: 100,
   },
   {
-    label: '表单名称',
+    label: '名称',
     prop: 'name',
+    width: 250,
+  },
+  {
+    label: '文章数量',
+    prop: 'articleCount',
   },
   {
     label: '创建时间',
@@ -64,11 +65,8 @@ const columns = [
 
 const formState = reactive({
   visible: false,
-  values: {
-    name: '',
-    schema: { items: [] },
-  },
-  title: '新增表单',
+  values: { name: '' },
+  title: '新增文章',
   loading: false,
   onOk: () => {},
   schema: {
@@ -77,7 +75,7 @@ const formState = reactive({
     size: 'default',
     items: [
       {
-        label: '表单名称',
+        label: '文章标题',
         component: 'Input',
         props: {
           placeholder: '请输入...',
@@ -89,25 +87,21 @@ const formState = reactive({
   } satisfies FormSchema,
 })
 
-const createFormRequest = useRequest(formApi.create)
+const createFormRequest = useRequest(categoryApi.create)
 
-const updateFormRequest = useRequest(formApi.update)
+const updateFormRequest = useRequest(categoryApi.update)
 
 const onClickAdd = () => {
   Object.assign(formState, {
-    title: '新增表单',
+    title: '新增分类',
     visible: true,
     values: {
       name: '',
-      schema: { items: [] },
     },
     loading: createFormRequest.loading,
     onOk: async () => {
-      await createFormRequest.run({
-        name: formState.values.name,
-        schema: JSON.stringify(formState.values.schema),
-      })
-      ElMessage.success('新增表单成功！')
+      await createFormRequest.run(formState.values)
+      ElMessage.success('新增分类成功！')
       formState.visible = false
       table.value?.refresh()
     },
@@ -121,20 +115,18 @@ const rowActions = [
     icon: Edit,
     onClick: (data: Record<string, any>) => {
       Object.assign(formState, {
-        title: '修改表单',
+        title: '修改分类',
         visible: true,
         values: {
           name: data.name,
-          schema: JSON.parse(data.schema),
         },
         loading: updateFormRequest.loading,
         onOk: async () => {
           await updateFormRequest.run({
             id: data.id,
             name: formState.values.name,
-            schema: JSON.stringify(formState.values.schema),
           }),
-            ElMessage.success('修改表单成功！')
+            ElMessage.success('修改分类成功！')
           formState.visible = false
           table.value?.refresh()
         },
@@ -147,7 +139,7 @@ const rowActions = [
     icon: Delete,
     onClick: async (data: Record<string, any>) => {
       await ElMessageBox.confirm('确认删除吗？')
-      await formApi.delete({ ids: data.id })
+      await categoryApi.delete({ ids: data.id })
       ElMessage.success('删除成功！')
       table.value?.refresh()
     },
@@ -159,9 +151,9 @@ const batchActions = [
     name: '删除',
     type: 'danger',
     icon: Delete,
-    onClick:async ({keys}) => {
+    onClick: async ({ keys }) => {
       await ElMessageBox.confirm('确认删除吗？')
-      await formApi.delete({ ids: keys })
+      await categoryApi.delete({ ids: keys })
       ElMessage.success('删除成功！')
       table.value?.refresh()
     },

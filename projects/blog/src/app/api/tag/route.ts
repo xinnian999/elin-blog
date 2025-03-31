@@ -1,33 +1,37 @@
 import { parseUrlSearch } from "@/utils";
-import { Article, Form, getRepository } from "@elin-blog/db";
+import { Tag, getRepository } from "@elin-blog/db";
 import { instanceToPlain } from "class-transformer";
 import { NextRequest } from "next/server";
 
-const relations = ["category", "tags"];
+const relations = ["articles"];
 
 export async function GET(request: NextRequest) {
   const { pageNum = 1, pageSize = 10, orderBys } = parseUrlSearch(request);
 
-  const articleRepository = await getRepository(Article);
+  const CategoryRepository = await getRepository(Tag);
 
-  const [list, total] = await articleRepository.findAndCount({
+  const [list, total] = await CategoryRepository.findAndCount({
     skip: (pageNum - 1) * pageSize, // 跳过前面的记录
     take: pageSize, // 每页返回的记录数
     order: orderBys,
     relations,
   });
 
-  return Response.json({ list: instanceToPlain(list), total, pageTotal: Math.ceil(total / pageSize) });
+  return Response.json({
+    list: instanceToPlain(list),
+    total,
+    pageTotal: Math.ceil(total / pageSize),
+  });
 }
 
 export async function POST(request: NextRequest) {
   const params = await request.json();
 
-  const articleRepository = await getRepository(Form);
+  const CategoryRepository = await getRepository(Tag);
 
-  const form = articleRepository.create(params);
+  const form = CategoryRepository.create(params);
 
-  await articleRepository.save(form);
+  await CategoryRepository.save(form);
 
   return Response.json(form);
 }
@@ -35,9 +39,9 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const params = await request.json();
 
-  const articleRepository = await getRepository(Form);
+  const CategoryRepository = await getRepository(Tag);
 
-  const res = await articleRepository.update({ id: params.id }, params);
+  const res = await CategoryRepository.update({ id: params.id }, params);
 
   return Response.json(res);
 }
@@ -45,9 +49,13 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const { ids } = parseUrlSearch(request);
 
-  const articleRepository = await getRepository(Form);
+  const CategoryRepository = await getRepository(Tag);
 
-  await articleRepository.delete(ids);
+  try {
+    await CategoryRepository.delete(ids);
+  } catch (error) {
+    return Response.json(error, { status: 500 });
+  }
 
   return Response.json({ message: "删除成功" });
 }

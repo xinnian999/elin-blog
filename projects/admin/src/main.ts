@@ -40,6 +40,7 @@ vue.use(pinia)
 vue.use(router)
 vue.use(ElementPlus, {
   locale: zhCn,
+  request
 })
 // vue.use(VMdEditor);
 vue.use(vueFormCraft, {

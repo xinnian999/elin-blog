@@ -3,7 +3,7 @@
     :columns="columns"
     :rowActions="rowActions"
     :batchActions="batchActions"
-    :api="articleApi.fetchData"
+    :api="articleApi.fetch"
     @onClickAdd="onClickAdd"
     ref="table"
   />
@@ -159,7 +159,7 @@ const rowActions = [
     icon: Delete,
     onClick: async (data: Record<string, any>) => {
       await ElMessageBox.confirm('确认删除吗？')
-      await articleApi.deleteData({ ids: data.id })
+      await articleApi.delete({ ids: data.id })
       ElMessage.success('删除成功！')
       table.value?.refresh()
     },
@@ -173,7 +173,7 @@ const batchActions = [
     icon: Delete,
     onClick: async ({ keys }) => {
       await ElMessageBox.confirm('确认删除吗？')
-      await articleApi.deleteForm({ ids: keys })
+      await articleApi.delete({ ids: keys })
       ElMessage.success('删除成功！')
       table.value?.refresh()
     },

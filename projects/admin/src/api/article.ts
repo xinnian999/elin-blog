@@ -1,24 +1,9 @@
 import { request } from '@/utils'
 
-const fetchData = (params: Record<string, any>) => {
-  return request.get('/article', { params })
-}
-
-const create = (data: Record<string, any>) => {
-  return request.post('/article', data)
-}
-
-const update = (data: Record<string, any>) => {
-  return request.put('/article', data)
-}
-
-const deleteData = (params: Record<string, any>) => {
-  return request.delete('/article', { params })
-}
-
 export default {
-  fetchData,
-  create,
-  update,
-  deleteData,
+  fetch: (params: Record<string, any>) => request.get('/article', { params }),
+  create: (data: Record<string, any>) => request.post('/article', data),
+  update: (data: Record<string, any>) => request.put('/article', data),
+  delete: (params: Record<string, any>) => request.delete('/article', { params }),
+  fetchOne: (params: Record<string, any>) => request.get(`/article/${params.id}`),
 }

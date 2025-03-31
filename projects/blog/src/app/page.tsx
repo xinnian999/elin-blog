@@ -1,19 +1,26 @@
+import { fetchList } from "@/async";
 import { ArticleList, HomeRightBar } from "@/components";
-import { fetchArticleListByPage } from "@elin-blog/db";
+import { Article } from "@elin-blog/db";
 import classNames from "classnames";
 import Link from "next/link";
 
 export default async function Home() {
-  const { data, totalPages } = await fetchArticleListByPage(1, 5);
+  const { list, pageTotal } = await fetchList<Article>("/article", {
+    pageNum: 1,
+    pageSize: 5,
+    orderBys: {
+      id: "desc",
+    },
+  });
 
   return (
     <div className="flex flex-col gap-6 lg:flex-row">
       <div className="flex-1 overflow-hidden">
-        <ArticleList list={data} />
+        <ArticleList list={list} />
 
         <div className="flex justify-end">
           <div className="join">
-            {Array.from({ length: totalPages }).map((_, index) => {
+            {Array.from({ length: pageTotal }).map((_, index) => {
               return (
                 <Link href={`/page/${index + 1}`} key={index}>
                   <button

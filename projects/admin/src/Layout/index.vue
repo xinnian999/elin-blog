@@ -50,7 +50,7 @@
 
       <el-main id="main">
         <router-view v-slot="{ Component }">
-          <KeepAlive :include="cached">
+          <KeepAlive :include="cached" :max="10">
             <component :is="Component" />
           </KeepAlive>
         </router-view>
