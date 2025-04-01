@@ -1,5 +1,5 @@
 import type { RouteItem } from '@/global'
-import { HomeFilled, MapLocation, Document, Collection, PriceTag } from '@element-plus/icons-vue'
+import { HomeFilled, MapLocation, Document, Collection, PriceTag, Tickets } from '@element-plus/icons-vue'
 
 export default [
   {
@@ -52,7 +52,7 @@ export default [
     title: '表单管理',
     path: '/form',
     name: 'Form',
-    icon: MapLocation,
+    icon: Tickets,
     component: () => import('@/pages/Form.vue'),
   },
   {

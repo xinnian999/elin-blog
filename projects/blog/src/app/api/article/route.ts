@@ -1,17 +1,12 @@
 import { parseUrlSearch } from "@/utils";
-import { Article, Form, getRepository } from "@elin-blog/db";
+import { Article, getRepository, Tag } from "@elin-blog/db";
 import { instanceToPlain } from "class-transformer";
 import { NextRequest } from "next/server";
 
 const relations = ["category", "tags"];
 
 export async function GET(request: NextRequest) {
-  const {
-    pageNum = 1,
-    pageSize = 10,
-    order,
-    where,
-  } = parseUrlSearch(request);
+  const { pageNum = 1, pageSize = 10, order, where } = parseUrlSearch(request);
 
   const articleRepository = await getRepository(Article);
 
@@ -34,29 +29,52 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const params = await request.json();
 
-  const articleRepository = await getRepository(Form);
+  const articleRepository = await getRepository(Article);
 
-  const form = articleRepository.create(params);
+  const article = articleRepository.create(params) as unknown as Article;
 
-  await articleRepository.save(form);
+  const tags = await (await getRepository(Tag)).findByIds(params.tags);
+    
+  article.tags = tags; // 关联标签
 
-  return Response.json(form);
+  await articleRepository.save(article);
+
+  return Response.json(article);
 }
 
 export async function PUT(request: NextRequest) {
   const params = await request.json();
 
-  const articleRepository = await getRepository(Form);
+  const articleRepository = await getRepository(Article);
 
-  const res = await articleRepository.update({ id: params.id }, params);
+  // 查找文章并加载关联的标签
+  const article = await articleRepository.findOne({
+    where: { id: params.id },
+    relations,
+  });
 
-  return Response.json(res);
+  if (!article) {
+    throw new Error("Article not found");
+  }
+
+  article.title = params.title;
+  article.content = params.content;
+  article.category = params.category;
+
+  // 查找与给定 ID 相关联的标签
+  const tags = await (await getRepository(Tag)).findByIds(params.tags);
+
+  article.tags = tags; // 关联标签
+
+  await articleRepository.save(article);
+
+  return Response.json(article);
 }
 
 export async function DELETE(request: NextRequest) {
   const { ids } = parseUrlSearch(request);
 
-  const articleRepository = await getRepository(Form);
+  const articleRepository = await getRepository(Article);
 
   await articleRepository.delete(ids);
 

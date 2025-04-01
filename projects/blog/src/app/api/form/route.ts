@@ -3,7 +3,12 @@ import { Form, getRepository } from "@elin-blog/db";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const { pageNum = 1, pageSize = 10, orderBys } = parseUrlSearch(request);
+  const {
+    pageNum = 1,
+    pageSize = 10,
+    orderBys,
+    where,
+  } = parseUrlSearch(request);
 
   const formRepository = await getRepository(Form);
 
@@ -11,6 +16,7 @@ export async function GET(request: NextRequest) {
     skip: (pageNum - 1) * pageSize, // 跳过前面的记录
     take: pageSize, // 每页返回的记录数
     order: orderBys,
+    where,
   });
 
   return Response.json({ list, total });

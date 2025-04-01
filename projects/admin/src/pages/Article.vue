@@ -30,7 +30,7 @@ import { Delete, Edit } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { reactive, useTemplateRef } from 'vue'
 import type { FormSchema } from 'vue-form-craft'
-
+import { pick } from 'lodash'
 const table = useTemplateRef('table')
 
 const columns = [
@@ -84,22 +84,6 @@ const formState = reactive({
   title: '新增文章',
   loading: false,
   onOk: () => {},
-  schema: {
-    labelWidth: 150,
-    labelAlign: 'top',
-    size: 'default',
-    items: [
-      {
-        label: '文章标题',
-        component: 'Input',
-        props: {
-          placeholder: '请输入...',
-        },
-        name: 'name',
-        required: true,
-      },
-    ],
-  } satisfies FormSchema,
 })
 
 const createFormRequest = useRequest(articleApi.create)
@@ -108,19 +92,13 @@ const updateFormRequest = useRequest(articleApi.update)
 
 const onClickAdd = () => {
   Object.assign(formState, {
-    title: '新增表单',
+    title: '新增文章',
     visible: true,
-    values: {
-      name: '',
-      schema: { items: [] },
-    },
+    values: {},
     loading: createFormRequest.loading,
     onOk: async () => {
-      await createFormRequest.run({
-        name: formState.values.name,
-        schema: JSON.stringify(formState.values.schema),
-      })
-      ElMessage.success('新增表单成功！')
+      await createFormRequest.run(formState.values)
+      ElMessage.success('新增文章成功！')
       formState.visible = false
       table.value?.refresh()
     },
@@ -134,20 +112,18 @@ const rowActions = [
     icon: Edit,
     onClick: (data: Record<string, any>) => {
       Object.assign(formState, {
-        title: '修改表单',
+        title: '修改文章',
         visible: true,
         values: {
-          name: data.name,
-          schema: JSON.parse(data.schema),
+          id: data.id,
+          title: data.title,
+          category: data.category.id,
+          tags: data.tags.map((item: any) => item.id),
+          content: data.content,
         },
         loading: updateFormRequest.loading,
         onOk: async () => {
-          await updateFormRequest.run({
-            id: data.id,
-            name: formState.values.name,
-            schema: JSON.stringify(formState.values.schema),
-          }),
-            ElMessage.success('修改表单成功！')
+          await updateFormRequest.run(formState.values), ElMessage.success('修改文章成功！')
           formState.visible = false
           table.value?.refresh()
         },

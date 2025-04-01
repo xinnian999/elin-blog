@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 import type { FormSchema } from 'vue-form-craft'
 import formApi from '@/api/form'
 
@@ -13,6 +13,8 @@ const props = defineProps<{
 }>()
 
 const values = defineModel<Record<string, any>>()
+
+const form = useTemplateRef('form')
 
 const formSchema = ref<FormSchema>({
   items: [],
@@ -31,6 +33,12 @@ onMounted(async () => {
 
     formSchema.value = JSON.parse(res.data.schema)
   }
+})
+
+defineExpose({
+  validate: () => {
+    return form.value?.validate()
+  },
 })
 </script>
 

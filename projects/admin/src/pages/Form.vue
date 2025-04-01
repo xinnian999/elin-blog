@@ -4,6 +4,7 @@
     :rowActions="rowActions"
     :batchActions="batchActions"
     :api="formApi.fetch"
+    :searchSchema="searchSchema"
     @onClickAdd="onClickAdd"
     ref="table"
   />
@@ -165,6 +166,23 @@ const batchActions = [
     },
   },
 ] satisfies TablePlusBatchActions
+
+const searchSchema: FormSchema = {
+  labelWidth: 150,
+  labelAlign: 'right',
+  size: 'default',
+  items: [
+    {
+      label: '表单名称',
+      component: 'Input',
+      props: {
+        placeholder: '请输入...',
+      },
+      name: 'name',
+      required: true,
+    },
+  ],
+}
 </script>
 
 <style lang="scss">

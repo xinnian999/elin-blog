@@ -1,7 +1,7 @@
 <template>
   <div class="grid-table">
     <div class="searchbar" v-show="state.isSearch">
-      <Form :schemaId="props.searchSchemaId" inline v-model="searchValues" />
+      <Form :schemaId="props.searchSchemaId" :schema="props.searchSchema" inline v-model="searchValues" />
 
       <div class="searchbar-actions">
         <el-button type="primary" @click="handleSearch">搜索</el-button>
@@ -115,6 +115,7 @@ import type { AxiosResponse } from 'axios'
 import { Search } from '@element-plus/icons-vue'
 import { Form } from '@/components'
 import { useRoute } from 'vue-router'
+import type { FormSchema } from 'vue-form-craft'
 
 const props = defineProps<{
   columns: TablePlusColumns
@@ -122,6 +123,7 @@ const props = defineProps<{
   rowActions?: TablePlusRowActions
   batchActions?: TablePlusBatchActions
   searchSchemaId?: string
+  searchSchema?: FormSchema
 }>()
 
 const emits = defineEmits(['onClickAdd'])
