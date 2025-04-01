@@ -5,6 +5,7 @@
     :batchActions="batchActions"
     :api="articleApi.fetch"
     @onClickAdd="onClickAdd"
+    searchSchemaId="26"
     ref="table"
   />
 

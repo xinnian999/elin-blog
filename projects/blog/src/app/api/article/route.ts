@@ -6,18 +6,29 @@ import { NextRequest } from "next/server";
 const relations = ["category", "tags"];
 
 export async function GET(request: NextRequest) {
-  const { pageNum = 1, pageSize = 10, orderBys } = parseUrlSearch(request);
+  const {
+    pageNum = 1,
+    pageSize = 10,
+    order,
+    where,
+  } = parseUrlSearch(request);
 
   const articleRepository = await getRepository(Article);
 
+  // 查询数据
   const [list, total] = await articleRepository.findAndCount({
-    skip: (pageNum - 1) * pageSize, // 跳过前面的记录
-    take: pageSize, // 每页返回的记录数
-    order: orderBys,
+    skip: (pageNum - 1) * pageSize,
+    take: pageSize,
+    order,
     relations,
+    where,
   });
 
-  return Response.json({ list: instanceToPlain(list), total, pageTotal: Math.ceil(total / pageSize) });
+  return Response.json({
+    list: instanceToPlain(list),
+    total,
+    pageTotal: Math.ceil(total / pageSize),
+  });
 }
 
 export async function POST(request: NextRequest) {

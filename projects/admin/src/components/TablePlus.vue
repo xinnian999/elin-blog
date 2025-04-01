@@ -1,5 +1,14 @@
 <template>
   <div class="grid-table">
+    <div class="searchbar" v-show="state.isSearch">
+      <Form :schemaId="props.searchSchemaId" inline v-model="searchValues" />
+
+      <div class="searchbar-actions">
+        <el-button type="primary" @click="handleSearch">搜索</el-button>
+        <el-button type="primary" @click="handleSearchReset">重置</el-button>
+      </div>
+    </div>
+
     <div class="toolbar">
       <div>
         <el-button
@@ -15,9 +24,11 @@
       </div>
 
       <div class="toolButton">
-        <el-button type="success" size="small" :icon="Plus" @click="emits('onClickAdd')"
-          >新增</el-button
-        >
+        <el-button type="success" size="small" :icon="Plus" @click="emits('onClickAdd')">
+          新增
+        </el-button>
+
+        <el-button type="primary" :icon="Search" @click="state.isSearch = !state.isSearch" />
 
         <el-dropdown trigger="click" :hide-on-click="false">
           <el-button type="primary" :icon="Hide" />
@@ -31,6 +42,7 @@
             </el-dropdown-menu>
           </template>
         </el-dropdown>
+
         <el-button type="primary" :icon="Refresh" @click="refresh" />
       </div>
     </div>
@@ -96,16 +108,20 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineExpose, watch, reactive, useTemplateRef } from 'vue'
+import { defineProps, defineExpose, watch, reactive, useTemplateRef, ref, onMounted } from 'vue'
 import { Hide, Plus, Refresh } from '@element-plus/icons-vue'
 import type { TablePlusBatchActions, TablePlusColumns, TablePlusRowActions } from '@/global'
 import type { AxiosResponse } from 'axios'
+import { Search } from '@element-plus/icons-vue'
+import { Form } from '@/components'
+import { useRoute } from 'vue-router'
 
 const props = defineProps<{
   columns: TablePlusColumns
   api: (params: Record<string, any>) => Promise<AxiosResponse<any, any>>
   rowActions?: TablePlusRowActions
   batchActions?: TablePlusBatchActions
+  searchSchemaId?: string
 }>()
 
 const emits = defineEmits(['onClickAdd'])
@@ -119,6 +135,7 @@ const state = reactive({
   selectedRows: [] as any[],
   selectedRowKeys: [] as any[],
   visibleColumns: props.columns.map((column) => column.prop),
+  isSearch: false,
 })
 
 const params = reactive({
@@ -129,6 +146,10 @@ const params = reactive({
     id: 'desc',
   },
 })
+
+const searchValues = ref<Record<string, any>>({})
+
+const route = useRoute()
 
 const refresh = async () => {
   state.isLoading = true
@@ -158,13 +179,38 @@ const onSortChange = (sort: any) => {
   }
 }
 
-watch(
-  params,
-  () => {
-    refresh()
-  },
-  { immediate: true },
-)
+const handleSearch = () => {
+  params.filters = { ...searchValues.value }
+}
+
+const handleSearchReset = () => {
+  searchValues.value = {}
+  params.filters = {}
+}
+
+watch(params, () => {
+  refresh()
+})
+
+onMounted(() => {
+  const defaultFilters = Object.entries(route.query).reduce<Record<string, any>>(
+    (acc, [key, value]) => {
+      acc[key] = JSON.parse(value as string)
+
+      return acc
+    },
+    {},
+  )
+
+  // 如果存在默认过滤条件，则利用过滤监听 来触发初始化刷新
+  if (Object.keys(defaultFilters).length > 0) {
+    params.filters = defaultFilters
+    searchValues.value = defaultFilters
+    state.isSearch = true
+  } else {
+    refresh() // 否则主动初始化刷新
+  }
+})
 
 //  抛出方法
 defineExpose({ refresh })
@@ -184,6 +230,16 @@ defineExpose({ refresh })
   background-color: #fff;
   box-sizing: border-box;
   border-radius: 5px;
+
+  .searchbar {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    .searchbar-actions {
+      display: flex;
+      justify-content: right;
+      padding-right: 10px;
+    }
+  }
 
   .toolbar {
     display: flex;

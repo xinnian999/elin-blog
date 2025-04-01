@@ -46,6 +46,13 @@ const columns = [
   {
     label: '文章数量',
     prop: 'articleCount',
+    formatter(row, column, cellValue, index) {
+      return (
+        <el-link type="primary" href={`/article?category=${row.id}`}>
+          {cellValue}
+        </el-link>
+      )
+    },
   },
   {
     label: '创建时间',

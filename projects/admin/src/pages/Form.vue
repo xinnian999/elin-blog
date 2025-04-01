@@ -17,9 +17,7 @@
     :loading="formState.loading"
     @onOk="formState.onOk"
   >
-    <el-form-item label="表单" labelPosition="top">
-      <FormDesign class="design" v-model="formState.values.schema" />
-    </el-form-item>
+    <FormDesign class="design" v-model="formState.values.schema" />
   </FormModal>
 </template>
 
@@ -159,7 +157,7 @@ const batchActions = [
     name: '删除',
     type: 'danger',
     icon: Delete,
-    onClick:async ({keys}) => {
+    onClick: async ({ keys }) => {
       await ElMessageBox.confirm('确认删除吗？')
       await formApi.delete({ ids: keys })
       ElMessage.success('删除成功！')
