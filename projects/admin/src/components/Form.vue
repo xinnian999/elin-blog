@@ -42,7 +42,7 @@ defineExpose({
 })
 </script>
 
-<style lang="less">
+<style lang="scss">
 .formContent {
   padding: 20px;
 }

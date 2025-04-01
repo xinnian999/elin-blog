@@ -59,7 +59,7 @@ const data = ref([
 const lines = ref('')
 </script>
 
-<style lang="less">
+<style lang="scss">
 .home {
   display: flex;
   flex-direction: column;

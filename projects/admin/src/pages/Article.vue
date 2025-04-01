@@ -29,8 +29,6 @@ import { formatTime } from '@/utils'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { reactive, useTemplateRef } from 'vue'
-import type { FormSchema } from 'vue-form-craft'
-import { pick } from 'lodash'
 const table = useTemplateRef('table')
 
 const columns = [

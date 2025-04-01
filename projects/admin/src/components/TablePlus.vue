@@ -218,7 +218,7 @@ onMounted(() => {
 defineExpose({ refresh })
 </script>
 
-<style lang="less">
+<style lang="scss">
 .batchActions {
   display: flex;
   justify-content: right;

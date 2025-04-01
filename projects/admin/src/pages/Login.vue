@@ -97,7 +97,7 @@ const handleLogin = async () => {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .login {
   background-image: url('@/assets/login-bg.jpg');
   background-size: cover;

@@ -144,7 +144,7 @@ watch(
 )
 </script>
 
-<style lang="less">
+<style lang="scss">
 #layout {
   height: 100%;
   padding: 15px;
