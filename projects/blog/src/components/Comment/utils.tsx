@@ -1,4 +1,4 @@
-import { AndroidIcon, MacIcon, WindowsIcon } from "@elin-blog/icons";
+import { AndroidIcon, MacIcon, WindowsIcon } from "@/icons";
 
 export const getOsIcon = (os: string) => {
   if (os.includes("mac")) {

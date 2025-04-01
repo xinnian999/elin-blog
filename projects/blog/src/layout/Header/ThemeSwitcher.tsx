@@ -1,6 +1,6 @@
 "use client";
 import { setTheme } from "@/async";
-import { SunIcon, MoonIcon } from "@elin-blog/icons";
+import { SunIcon, MoonIcon } from "@/icons";
 import { useTheme } from "@/hooks";
 
 const ThemeSwitcher = () => {

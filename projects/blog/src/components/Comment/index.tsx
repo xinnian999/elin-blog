@@ -1,12 +1,12 @@
 "use client";
 
 import { Card } from "@/components";
-import { createComment, fetchCommentList } from "@elin-blog/db";
+import { createComment, fetchCommentList } from "@/db";
 import { useMount, useRequest } from "ahooks";
 import Write from "./Write";
 import { useState } from "react";
 import Comment from "./Comment";
-import { Comment as CommentEntity } from "@elin-blog/db";
+import { Comment as CommentEntity } from "@/db";
 
 const CommentBar = ({
   type = "comment",

@@ -1,6 +1,6 @@
 "use server";
 
-import { Category, getRepository } from "@elin-blog/db";
+import { Category, getRepository } from "@/db";
 import { instanceToPlain } from "class-transformer";
 
 export const fetchCategoryList = async () => {

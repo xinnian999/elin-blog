@@ -1,6 +1,6 @@
 "use server";
 
-import { Visit, getRepository } from "@elin-blog/db";
+import { Visit, getRepository } from "@/db";
 
 export const fetchVisits = async () => {
   const postRepository = await getRepository(Visit);

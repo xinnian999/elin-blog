@@ -1,5 +1,5 @@
 import { Card } from "@/components";
-import { fetchTagList } from "@elin-blog/db";
+import { fetchTagList } from "@/db";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 

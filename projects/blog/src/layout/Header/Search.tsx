@@ -1,8 +1,8 @@
 "use client";
 import { Modal } from "@/components";
 import { useFetchData } from "@/hooks";
-import { Article, fetchArticleList } from "@elin-blog/db";
-import { EnterIcon, SearchIcon } from "@elin-blog/icons";
+import { Article, fetchArticleList } from "@/db";
+import { EnterIcon, SearchIcon } from "@/icons";
 import { useUpdateEffect } from "ahooks";
 import Fuse from "fuse.js";
 import { useRouter } from "next/navigation";

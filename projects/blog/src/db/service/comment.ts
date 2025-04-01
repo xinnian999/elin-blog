@@ -1,6 +1,6 @@
 "use server";
 
-import { Article, Comment, getRepository } from "@elin-blog/db";
+import { Article, Comment, getRepository } from "@/db";
 import { instanceToPlain } from "class-transformer";
 import { FindOptionsWhere, IsNull } from "typeorm";
 import { headers } from "next/headers";

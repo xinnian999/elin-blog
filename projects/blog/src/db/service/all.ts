@@ -1,6 +1,6 @@
 "use server";
 
-import { Article, Tag, Category, getRepository } from "@elin-blog/db";
+import { Article, Tag, Category, getRepository } from "@/db";
 
 export const fetchSummary = async () => {
   const articleCount = (await getRepository(Article)).count();

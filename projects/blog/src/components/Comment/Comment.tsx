@@ -1,11 +1,11 @@
 "use client";
 
-import { BrowserIcon, LikeIcon, RegionIcon } from "@elin-blog/icons";
-import { likeComment, replyComment } from "@elin-blog/db";
+import { BrowserIcon, LikeIcon, RegionIcon } from "@/icons";
+import { likeComment, replyComment } from "@/db";
 import { useDayjs, useMessage, useMounted } from "@/hooks";
 import Image from "next/image";
 import Write from "./Write";
-import { Comment as CommentEntity } from "@elin-blog/db";
+import { Comment as CommentEntity } from "@/db";
 import { useState } from "react";
 import { useMount } from "ahooks";
 import useStore from "@/store";

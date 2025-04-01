@@ -1,7 +1,7 @@
 import { getDayjs } from "@/async";
 import { Card } from "@/components";
-import { fetchLinkListByPass } from "@elin-blog/db";
-import { fetchHomeCommentList } from "@elin-blog/db";
+import { fetchLinkListByPass } from "@/db";
+import { fetchHomeCommentList } from "@/db";
 import classNames from "classnames";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";

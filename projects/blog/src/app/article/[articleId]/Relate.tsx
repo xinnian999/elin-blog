@@ -1,6 +1,6 @@
 import { getDayjs } from "@/async";
 import { Card } from "@/components";
-import { fetchRelateArticleById } from "@elin-blog/db";
+import { fetchRelateArticleById } from "@/db";
 import Link from "next/link";
 
 async function Relate({ articleId }: { articleId: number }) {

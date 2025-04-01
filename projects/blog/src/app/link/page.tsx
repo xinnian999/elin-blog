@@ -1,6 +1,6 @@
 "use client";
 import { Card, Comment, Modal, Alert } from "@/components";
-import { createLink, fetchLinkListByPass } from "@elin-blog/db";
+import { createLink, fetchLinkListByPass } from "@/db";
 import { useRequest, useSetState } from "ahooks";
 import classNames from "classnames";
 import { useState } from "react";

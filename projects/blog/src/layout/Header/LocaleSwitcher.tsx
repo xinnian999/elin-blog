@@ -4,7 +4,7 @@ import { setUserLocale } from "@/i18n/service";
 import { locales } from "@/i18n/config";
 import "dayjs/locale/zh-cn";
 import { useLocale } from "next-intl";
-import { LangIcon, ExpandIcon } from "@elin-blog/icons";
+import { LangIcon, ExpandIcon } from "@/icons";
 
 const LocaleSwitcher = () => {
   const locale = useLocale();

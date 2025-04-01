@@ -1,5 +1,5 @@
 import { ArticleList, Breadcrumb, HomeRightBar } from "@/components";
-import { fetchArticleListByPage } from "@elin-blog/db";
+import { fetchArticleListByPage } from "@/db";
 import classNames from "classnames";
 import Link from "next/link";
 

@@ -1,5 +1,5 @@
 import { parseUrlSearch } from "@/utils";
-import { Tag, getRepository } from "@elin-blog/db";
+import { Tag, getRepository } from "@/db";
 import { instanceToPlain } from "class-transformer";
 import { NextRequest } from "next/server";
 

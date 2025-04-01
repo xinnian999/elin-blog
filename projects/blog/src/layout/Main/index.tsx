@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import { fetchSummary, getArticleArchive } from "@elin-blog/db";
+import { fetchSummary, getArticleArchive } from "@/db";
 import LeftBar from "./LeftBar";
 
 interface MainProps {

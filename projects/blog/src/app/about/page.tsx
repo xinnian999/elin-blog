@@ -1,5 +1,5 @@
 import { Card, Comment } from "@/components";
-import { fetchCommentList } from "@elin-blog/db";
+import { fetchCommentList } from "@/db";
 import { getTranslations } from "next-intl/server";
 
 export default async function About() {

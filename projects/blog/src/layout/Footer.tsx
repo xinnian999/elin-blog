@@ -1,4 +1,4 @@
-import { fetchVisits } from "@elin-blog/db";
+import { fetchVisits } from "@/db";
 
 const Footer = async () => {
   const visits = await fetchVisits();

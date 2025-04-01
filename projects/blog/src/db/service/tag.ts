@@ -1,6 +1,6 @@
 "use server";
 
-import { Tag, getRepository } from "@elin-blog/db";
+import { Tag, getRepository } from "@/db";
 import { instanceToPlain } from "class-transformer";
 
 export const fetchTagList = async () => {

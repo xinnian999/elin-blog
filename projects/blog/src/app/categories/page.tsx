@@ -1,6 +1,6 @@
 import { fetchList } from "@/async";
 import { Card } from "@/components";
-import { Category } from "@elin-blog/db";
+import { Category } from "@/db";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 

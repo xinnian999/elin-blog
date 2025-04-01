@@ -1,6 +1,6 @@
 "use server";
 
-import { Article, getRepository, Tag } from "@elin-blog/db";
+import { Article, getRepository, Tag } from "@/db";
 import { instanceToPlain } from "class-transformer";
 
 const relations = ["category", "tags"];

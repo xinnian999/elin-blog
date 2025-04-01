@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchQQInfo } from "@elin-blog/db";
+import { fetchQQInfo } from "@/db";
 import { useMounted, useTheme } from "@/hooks";
 import Image from "next/image";
 import { useState } from "react";

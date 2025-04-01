@@ -1,4 +1,4 @@
-import { Form, getRepository } from "@elin-blog/db";
+import { Form, getRepository } from "@/db";
 import { NextRequest } from "next/server";
 
 export async function GET(

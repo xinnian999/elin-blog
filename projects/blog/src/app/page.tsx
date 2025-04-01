@@ -1,6 +1,6 @@
 import { fetchList } from "@/async";
 import { ArticleList, HomeRightBar } from "@/components";
-import { Article } from "@elin-blog/db";
+import { Article } from "@/db";
 import classNames from "classnames";
 import Link from "next/link";
 

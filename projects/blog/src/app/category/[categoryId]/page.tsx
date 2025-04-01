@@ -1,5 +1,5 @@
 import { ArticleList, Breadcrumb, HomeRightBar } from "@/components";
-import { fetchArticleByCategory } from "@elin-blog/db";
+import { fetchArticleByCategory } from "@/db";
 
 export default async function CategoryId({
   params,

@@ -12,7 +12,7 @@ import {
   EmailIcon,
   QQIcon,
   WechatIcon,
-} from "@elin-blog/icons";
+} from "@/icons";
 import { Sticky } from "@/components";
 
 interface Props {

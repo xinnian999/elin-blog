@@ -1,5 +1,5 @@
 import { ArticleCard } from "@/components";
-import { Article } from "@elin-blog/db";
+import { Article } from "@/db";
 
 export default async function ArticleList({ list }: { list: Article[] }) {
   return (

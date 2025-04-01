@@ -7,8 +7,8 @@
 services:
   blog:
     build:
-      context: . # 当前目录
-      dockerfile: Dockerfile_blog
+      context: ./projects/blog
+      dockerfile: Dockerfile
     image: ${REPO_URL}/elin/elin-blog:latest
     container_name: elin-blog
     ports:

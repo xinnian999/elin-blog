@@ -1,6 +1,6 @@
 import { Alert, Card } from "@/components";
 import { Comment } from "@/components";
-import { fetchCommentList } from "@elin-blog/db";
+import { fetchCommentList } from "@/db";
 
 export default async function CommentPage() {
   const commentList = await fetchCommentList({ type: "comment" });

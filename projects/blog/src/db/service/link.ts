@@ -1,6 +1,6 @@
 "use server";
 
-import { Link, getRepository } from "@elin-blog/db";
+import { Link, getRepository } from "@/db";
 import { instanceToPlain } from "class-transformer";
 import { LinkStatus } from "../enums";
 import { sendEmail } from "./utils";

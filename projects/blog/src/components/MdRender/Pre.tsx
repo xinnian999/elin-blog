@@ -1,6 +1,6 @@
 "use client";
 import { useMessage, useTheme } from "@/hooks";
-import { CopyIcon } from "@elin-blog/icons";
+import { CopyIcon } from "@/icons";
 import parse from "html-react-parser";
 import { createHighlighter } from "shiki";
 

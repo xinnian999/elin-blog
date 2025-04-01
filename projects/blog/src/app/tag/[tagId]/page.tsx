@@ -1,5 +1,5 @@
 import { ArticleList, Breadcrumb, HomeRightBar } from "@/components";
-import { fetchArticleByTag } from "@elin-blog/db";
+import { fetchArticleByTag } from "@/db";
 
 export default async function TagId({
   params,
