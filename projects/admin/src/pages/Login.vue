@@ -14,11 +14,12 @@
 </template>
 
 <script setup lang="ts">
-import {ref, useTemplateRef } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 import type { FormInstance, FormSchema } from 'vue-form-craft'
 import { useStore } from '@/store'
+import authApi from '@/api/auth'
 
 const route = useRoute()
 
@@ -28,7 +29,7 @@ const loading = ref(false)
 
 const form = useTemplateRef<FormInstance>('form')
 
-const store= useStore()
+const store = useStore()
 
 const formValues = ref({
   username: '',
@@ -79,21 +80,30 @@ const handleLogin = async () => {
   await form.value?.validate()
   loading.value = true
 
-  setTimeout(() => {
-    if (formValues.value.username === 'admin' && formValues.value.password === 'admin') {
-      loading.value = false
+  // setTimeout(() => {
+  //   if (formValues.value.username === 'admin' && formValues.value.password === 'admin') {
+  //     loading.value = false
 
-      ElMessage.success('登录成功')
+  //     ElMessage.success('登录成功')
 
-      store.setLoginStatus(true)
+  //     store.setLoginStatus(true)
 
-      if (route.query.auth) {
-        router.back()
-      } else {
-        router.push('/')
-      }
-    }
-  }, 1000)
+  //     if (route.query.auth) {
+  //       router.back()
+  //     } else {
+  //       router.push('/')
+  //     }
+  //   }
+  // }, 1000)
+  const res = await authApi.login(formValues.value)
+
+  if (res.data.code === 200) {
+    ElMessage.success('登录成功')
+    store.setLoginStatus(true)
+    router.push('/')
+  } else {
+    ElMessage.error('登录失败')
+  }
 }
 </script>
 

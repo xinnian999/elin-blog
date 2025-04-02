@@ -23,13 +23,13 @@ request.interceptors.response.use(
     return res
   },
   (error) => {
-    const { status, data } = error.response
+    const { status, data } = error.response    
 
     switch (status) {
       case 500:
         ElMessage({
           type: 'error',
-          message: `500：${data ? data.code.replace('ER_ROW_IS_REFERENCED_2', '删除失败，因其被其他数据引用') : '服务器连接错误'}`,
+          message: `500：${data ? data.code.replace('ER_ROW_IS_REFERENCED_2', '删除失败，因其被其他数据引用') : '服务器错误'}`,
         })
         break
       case 404:
