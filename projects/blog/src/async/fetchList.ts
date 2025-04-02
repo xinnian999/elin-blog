@@ -1,6 +1,6 @@
 import { paramsSerializer } from "@/utils";
 
-const baseUrl = "http://localhost:3000/api";
+const baseUrl = `http://${process.env.BLOG_HOST}:${process.env.BLOG_PORT}/api`;
 
 const fetchList = async <T = Record<string, any>>(
   path: string,

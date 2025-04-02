@@ -20,12 +20,12 @@ services:
 
   admin:
     build:
-      context: . # 当前目录
-      dockerfile: Dockerfile_admin
+      context: ./projects/admin
+      dockerfile: Dockerfile
     image: ${REPO_URL}/elin/elin-blog-admin:latest
     container_name: elin-blog-admin
     ports:
-      - "3001:3000"
+      - "3001:80"
     networks:
       - app-network
     env_file:

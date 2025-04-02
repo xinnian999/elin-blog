@@ -26,7 +26,7 @@ ENV NEXT_OUTPUT=standalone
 RUN pnpm build
 
 RUN mkdir -p dist/build/standalone/dist/build/static && \
-    cp -r dist/build/static dist/build/standalone/dist/build/static
+    cp -r dist/build/static/* dist/build/standalone/dist/build/static
 
 RUN cp -r public dist/build/standalone/public
 
