@@ -23,8 +23,15 @@ request.interceptors.response.use(
     return res
   },
   (error) => {
-    const { status, data } = error.response    
+    const { status, data } = error.response
 
+    // 如果返回了message，则直接弹出message
+    if (data?.message) {
+      ElMessage.error(`${data.code}：${data.message}`);
+      return Promise.reject(error)
+    }
+
+    // 其他未知错误，根据status弹出不同的message
     switch (status) {
       case 500:
         ElMessage({

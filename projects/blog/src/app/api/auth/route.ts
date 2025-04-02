@@ -30,8 +30,11 @@ export async function POST(request: NextRequest) {
     return response;
   }
 
-  return NextResponse.json({
-    code: 401,
-    message: "用户名或密码错误",
-  });
+  return NextResponse.json(
+    {
+      code: 401,
+      message: "用户名或密码错误",
+    },
+    { status: 401 }
+  );
 }

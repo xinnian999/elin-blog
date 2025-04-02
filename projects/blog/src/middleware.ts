@@ -11,7 +11,12 @@ export function middleware(request: NextRequest) {
   // }
 
   console.log('token',token);
+  console.log('request',request);
   
 
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: "/api/:path*",
+};
