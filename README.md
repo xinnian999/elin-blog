@@ -2,6 +2,8 @@
 
 使用 Next.js + DaisyUI 开发的高性能 SSR 博客，全栈项目。
 
+支持博客后台管理，可在线修改博客内容。
+
 ## 开发方式
 
 >前置环境要求：Nodejs v18+ 、 pnpm v8+ 、docker
