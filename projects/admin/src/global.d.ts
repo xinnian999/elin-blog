@@ -34,7 +34,7 @@ type RowAction = {
   onClick: (row: Record<string, any>) => void
 }
 
-type TablePlusRowActions = RowAction[]
+type TablePlusRowActions = RowAction[] | ((row: Record<string, any>) => RowAction[])
 
 type BatchAction = {
   name: string

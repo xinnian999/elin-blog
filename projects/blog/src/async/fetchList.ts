@@ -4,7 +4,7 @@ const baseUrl = `http://${process.env.BLOG_HOST}:${process.env.BLOG_PORT}/api`;
 
 const fetchList = async <T = Record<string, any>>(
   path: string,
-  params: Record<string, any>
+  params: Record<string, any> = {}
 ) => {
   const paramsString = paramsSerializer(params);
 

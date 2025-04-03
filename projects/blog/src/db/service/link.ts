@@ -28,7 +28,6 @@ export const fetchLinkListByPass = async () => {
 };
 
 export const createLink = async (params: Link) => {
-  console.log(params);
   
   const postRepository = await getRepository(Link);
   

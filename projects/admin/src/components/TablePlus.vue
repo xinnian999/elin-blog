@@ -85,7 +85,9 @@
         <template #default="scope">
           <div>
             <el-button
-              v-for="action in props.rowActions"
+              v-for="action in typeof props.rowActions === 'function'
+                ? props.rowActions(scope.row)
+                : props.rowActions"
               :key="action.name"
               :type="action.type"
               :icon="action.icon"
