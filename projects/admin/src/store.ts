@@ -5,17 +5,11 @@ import type { RouteItem } from '@/global'
 export const useStore = defineStore(
   'globalStore',
   () => {
-    const loginStatus = ref(false)
-
     const isCollapse = ref(false)
 
     const cacheMenus = ref<RouteItem[]>([])
 
     const currentMenu = ref<RouteItem>()
-
-    const setLoginStatus = (val: boolean) => {
-      loginStatus.value = val
-    }
 
     const setIsCollapse = (val: boolean) => {
       isCollapse.value = val
@@ -36,11 +30,9 @@ export const useStore = defineStore(
     }
 
     return {
-      loginStatus,
       isCollapse,
       cacheMenus,
       currentMenu,
-      setLoginStatus,
       setIsCollapse,
       addCacheMenus,
       reduceCacheMenus,

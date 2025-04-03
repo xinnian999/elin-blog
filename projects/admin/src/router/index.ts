@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Cookies from 'js-cookie'
 import routes from './list'
-import { useStore } from '@/store'
 
 // 创建路由实例
 const router = createRouter({
@@ -18,8 +17,7 @@ router.beforeEach((to, from, next) => {
   if (Cookies.get('auth_token')) {
     next()
   } else {
-    next({ path: '/login' })
-    useStore().setLoginStatus(false)
+    window.location.href = '/login?auth=0'
   }
 })
 

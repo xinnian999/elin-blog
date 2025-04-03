@@ -1,5 +1,5 @@
 <template>
-  <el-container id="layout" v-if="store.loginStatus">
+  <el-container id="layout" v-if="isAuth">
     <el-aside :width="store.isCollapse ? '64px' : '250px'" id="sidebar">
       <el-menu :default-active="route.path" class="menus" :collapse="store.isCollapse">
         <div class="logoBar">
@@ -74,7 +74,9 @@ import Cookies from 'js-cookie'
 const route = useRoute()
 const router = useRouter()
 
-const store= useStore()
+const store = useStore()
+
+const isAuth = Cookies.get('auth_token')
 
 const menus = routeList.filter((item) => item.title)
 
@@ -103,9 +105,8 @@ const toolbarBtns = [
     message: '退出登陆',
     icon: SwitchButton,
     onClick: () => {
-      router.push({ path: '/login', query: { auth: 0 } })
       Cookies.remove('auth_token')
-      store.setLoginStatus(false)
+      window.location.href = '/login?auth=0'
     },
   },
 ]

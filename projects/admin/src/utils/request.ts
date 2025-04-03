@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { useStore } from '@/store'
-import router from '@/router'
+import Cookies from 'js-cookie'
 
 const request = axios.create({
   baseURL: '/api',
@@ -29,8 +28,8 @@ request.interceptors.response.use(
 
       // 登录失效处理
       if (data.redirect === '/login') {
-        useStore().setLoginStatus(false)
-        router.push('/login?auth=0')
+        Cookies.remove('auth_token')
+        window.location.href = '/login?auth=0'
       }
 
       return Promise.reject(error)

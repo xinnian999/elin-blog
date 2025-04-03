@@ -89,12 +89,12 @@ const handleLogin = async () => {
   await loginRequest.run(formValues.value)
 
   ElMessage.success('登录成功')
-  store.setLoginStatus(true)
 
   if (route.query.auth) {
-    router.back()
+    // 回退到上一个页面
+    window.history.back()
   } else {
-    router.push('/')
+    window.location.href = '/'
   }
 }
 </script>
