@@ -70,16 +70,16 @@ const schema = {
       name: 'password',
       required: true,
     },
-    // {
-    //   label: '验证码',
-    //   component: 'VerifyCode',
-    //   required: true,
-    //   props: {
-    //     placeholder: '请输入验证码',
-    //   },
-    //   designKey: 'design-HUBT',
-    //   name: 'code',
-    // },
+    {
+      label: '验证码',
+      component: 'VerifyCode',
+      required: true,
+      props: {
+        placeholder: '请输入验证码',
+      },
+      designKey: 'design-HUBT',
+      name: 'code',
+    },
   ],
 } satisfies FormSchema
 

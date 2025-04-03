@@ -104,6 +104,7 @@ const toolbarBtns = [
     icon: SwitchButton,
     onClick: () => {
       router.push({ path: '/login', query: { auth: 0 } })
+      Cookies.remove('auth_token')
       store.setLoginStatus(false)
     },
   },

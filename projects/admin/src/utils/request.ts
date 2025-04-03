@@ -30,7 +30,7 @@ request.interceptors.response.use(
       // 登录失效处理
       if (data.redirect === '/login') {
         useStore().setLoginStatus(false)
-        router.push('/login')
+        router.push('/login?auth=0')
       }
 
       return Promise.reject(error)

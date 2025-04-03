@@ -205,8 +205,8 @@ onMounted(() => {
 
   // 如果存在默认过滤条件，则利用过滤监听 来触发初始化刷新
   if (Object.keys(defaultFilters).length > 0) {
-    params.filters = defaultFilters
-    searchValues.value = defaultFilters
+    params.filters = { ...defaultFilters }
+    searchValues.value = { ...defaultFilters }
     state.isSearch = true
   } else {
     refresh() // 否则主动初始化刷新

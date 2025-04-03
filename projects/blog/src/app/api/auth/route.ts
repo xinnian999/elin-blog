@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     response.cookies.set("auth_token", token, {
       httpOnly: false,
-      expires: new Date(Date.now() + 30000),
+      expires: new Date(Date.now() + 60000 * 60 * 24),
     });
 
     return response;
