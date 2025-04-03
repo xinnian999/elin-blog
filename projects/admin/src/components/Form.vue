@@ -31,7 +31,7 @@ onMounted(async () => {
   if (props.schemaId) {
     const res = await formApi.fetchOne({ id: props.schemaId })
 
-    formSchema.value = JSON.parse(res.data.schema)
+    formSchema.value = JSON.parse(res.schema)
   }
 })
 

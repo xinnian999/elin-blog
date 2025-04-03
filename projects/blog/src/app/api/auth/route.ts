@@ -11,9 +11,7 @@ export async function POST(request: NextRequest) {
     password === process.env.ADMIN_PASSWORD
   ) {
     // 生成token
-    const token = jwt.sign({ username }, "blog-admin-token", {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ username }, "blog-admin-token");
 
     // 给前端设置token到cookie
     const response = NextResponse.json({
@@ -21,10 +19,9 @@ export async function POST(request: NextRequest) {
       message: "登录成功",
     });
 
-    response.cookies.set("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
+    response.cookies.set("auth_token", token, {
+      httpOnly: false,
+      expires: new Date(Date.now() + 30000),
     });
 
     return response;

@@ -130,18 +130,6 @@ watch(route, (newVal) => {
   const currentMenu = routeList.find((item) => item.path === newVal.path)!
   store.addCacheMenus(currentMenu)
 })
-
-watch(
-  () => store.loginStatus,
-  (newVal) => {
-    if (newVal) {
-      Cookies.set('auth', '1', { expires: 1 })
-    } else {
-      Cookies.remove('auth')
-    }
-  },
-  { immediate: true },
-)
 </script>
 
 <style lang="scss">

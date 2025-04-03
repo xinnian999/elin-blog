@@ -1,7 +1,12 @@
 <template>
   <div class="grid-table">
     <div class="searchbar" v-show="state.isSearch">
-      <Form :schemaId="props.searchSchemaId" :schema="props.searchSchema" inline v-model="searchValues" />
+      <Form
+        :schemaId="props.searchSchemaId"
+        :schema="props.searchSchema"
+        inline
+        v-model="searchValues"
+      />
 
       <div class="searchbar-actions">
         <el-button type="primary" @click="handleSearch">搜索</el-button>
@@ -49,7 +54,7 @@
 
     <el-table
       :data="state.dataSource"
-      v-loading="state.isLoading"
+      v-loading="fetchRequest.loading"
       height="100%"
       border
       stripe
@@ -111,15 +116,15 @@
 import { defineProps, defineExpose, watch, reactive, useTemplateRef, ref, onMounted } from 'vue'
 import { Hide, Plus, Refresh } from '@element-plus/icons-vue'
 import type { TablePlusBatchActions, TablePlusColumns, TablePlusRowActions } from '@/global'
-import type { AxiosResponse } from 'axios'
 import { Search } from '@element-plus/icons-vue'
 import { Form } from '@/components'
 import { useRoute } from 'vue-router'
 import type { FormSchema } from 'vue-form-craft'
+import { useRequest } from '@/use'
 
 const props = defineProps<{
   columns: TablePlusColumns
-  api: (params: Record<string, any>) => Promise<AxiosResponse<any, any>>
+  api: (params: Record<string, any>) => Promise<Record<string, any>>
   rowActions?: TablePlusRowActions
   batchActions?: TablePlusBatchActions
   searchSchemaId?: string
@@ -131,7 +136,6 @@ const emits = defineEmits(['onClickAdd'])
 const table = useTemplateRef('table')
 
 const state = reactive({
-  isLoading: false,
   dataSource: [],
   total: 0,
   selectedRows: [] as any[],
@@ -153,19 +157,14 @@ const searchValues = ref<Record<string, any>>({})
 
 const route = useRoute()
 
+const fetchRequest = useRequest(props.api)
+
 const refresh = async () => {
-  state.isLoading = true
+  const { list, total } = await fetchRequest.run(params)
 
-  const { status, data } = await props.api(params)
+  state.dataSource = list
+  state.total = total
 
-  if (status === 200) {
-    const { list, total } = data
-
-    state.dataSource = list
-    state.total = total
-  }
-
-  state.isLoading = false
   table.value?.clearSelection()
 }
 

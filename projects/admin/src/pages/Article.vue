@@ -28,7 +28,7 @@ import { useRequest } from '@/use'
 import { formatTime } from '@/utils'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { reactive, useTemplateRef } from 'vue'
+import { reactive, toRef, useTemplateRef } from 'vue'
 const table = useTemplateRef('table')
 
 const columns = [
@@ -76,6 +76,10 @@ const columns = [
   },
 ] satisfies TablePlusColumns
 
+const createFormRequest = useRequest(articleApi.create)
+
+const updateFormRequest = useRequest(articleApi.update)
+
 const formState = reactive({
   visible: false,
   values: {},
@@ -84,16 +88,12 @@ const formState = reactive({
   onOk: () => {},
 })
 
-const createFormRequest = useRequest(articleApi.create)
-
-const updateFormRequest = useRequest(articleApi.update)
-
 const onClickAdd = () => {
   Object.assign(formState, {
     title: '新增文章',
     visible: true,
     values: {},
-    loading: createFormRequest.loading,
+    loading: toRef(createFormRequest, 'loading'),
     onOk: async () => {
       await createFormRequest.run(formState.values)
       ElMessage.success('新增文章成功！')
@@ -119,9 +119,10 @@ const rowActions = [
           tags: data.tags.map((item: any) => item.id),
           content: data.content,
         },
-        loading: updateFormRequest.loading,
+        loading: toRef(updateFormRequest, 'loading'),
         onOk: async () => {
-          await updateFormRequest.run(formState.values), ElMessage.success('修改文章成功！')
+          await updateFormRequest.run(formState.values)
+          ElMessage.success('修改文章成功！')
           formState.visible = false
           table.value?.refresh()
         },

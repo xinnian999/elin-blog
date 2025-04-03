@@ -7,7 +7,13 @@
       <div class="form">
         <form-render v-model="formValues" :schema ref="form" />
 
-        <el-button style="width: 100%" type="primary" :loading @click="handleLogin">登录</el-button>
+        <el-button
+          style="width: 100%"
+          type="primary"
+          :loading="loginRequest.loading"
+          @click="handleLogin"
+          >登录</el-button
+        >
       </div>
     </el-card>
   </div>
@@ -20,12 +26,13 @@ import { useRouter, useRoute } from 'vue-router'
 import type { FormInstance, FormSchema } from 'vue-form-craft'
 import { useStore } from '@/store'
 import authApi from '@/api/auth'
+import { useRequest } from '@/use'
 
 const route = useRoute()
 
 const router = useRouter()
 
-const loading = ref(false)
+const loginRequest = useRequest(authApi.login)
 
 const form = useTemplateRef<FormInstance>('form')
 
@@ -78,31 +85,16 @@ const schema = {
 
 const handleLogin = async () => {
   await form.value?.validate()
-  loading.value = true
 
-  // setTimeout(() => {
-  //   if (formValues.value.username === 'admin' && formValues.value.password === 'admin') {
-  //     loading.value = false
+  await loginRequest.run(formValues.value)
 
-  //     ElMessage.success('登录成功')
+  ElMessage.success('登录成功')
+  store.setLoginStatus(true)
 
-  //     store.setLoginStatus(true)
-
-  //     if (route.query.auth) {
-  //       router.back()
-  //     } else {
-  //       router.push('/')
-  //     }
-  //   }
-  // }, 1000)
-  const res = await authApi.login(formValues.value)
-
-  if (res.data.code === 200) {
-    ElMessage.success('登录成功')
-    store.setLoginStatus(true)
-    router.push('/')
+  if (route.query.auth) {
+    router.back()
   } else {
-    ElMessage.error('登录失败')
+    router.push('/')
   }
 }
 </script>

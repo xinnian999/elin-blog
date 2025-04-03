@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Cookies from 'js-cookie'
 import routes from './list'
-// import { ElMessage } from 'element-plus'
 import { useStore } from '@/store'
 
 // 创建路由实例
@@ -16,11 +15,10 @@ router.beforeEach((to, from, next) => {
     return next()
   }
 
-  if (Cookies.get('auth')) {
+  if (Cookies.get('auth_token')) {
     next()
   } else {
     next({ path: '/login' })
-    // ElMessage.error('请先登录')
     useStore().setLoginStatus(false)
   }
 })

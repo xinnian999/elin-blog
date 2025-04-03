@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { ElMessage, ElMessageBox } from 'element-plus'
-// import { ElMessage, ElMessageBox } from "element-plus";
+import { ElMessage } from 'element-plus'
+import { useStore } from '@/store'
+import router from '@/router'
 
 const request = axios.create({
   baseURL: '/api',
@@ -16,18 +17,22 @@ const request = axios.create({
 
 request.interceptors.response.use(
   (res) => {
-    // if (res.data.message) {
-    //   ElMessageBox.alert(res.data.message, "操作失败", { type: "error" });
-    // }
-
-    return res
+    return res.data
   },
   (error) => {
+    // 全局统一处理后端报错
     const { status, data } = error.response
 
-    // 如果返回了message，则直接弹出message
+    // 如果后端报错并返回了message，则直接弹出message
     if (data?.message) {
-      ElMessage.error(`${data.code}：${data.message}`);
+      ElMessage.error(`${data.code}：${data.message}`)
+
+      // 登录失效处理
+      if (data.redirect === '/login') {
+        useStore().setLoginStatus(false)
+        router.push('/login')
+      }
+
       return Promise.reject(error)
     }
 
@@ -41,7 +46,7 @@ request.interceptors.response.use(
         break
       case 404:
         ElMessage({
-          message: '接口不存在404',
+          message: '404：接口不存在',
           type: 'error',
         })
         break

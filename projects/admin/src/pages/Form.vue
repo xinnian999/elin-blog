@@ -30,7 +30,7 @@ import { useRequest } from '@/use'
 import { formatTime } from '@/utils'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { reactive, useTemplateRef } from 'vue'
+import { reactive, toRef, useTemplateRef } from 'vue'
 import type { FormSchema } from 'vue-form-craft'
 
 const table = useTemplateRef('table')
@@ -100,7 +100,7 @@ const onClickAdd = () => {
       name: '',
       schema: { items: [] },
     },
-    loading: createFormRequest.loading,
+    loading: toRef(createFormRequest, 'loading'),
     onOk: async () => {
       await createFormRequest.run({
         name: formState.values.name,
@@ -126,14 +126,15 @@ const rowActions = [
           name: data.name,
           schema: JSON.parse(data.schema),
         },
-        loading: updateFormRequest.loading,
+        loading: toRef(updateFormRequest, 'loading'),
         onOk: async () => {
           await updateFormRequest.run({
             id: data.id,
             name: formState.values.name,
             schema: JSON.stringify(formState.values.schema),
-          }),
-            ElMessage.success('修改表单成功！')
+          })
+
+          ElMessage.success('修改表单成功！')
           formState.visible = false
           table.value?.refresh()
         },
