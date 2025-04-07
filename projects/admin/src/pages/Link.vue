@@ -46,6 +46,7 @@ const columns = [
   {
     label: '状态',
     prop: 'status',
+    width: 120,
     formatter(row, column, cellValue, index) {
       return <el-tag type={LinkStatus[cellValue].type}>{LinkStatus[cellValue].text}</el-tag>
     },
@@ -53,6 +54,7 @@ const columns = [
   {
     label: '头像',
     prop: 'avatar',
+    width: 120,
     formatter(row, column, cellValue, index) {
       return <el-avatar src={cellValue} />
     },
@@ -71,6 +73,10 @@ const columns = [
         </el-link>
       )
     },
+  },
+  {
+    label: '描述',
+    prop: 'desc',
   },
   // {
   //   label: '创建时间',

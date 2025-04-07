@@ -1,11 +1,10 @@
-import { fetchList } from "@/async";
+import articleApi from "@/api/article";
 import { ArticleList, HomeRightBar } from "@/components";
-import { Article } from "@/db";
 import classNames from "classnames";
 import Link from "next/link";
 
 export default async function Home() {
-  const { list, pageTotal } = await fetchList<Article>("/article", {
+  const { list, pageTotal } = await articleApi.getArticleList({
     pageNum: 1,
     pageSize: 5,
     orderBys: {

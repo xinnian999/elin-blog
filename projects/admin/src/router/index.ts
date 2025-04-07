@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
   if (Cookies.get('auth_token')) {
     next()
   } else {
-    window.location.href = '/login?auth=0'
+    window.location.href = '/login'
   }
 })
 

@@ -1,5 +1,5 @@
 import { fetchList } from "@/async";
-import DynamicPage from "./DynamicPage";
+import ClientPage from "./ClientPage";
 import { Link, LinkStatus } from "@/db";
 
 export default async function LinkPage() {
@@ -9,5 +9,5 @@ export default async function LinkPage() {
     },
   });
 
-  return <DynamicPage dataSource={list} />;
+  return <ClientPage dataSource={list} />;
 }
