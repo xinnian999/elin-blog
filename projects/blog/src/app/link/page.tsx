@@ -1,9 +1,9 @@
-import { fetchList } from "@/async";
+import { LinkStatus } from "@/db";
+import linkApi from "@/api/link";
 import ClientPage from "./ClientPage";
-import { Link, LinkStatus } from "@/db";
 
 export default async function LinkPage() {
-  const { list } = await fetchList<Link>("/link", {
+  const { list } = await linkApi.getLinkList({
     filters: {
       status: LinkStatus["审核通过"],
     },

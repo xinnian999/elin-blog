@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import useStore from "@/store";
 import { useMessage } from "@/hooks";
-
+import linkApi from "@/api/link";
 const fields = [
   { label: "名称", name: "name", placeholder: "你的网站名称" },
   { label: "地址", name: "url", placeholder: "你的网站地址" },
@@ -52,10 +52,7 @@ export default function LinkPage({
   };
 
   const handleSubmit = async () => {
-    await fetch("/api/link/apply", {
-      method: "POST",
-      body: JSON.stringify(values),
-    });
+    await linkApi.applyLink(values);
 
     setOpen(false);
 

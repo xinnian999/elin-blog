@@ -1,15 +1,14 @@
-import { fetchList } from "@/async";
+import categoryApi from "@/api/category";
 import { Card } from "@/components";
-import { Category } from "@/db";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
 export default async function Categories() {
   const navT = await getTranslations("Nav");
 
-  const { list } = await fetchList<Category>("/category", {
+  const { list } = await categoryApi.getCategoryList({
     pageNum: 1,
-    pageSize: 100,
+    pageSize: 1000,
     orderBys: {
       id: "desc",
     },

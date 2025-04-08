@@ -1,5 +1,6 @@
 import { ArticleList, Breadcrumb, HomeRightBar } from "@/components";
-import { fetchArticleByCategory } from "@/db";
+import articleApi from "@/api/article";
+import categoryApi from "@/api/category";
 
 export default async function CategoryId({
   params,
@@ -8,11 +9,19 @@ export default async function CategoryId({
 }) {
   const categoryId = +(await params).categoryId;
 
-  const data = await fetchArticleByCategory(categoryId);
+  const { list } = await articleApi.getArticleList({
+    filters: {
+      category: categoryId,
+    },
+    pageNum: 1,
+    pageSize: 1000,
+  });
+
+  const category = await categoryApi.getCategoryById(categoryId);
 
   const breadcrumbs = [
     { title: "分类", to: "/categories" },
-    { title: data[0].categoryText },
+    { title: category.name },
   ];
 
   return (
@@ -20,7 +29,7 @@ export default async function CategoryId({
       <div className="flex-1 overflow-hidden">
         <Breadcrumb data={breadcrumbs} />
 
-        <ArticleList list={data} />
+        <ArticleList list={list} />
       </div>
 
       <HomeRightBar />

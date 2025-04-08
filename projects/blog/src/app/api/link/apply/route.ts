@@ -10,5 +10,5 @@ export async function POST(request: NextRequest) {
 
   await linkRepository.save(link);
 
-  return Response.json(link);
+  return Response.json({ link, status: "success" });
 }

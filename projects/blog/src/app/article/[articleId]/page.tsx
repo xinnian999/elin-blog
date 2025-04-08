@@ -1,4 +1,4 @@
-import { fetchArticleById, fetchCommentList } from "@/db";
+import { fetchCommentList } from "@/db";
 import MarkdownIt from "markdown-it";
 import { getDayjs } from "@/async";
 import Anchor from "./Anchor";
@@ -6,6 +6,7 @@ import Relate from "./Relate";
 import { Affix } from "antd";
 import { Card, Comment, MdRender } from "@/components";
 import { CategoryIcon, TagIcon } from "@/icons";
+import articleApi from "@/api/article";
 
 const md = new MarkdownIt({
   html: true, // 允许 HTML
@@ -26,7 +27,7 @@ export default async function Article({
     created_at,
     categoryText,
     tags = [],
-  } = (await fetchArticleById(articleId)) || {};
+  } = await articleApi.getArticleById(articleId);
 
   const commentList = await fetchCommentList({ type: "article", articleId });
 
