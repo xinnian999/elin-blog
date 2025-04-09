@@ -1,7 +1,6 @@
 "use client";
 
 import { BrowserIcon, LikeIcon, RegionIcon } from "@/icons";
-import { likeComment } from "@/db";
 import { useDayjs, useMessage, useMounted } from "@/hooks";
 import Image from "next/image";
 import Write from "./Write";
@@ -57,7 +56,8 @@ const Comment = (props: Props) => {
       return;
     }
 
-    await likeComment(id);
+    await commentApi.likeComment({ id });
+
     addLikeComment(id);
 
     refreshList();

@@ -1,7 +1,6 @@
 import sendEmail from "@/async/sendEmail";
 import setCommentInfo from "../setCommentInfo";
-import { withErrorHandler } from "@/db";
-import { Comment, getRepository } from "@/db";
+import { Comment, getRepository, withErrorHandler } from "@/db";
 import { NextRequest } from "next/server";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {

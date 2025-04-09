@@ -20,7 +20,17 @@ const getArticleById = async (id: number) => {
   return res as Article;
 };
 
+const getArticleArchive = async () => {
+  const res = await request({
+    path: "/article/archive",
+    method: "GET",
+  });
+
+  return res as ListResponse<{ year: number; article_count: number }>;
+};
+
 export default {
   getArticleList,
   getArticleById,
+  getArticleArchive,
 };

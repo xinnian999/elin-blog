@@ -22,7 +22,7 @@ const request = async <T = any>({
 }: {
   path: string;
   params?: Record<string, any>;
-  method?: "GET" | "POST";
+  method?: "GET" | "POST" | "PUT";
   data?: Record<string, any>;
 }): Promise<T> => {
   let url = `${baseUrl}${path}`;

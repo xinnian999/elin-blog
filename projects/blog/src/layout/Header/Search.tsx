@@ -1,19 +1,21 @@
 "use client";
 import { Modal } from "@/components";
-import { useFetchData } from "@/hooks";
-import { Article, fetchArticleList } from "@/db";
+import { Article } from "@/db";
 import { EnterIcon, SearchIcon } from "@/icons";
-import { useUpdateEffect } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
 import Fuse from "fuse.js";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import articleApi from "@/api/article";
 
 function Search() {
   const [open, setOpen] = useState(false);
 
   const [q, setQ] = useState("");
 
-  const { data } = useFetchData({ api: fetchArticleList });
+  const { data } = useRequest(articleApi.getArticleList);
+
+  const list = data?.list || [];
 
   const [results, setResults] = useState<Article[]>([]);
 
@@ -21,7 +23,7 @@ function Search() {
 
   useUpdateEffect(() => {
     if (q) {
-      const fuse = new Fuse(data!, {
+      const fuse = new Fuse(list!, {
         keys: ["title", "content"], // 要搜索的字段
         includeScore: true, // 如果需要返回匹配度得分
       });
@@ -42,7 +44,10 @@ function Search() {
 
   return (
     <>
-      <button className="btn btn-ghost btn-xs sm:btn-sm md:btn-md" onClick={() => setOpen(true)}>
+      <button
+        className="btn btn-ghost btn-xs sm:btn-sm md:btn-md"
+        onClick={() => setOpen(true)}
+      >
         <SearchIcon className="h-8 w-8 fill-current" />
       </button>
       <Modal

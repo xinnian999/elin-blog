@@ -1,8 +1,6 @@
-"use server";
+import { getRepository, Visit } from "@/db";
 
-import { Visit, getRepository } from "@/db";
-
-export const fetchVisits = async () => {
+export async function GET() {
   const postRepository = await getRepository(Visit);
 
   let visitStat = await postRepository.findOneBy({ id: 1 });
@@ -18,15 +16,5 @@ export const fetchVisits = async () => {
   visitStat.visits += 1;
   await postRepository.save(visitStat);
 
-  return visitStat.visits
-};
-
-export const addVisit = async (params: Visit) => {
-  const postRepository = await getRepository(Visit);
-  
-  const tag = postRepository.create(params);
-
-  await postRepository.save(tag);
-
-  return;
-};
+  return Response.json({ visits: visitStat.visits });
+}

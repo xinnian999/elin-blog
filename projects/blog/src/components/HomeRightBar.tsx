@@ -1,17 +1,23 @@
 import { getDayjs } from "@/async";
 import { Card } from "@/components";
-import { fetchLinkListByPass } from "@/db";
-import { fetchHomeCommentList } from "@/db";
+import commentApi from "@/api/comment";
 import classNames from "classnames";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import linkApi from "@/api/link";
 
 export default async function HomeRightBar() {
   const t = await getTranslations("Home");
 
-  const comments = await fetchHomeCommentList();
+  const { list: comments } = await commentApi.getCommentRootList({
+    filters: { type: "comment" },
+    orderBys: { id: "desc" },
+  });
 
-  const links = await fetchLinkListByPass();
+  const { list: links } = await linkApi.getLinkList({
+    filters: { status: 2 },
+    orderBys: { id: "desc" },
+  });
 
   const dayjs = await getDayjs();
 

@@ -1,7 +1,7 @@
-import { fetchVisits } from "@/db";
+import summaryApi from "@/api/summary";
 
 const Footer = async () => {
-  const visits = await fetchVisits();
+  const {visits} = await summaryApi.getVisits();
 
   return (
     <div className="bg-base z-10 relative">
