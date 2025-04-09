@@ -25,12 +25,12 @@ class ErrorBoundary extends React.Component<
     if (this.state.hasError) {
       // 你可以渲染任何自定义的备用 UI
       return (
-        <div className="hero bg-base-200 min-h-screen">
-          <div className="hero-content text-center">
-            <div className="max-w-md">
+        <div className="hero bg-base-200 min-h-screen ">
+          <div className="hero-content text-center bg-base-top rounded-lg p-5 w-[30vw]">
+            <div className="max-w-md w-full">
               <h1 className="text-5xl font-bold">出错啦</h1>
               <pre
-                className="py-6 max-w-[30vw] overflow-auto"
+                className="py-6 max-h-[30vh] overflow-auto my-6 border text-left p-5"
                 style={{
                   whiteSpace: "pre-wrap",
                   wordWrap: "break-word",

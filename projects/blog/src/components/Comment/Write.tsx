@@ -1,6 +1,5 @@
 "use client";
 
-import { fetchQQInfo } from "@/db";
 import { useMounted, useTheme } from "@/hooks";
 import Image from "next/image";
 import { useState } from "react";
@@ -13,6 +12,7 @@ import { useLocale } from "next-intl";
 import "./write.css";
 import { Popover } from "antd";
 import useStore from "@/store";
+import qqApi from "@/api/qq";
 
 const locales = {
   en,
@@ -49,7 +49,7 @@ export default function Write({
   const onNickNameBlur = async () => {
     if (!nickname) return;
     if (!isNaN(Number(nickname))) {
-      const { name, avatar, qq } = await fetchQQInfo(nickname!);
+      const { name, avatar, qq } = await qqApi.fetchQQInfo(nickname!);
       setUserInfo({ nickname: name, avatar, email: `${qq}@qq.com` });
     }
   };

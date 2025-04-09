@@ -1,9 +1,16 @@
 import { Alert, Card } from "@/components";
 import { Comment } from "@/components";
-import { fetchCommentList } from "@/db";
+import commentApi from "@/api/comment";
 
 export default async function CommentPage() {
-  const commentList = await fetchCommentList({ type: "comment" });
+  const { list: commentList } = await commentApi.getCommentRootList({
+    filters: {
+      type: "comment",
+    },
+    orderBys: {
+      id: "desc",
+    },
+  });
 
   return (
     <div className="flex flex-col gap-6">

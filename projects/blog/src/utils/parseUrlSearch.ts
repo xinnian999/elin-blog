@@ -5,7 +5,12 @@ const parseUrlSearch = (request: NextRequest) => {
 
   const res = [...searchParams.entries()].reduce<Record<string, any>>(
     (acc, [key, value]) => {
-      acc[key] = JSON.parse(value);
+      
+      try {
+        acc[key] = JSON.parse(value);
+      } catch {
+        acc[key] = value;
+      }
 
       return acc;
     },

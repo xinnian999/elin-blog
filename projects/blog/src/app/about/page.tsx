@@ -1,11 +1,18 @@
 import { Card, Comment } from "@/components";
-import { fetchCommentList } from "@/db";
+import commentApi from "@/api/comment";
 import { getTranslations } from "next-intl/server";
 
 export default async function About() {
   const t = await getTranslations("About");
 
-  const commentList = await fetchCommentList({ type: "about" });
+  const { list: commentList } = await commentApi.getCommentRootList({
+    filters: {
+      type: "about",
+    },
+    orderBys: {
+      id: "desc",
+    },
+  });
 
   return (
     <div className="flex flex-col gap-6">

@@ -1,7 +1,7 @@
 "use client";
 
 import { BrowserIcon, LikeIcon, RegionIcon } from "@/icons";
-import { likeComment, replyComment } from "@/db";
+import { likeComment } from "@/db";
 import { useDayjs, useMessage, useMounted } from "@/hooks";
 import Image from "next/image";
 import Write from "./Write";
@@ -11,6 +11,7 @@ import { useMount } from "ahooks";
 import useStore from "@/store";
 import classNames from "classnames";
 import { getOsIcon } from "./utils";
+import commentApi from "@/api/comment";
 
 interface Props extends CommentEntity {
   replyTarget: CommentEntity | null;
@@ -169,11 +170,11 @@ const Comment = (props: Props) => {
               id={props.id}
               placeholder={`回复 ${replyTarget.nickname}`}
               publishCallback={async ({ avatar, nickname, content, email }) => {
-                await replyComment({
+                await commentApi.replyComment({
                   parentCommentId:
                     replyTarget.parentComment?.id || replyTarget.id,
                   targetCommentId: replyTarget.id!,
-                  params: {
+                  payload: {
                     avatar,
                     nickname,
                     content,

@@ -5,6 +5,15 @@ const baseUrl = isServer
   ? `http://${process.env.BLOG_HOST}:${process.env.BLOG_PORT}/api`
   : "/api"; // 客户端组件只用相对路径即可
 
+const rejectResponse = (text: string) => {
+  // 由于客户端操作错误不会自动弹出来，所以手动弹
+  if (!isServer) {
+    alert(text);
+  }
+
+  return Promise.reject(text);
+};
+
 const request = async <T = any>({
   path,
   params = {},
@@ -40,23 +49,24 @@ const request = async <T = any>({
     // 判断不是 JSON 格式，防止 HTML 被 json() 解析时报错
     if (!contentType.includes("application/json")) {
       const text = await res.text();
-      return Promise.reject(
-        `返回数据不是 JSON 格式，可能是 HTML 错误页\n地址：${url}\n返回内容：\n${text}`
+
+      return rejectResponse(
+        `请求失败：${res.status} ${res.statusText}\n\n请求地址：${url}\n\n 原因分析：返回数据不是 JSON 格式，可能是 HTML 错误页\n\n 返回内容：\n${text}`
       );
     }
 
     const result = await res.json();
 
     if (!res.ok) {
-      return Promise.reject(
-        `请求失败：${res.status} ${res.statusText}\n\n ${JSON.stringify(result)}`
+      return rejectResponse(
+        `请求失败：${res.status} ${res.statusText}\n\n ${JSON.stringify(result, null, 2)}`
       );
     }
 
     return result;
   } catch (error: any) {
-    return Promise.reject(
-      `与后端通信异常\n请求地址：${url}\n错误信息：${error.message}`
+    return rejectResponse(
+      `请求异常\n\n请求地址：${url}\n\n错误信息：${error.message}`
     );
   }
 };

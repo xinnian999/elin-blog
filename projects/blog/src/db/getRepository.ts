@@ -29,10 +29,10 @@ export const getRepository = async <T extends ObjectLiteral>(
       await AppDataSource.initialize();
     } catch (e: any) {
       if (e.code === "ECONNREFUSED") {
-        return Promise.reject("数据库连接失败");
+        return Promise.reject("服务器异常：数据库连接失败");
       }
     }
-  }
+  }  
 
   return AppDataSource.getRepository(entity);
 };

@@ -1,14 +1,12 @@
 "use client";
-import { Card, Comment, Modal, Alert } from "@/components";
-import { Link as LinkEntity } from "@/db";
+import { Modal } from "@/components";
 import { useSetState } from "ahooks";
 import classNames from "classnames";
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import useStore from "@/store";
 import { useMessage } from "@/hooks";
 import linkApi from "@/api/link";
+
 const fields = [
   { label: "名称", name: "name", placeholder: "你的网站名称" },
   { label: "地址", name: "url", placeholder: "你的网站地址" },
@@ -21,11 +19,7 @@ const fields = [
   },
 ];
 
-export default function LinkPage({
-  dataSource,
-}: {
-  dataSource: LinkEntity[];
-}) {
+export default function ApplyButton() {
   const [open, setOpen] = useState(false);
 
   const email = useStore((state) => state.userInfo.email);
@@ -69,56 +63,10 @@ export default function LinkPage({
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <Card title="友情链接">
-        <div className="mt-4">
-          <Alert>
-            本页友链随机排序！
-            <br />
-            申请友链请点击下方按钮！如果需要修改友联信息，请在下方评论区留言！
-          </Alert>
-
-          <button className="btn btn-primary" onClick={handleApply}>
-            申请友链
-          </button>
-
-          <div className="divider" />
-
-          <div className="grid grid-cols-3 gap-8">
-            {dataSource.map((item) => {
-              if (!item.url.includes("://")) {
-                item.url = "https://" + item.url;
-              }
-              return (
-                <div
-                  className="h-20 bg-base-300 rounded-lg flex items-center p-4 gap-4  overflow-hidden"
-                  key={item.id}
-                >
-                  <div className="avatar">
-                    <div className="w-14 h-14 rounded-full">
-                      <Image src={item.avatar} width={30} height={30} alt="" />
-                    </div>
-                  </div>
-
-                  <div className="flex-1 flex flex-col gap-2  overflow-hidden">
-                    <div className="font-bold text-blue-500 hover:text-blue-700">
-                      <Link href={item.url} target="_blank">
-                        {item.name}
-                      </Link>
-                    </div>
-                    <div
-                      className="text-sm text-ellipsis whitespace-nowrap  overflow-hidden"
-                      title={item.desc}
-                    >
-                      {item.desc}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </Card>
+    <>
+      <button className="btn btn-primary" onClick={handleApply}>
+        申请友链
+      </button>
 
       <Modal
         open={open}
@@ -158,8 +106,6 @@ export default function LinkPage({
           })}
         </div>
       </Modal>
-
-      <Comment type="link" />
-    </div>
+    </>
   );
 }
