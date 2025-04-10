@@ -29,7 +29,7 @@ request.interceptors.response.use(
       // 登录失效处理
       if (data.redirect === '/login') {
         Cookies.remove('auth_token')
-        window.location.href = '/login?auth=0'
+        window.location.href = '/admin/login?auth=0'
       }
 
       return Promise.reject(error)

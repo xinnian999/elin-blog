@@ -20,5 +20,5 @@ export default defineConfig({
     },
     port: 3001,
   },
-  // base: '/admin/',
+  base: '/admin/',
 })

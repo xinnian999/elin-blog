@@ -106,7 +106,7 @@ const toolbarBtns = [
     icon: SwitchButton,
     onClick: () => {
       Cookies.remove('auth_token')
-      window.location.href = '/login?auth=0'
+      window.location.href = '/admin/login?auth=0'
     },
   },
 ]

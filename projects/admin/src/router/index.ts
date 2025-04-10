@@ -5,7 +5,7 @@ import routes from './list'
 // 创建路由实例
 const router = createRouter({
   routes,
-  history: createWebHistory('./'),
+  history: createWebHistory('/admin/'),
 })
 
 // 路由守卫监听登陆状态，非登陆状态下只能访问/login
@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
   if (Cookies.get('auth_token')) {
     next()
   } else {
-    window.location.href = '/login'
+    window.location.href = '/admin/login'
   }
 })
 
