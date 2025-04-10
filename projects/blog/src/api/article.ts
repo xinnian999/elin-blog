@@ -17,7 +17,7 @@ const getArticleById = async (id: number) => {
     method: "GET",
   });
 
-  return res as Article;
+  return res as { article: Article; relates: Article[] };
 };
 
 const getArticleArchive = async () => {

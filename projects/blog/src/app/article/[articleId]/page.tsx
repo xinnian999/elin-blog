@@ -21,13 +21,9 @@ export default async function Article({
 }) {
   const articleId = +(await params).articleId;
 
-  const {
-    content = "",
-    title,
-    created_at,
-    categoryText,
-    tags = [],
-  } = await articleApi.getArticleById(articleId);
+  const { article, relates } = await articleApi.getArticleById(articleId);
+
+  const { content = "", title, created_at, categoryText, tags = [] } = article;
 
   const { list: commentList } = await commentApi.getCommentRootList({
     filters: { type: "article", articleId },
@@ -86,7 +82,7 @@ export default async function Article({
         <Affix offsetTop={100}>
           <div>
             <Anchor headings={headings} />
-            <Relate articleId={articleId} />
+            <Relate list={relates} />
           </div>
         </Affix>
       </div>

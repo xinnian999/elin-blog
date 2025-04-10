@@ -19,6 +19,8 @@ export default async function HomeRightBar() {
     orderBys: { id: "desc" },
   });
 
+  const randomLinks = links.sort(() => Math.random() - 0.5);
+
   const dayjs = await getDayjs();
 
   return (
@@ -44,7 +46,7 @@ export default async function HomeRightBar() {
         <p className="text-xs">友情链接</p>
 
         <div className="flex flex-wrap gap-5 mt-4">
-          {links.map((item) => {
+          {randomLinks.map((item) => {
             return (
               <Link href={item.url} key={item.id} target="_blank">
                 <button className={classNames("btn-xs btn")}>

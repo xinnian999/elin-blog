@@ -1,11 +1,9 @@
 import { getDayjs } from "@/async";
 import { Card } from "@/components";
-import { fetchRelateArticleById } from "@/db";
+import { Article } from "@/db";
 import Link from "next/link";
 
-async function Relate({ articleId }: { articleId: number }) {
-  const article = await fetchRelateArticleById(articleId);
-
+async function Relate({ list }: { list: Article[] }) {
   const dayjs = await getDayjs();
 
   return (
@@ -14,7 +12,7 @@ async function Relate({ articleId }: { articleId: number }) {
 
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-5 mt-4">
-          {article.map((item) => {
+          {list.map((item) => {
             return (
               <div key={item.id}>
                 <Link href={`/article/${item.id}`}>

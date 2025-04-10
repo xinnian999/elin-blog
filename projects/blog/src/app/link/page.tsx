@@ -22,6 +22,8 @@ export default async function LinkPage() {
     },
   });
 
+  const randomList = list.sort(() => Math.random() - 0.5);
+
   return (
     <div className="flex flex-col gap-6">
       <Card title="友情链接">
@@ -37,7 +39,7 @@ export default async function LinkPage() {
           <div className="divider" />
 
           <div className="grid grid-cols-3 gap-8">
-            {list.map((item) => {
+            {randomList.map((item) => {
               if (!item.url.includes("://")) {
                 item.url = "https://" + item.url;
               }
