@@ -26,4 +26,5 @@ vue.use(vueFormCraft, {
   extendElements,
 })
 
+
 vue.mount('#app')

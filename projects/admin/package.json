@@ -15,17 +15,18 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.8.4",
+    "dayjs": "^1.11.13",
+    "echarts": "^5.6.0",
     "element-plus": "^2.9.7",
     "js-cookie": "^3.0.5",
-    "sass": "^1.83.4",
+    "lodash": "^4.17.21",
     "md-editor-v3": "^5.4.5",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",
+    "sass": "^1.83.4",
     "vue": "^3.5.13",
     "vue-form-craft": "^4.6.6",
-    "vue-router": "^4.5.0",
-    "dayjs": "^1.11.13",
-    "lodash": "^4.17.21"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",

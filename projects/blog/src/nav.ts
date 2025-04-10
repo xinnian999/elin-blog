@@ -25,10 +25,10 @@ export default (t: (key: string) => string): MenuItem[] => [
     label: t("Nav Friend Comment"),
     to: "/comment",
   },
-  {
-    label: "作品",
-    to: "/works",
-  },
+  // {
+  //   label: "作品",
+  //   to: "/works",
+  // },
   {
     label: t("Nav About"),
     to: "/about",

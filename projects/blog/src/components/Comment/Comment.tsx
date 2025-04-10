@@ -5,7 +5,7 @@ import { useDayjs, useMessage, useMounted } from "@/hooks";
 import Image from "next/image";
 import Write from "./Write";
 import { Comment as CommentEntity } from "@/db";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useMount } from "ahooks";
 import useStore from "@/store";
 import classNames from "classnames";
@@ -79,6 +79,10 @@ const Comment = (props: Props) => {
 
   const firstReply = props.replies?.[0];
 
+  const isAdmin = useMemo(() => {
+    return props.email === "3307578337@qq.com";
+  }, [props.email]);
+
   return (
     <div className="py-4" id={props.id!.toString()}>
       <div className="flex gap-3 md:gap-4">
@@ -94,7 +98,12 @@ const Comment = (props: Props) => {
         <div className="flex-1 gap-1 flex flex-col ">
           <div className="flex justify-between text-[14px]">
             <div className="flex gap-3 items-center text-gray-500">
-              <div className="">{props.nickname}</div>
+              <div className="flex gap-2 items-center">
+                {props.nickname}
+                {isAdmin && (
+                  <div className="badge badge-primary badge-sm">博主</div>
+                )}
+              </div>
 
               <div>{dayjs(props.created_at).fromNow()}</div>
             </div>

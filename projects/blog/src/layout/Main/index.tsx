@@ -9,8 +9,6 @@ interface MainProps {
 
 const Main: FC<MainProps> = async ({ children }) => {
   const data = await summaryApi.getArticleSummary();
-  console.log(data);
-  
 
   const { list: archives } = await articleApi.getArticleArchive();
 

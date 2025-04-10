@@ -1,7 +1,7 @@
 import type { RouteItem } from '@/global'
 import {
   HomeFilled,
-  MapLocation,
+  ChatDotRound,
   Document,
   Collection,
   PriceTag,
@@ -50,12 +50,12 @@ export default [
     component: () => import('@/pages/Link.vue'),
   },
 
-  // {
-  //   title: '评论留言管理',
-  //   path: '/comment',
-  //   icon: Link,
-  //   component: () => import('../pages/Comment.vue'),
-  // },
+  {
+    title: '评论留言管理',
+    path: '/comment',
+    icon: ChatDotRound,
+    component: () => import('@/pages/Comment.vue'),
+  },
   {
     title: '表单管理',
     path: '/form',

@@ -19,7 +19,6 @@ const CommentBar = ({
   className?: string;
   initialData?: CommentEntity[];
 }) => {
-  // const type = articleId ? "article" : "comment";
 
   const { data, run } = useRequest(() =>
     commentApi.getCommentRootList({

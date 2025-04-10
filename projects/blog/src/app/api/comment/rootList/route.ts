@@ -2,7 +2,7 @@ import { Comment, getRepository, withErrorHandler } from "@/db";
 import { parseUrlSearch } from "@/utils";
 import { instanceToPlain } from "class-transformer";
 import { NextRequest } from "next/server";
-import { FindOptionsWhere, IsNull } from "typeorm";
+import { FindOptionsWhere, IsNull, Like } from "typeorm";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const {
@@ -19,6 +19,14 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     parentComment: IsNull(),
     type: filters.type,
   };
+
+  if (filters.nickname) {
+    where.nickname = Like(`%${filters.nickname}%`);
+  }
+
+  if (filters.region) {
+    where.region = Like(`%${filters.region}%`);
+  }
 
   // 如果是文章评论且提供了文章ID，那么查找对应的文章评论
   if (filters.type === "article" && filters.articleId) {

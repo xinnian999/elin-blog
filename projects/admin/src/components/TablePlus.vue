@@ -29,7 +29,13 @@
       </div>
 
       <div class="toolButton">
-        <el-button type="success" size="small" :icon="Plus" @click="emits('onClickAdd')">
+        <el-button
+          type="success"
+          size="small"
+          :icon="Plus"
+          @click="emits('onClickAdd')"
+          v-if="props.allowAdd"
+        >
           新增
         </el-button>
 
@@ -57,12 +63,14 @@
       v-loading="fetchRequest.loading"
       height="100%"
       border
-      stripe
+      :stripe
       @selection-change="onSelectionChange"
       row-key="id"
       empty-text="暂无数据"
       @sort-change="onSortChange"
       :default-sort="{ prop: 'id', order: 'descending' }"
+      :tree-props
+      :row-class-name="props.rowClassName"
       ref="table"
     >
       <el-table-column type="selection" width="55" :reserve-selection="true" />
@@ -124,14 +132,24 @@ import { useRoute } from 'vue-router'
 import type { FormSchema } from 'vue-form-craft'
 import { useRequest } from '@/use'
 
-const props = defineProps<{
-  columns: TablePlusColumns
-  api: (params: Record<string, any>) => Promise<Record<string, any>>
-  rowActions?: TablePlusRowActions
-  batchActions?: TablePlusBatchActions
-  searchSchemaId?: string
-  searchSchema?: FormSchema
-}>()
+const props = withDefaults(
+  defineProps<{
+    columns: TablePlusColumns
+    api: (params: Record<string, any>) => Promise<Record<string, any>>
+    rowActions?: TablePlusRowActions
+    batchActions?: TablePlusBatchActions
+    searchSchemaId?: string
+    searchSchema?: FormSchema
+    treeProps?: Record<string, any>
+    stripe?: boolean
+    rowClassName?: string | ((data: { row: any; rowIndex: number }) => string)
+    allowAdd?: boolean
+  }>(),
+  {
+    stripe: true,
+    allowAdd: true,
+  },
+)
 
 const emits = defineEmits(['onClickAdd'])
 

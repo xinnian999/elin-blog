@@ -20,6 +20,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     take: pageSize, // 每页返回的记录数
     order: orderBys,
     where,
+    relations: ["parentArticle", "parentComment", "targetComment"],
   });
 
   return Response.json({
