@@ -30,13 +30,9 @@ import { useRequest } from '@/use'
 
 const route = useRoute()
 
-const router = useRouter()
-
 const loginRequest = useRequest(authApi.login)
 
 const form = useTemplateRef<FormInstance>('form')
-
-const store = useStore()
 
 const formValues = ref({
   username: '',
@@ -94,7 +90,7 @@ const handleLogin = async () => {
     // 回退到上一个页面
     window.history.back()
   } else {
-    window.location.href = '/'
+    window.location.href = '/admin'
   }
 }
 </script>
