@@ -6,13 +6,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
-import {
-  BackendIcon,
-  BliIcon,
-  EmailIcon,
-  QQIcon,
-  WechatIcon,
-} from "@/icons";
+import { BackendIcon, BliIcon, EmailIcon, QQIcon, WechatIcon } from "@/icons";
 import { Sticky } from "@/components";
 
 interface Props {
@@ -65,6 +59,16 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
       href: "/tags",
     },
   ];
+
+  const handleGoAdmin = () => {
+    // console.log(process.env.NODE_ENV);
+    const isDev = process.env.NODE_ENV === "development";
+    if (isDev) {
+      window.open(`http://${window.location.hostname}:3001/admin/`);
+    } else {
+      window.open(`${window.location.origin}/admin`);
+    }
+  };
 
   return (
     <div
@@ -138,17 +142,13 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
                 ))}
               </div>
               <div className="w-full text-center">
-                {process.env.NEXT_PUBLIC_GO_ADMIN_URL && (
-                  <button
-                    className="btn bg-primary btn-block text-white max-w-[300px]"
-                    onClick={() =>
-                      window.open(process.env.NEXT_PUBLIC_GO_ADMIN_URL)
-                    }
-                  >
-                    <BackendIcon className="h-5 w-5 fill-current" />{" "}
-                    {t("Admin Label")}
-                  </button>
-                )}
+                <button
+                  className="btn bg-primary btn-block text-white max-w-[300px]"
+                  onClick={handleGoAdmin}
+                >
+                  <BackendIcon className="h-5 w-5 fill-current" />{" "}
+                  {t("Admin Label")}
+                </button>
               </div>
             </div>
           </Card>
