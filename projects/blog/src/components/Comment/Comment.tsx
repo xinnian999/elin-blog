@@ -148,7 +148,7 @@ const Comment = (props: Props) => {
 
           {/* 位置/浏览器/操作系统 */}
           {(props.region || props.browser || props.os) && (
-            <div className="text-gray-500 flex gap-x-3 items-center flex-wrap">
+            <div className="text-gray-500 flex gap-x-3 items-center flex-wrap text-xs">
               {props.region && (
                 <div className="flex items-center gap-[2px]">
                   <RegionIcon className="w-3 h-3" /> {props.region.slice(0, -1)}

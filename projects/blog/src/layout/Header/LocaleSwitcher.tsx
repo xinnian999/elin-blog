@@ -25,7 +25,7 @@ const LocaleSwitcher = () => {
       >
         {locales.map((item) => (
           <li key={item.label} onClick={onChangeLocale.bind(this, item.value)}>
-            <a className={locale === item.value ? "active" : ""}>
+            <a className={locale === item.value ? "menu-active" : ""}>
               {item.label}
             </a>
           </li>
