@@ -1,8 +1,8 @@
-import ThemeContext from "@/context/ThemeContext";
+import { GlobalContext } from "@/components";
 import { useContext } from "react";
 
 const useTheme = () => {
-  const theme = useContext(ThemeContext);
+  const { theme } = useContext(GlobalContext);
 
   return theme;
 };

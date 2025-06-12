@@ -1,3 +1,4 @@
+export { default as Layout } from "./Layout";
 export { default as Card } from "./Card";
 export { default as HomeRightBar } from "./HomeRightBar";
 export { default as ArticleCard } from "./ArticleCard";
@@ -9,3 +10,5 @@ export { default as Modal } from "./Modal";
 export { default as Affix } from "./Affix";
 export { default as Sticky } from "./Sticky";
 export { default as Alert } from "./Alert";
+export { default as GlobalProvider } from "./GlobalProvider";
+export { GlobalContext } from "./GlobalProvider";

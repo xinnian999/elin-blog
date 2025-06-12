@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import Layout from "@/layout";
+import { Layout, GlobalProvider } from "@/components";
 import "./globals.css";
 import { getTheme } from "@/async";
-import ThemeProvider from "./ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Elin's Blog",
@@ -16,19 +15,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
+  const lang = (await getLocale()) as Lang;
 
   const messages = await getMessages();
 
   const theme = await getTheme();
 
   return (
-    <html lang={locale} data-theme={theme}>
+    <html lang={lang} data-theme={theme}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider theme={theme}>
+          <GlobalProvider value={{ theme, lang }}>
             <Layout>{children}</Layout>
-          </ThemeProvider>
+          </GlobalProvider>
         </NextIntlClientProvider>
       </body>
     </html>
