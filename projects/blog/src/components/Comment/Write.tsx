@@ -1,6 +1,6 @@
 "use client";
 
-import { useMounted, useTheme } from "@/hooks";
+import { useLang, useMounted, useTheme } from "@/hooks";
 import Image from "next/image";
 import { useState } from "react";
 import data from "@emoji-mart/data";
@@ -8,7 +8,6 @@ import Picker from "@emoji-mart/react";
 import classNames from "classnames";
 import en from "@emoji-mart/data/i18n/en.json";
 import zh from "@emoji-mart/data/i18n/zh.json";
-import { useLocale } from "next-intl";
 import "./write.css";
 import { Popover } from "antd";
 import useStore from "@/store";
@@ -36,7 +35,7 @@ export default function Write({
 }) {
   const mounted = useMounted();
 
-  const lang = useLocale() as Lang;
+  const lang = useLang();
 
   const { nickname, avatar, email } = useStore((state) => state.userInfo);
 
@@ -128,6 +127,7 @@ export default function Write({
                 />
               }
               trigger="click"
+              destroyTooltipOnHide
             >
               <button
                 className={classNames("btn btn-sm text-[20px] bg-base-300")}

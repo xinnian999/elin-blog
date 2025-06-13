@@ -1,13 +1,12 @@
-import { getDayjs } from "@/async";
+import { getDayjs, getT } from "@/async";
 import { Card } from "@/components";
 import commentApi from "@/api/comment";
 import classNames from "classnames";
-import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import linkApi from "@/api/link";
 
 export default async function HomeRightBar() {
-  const t = await getTranslations("Home");
+  const t = await getT();
 
   const { list: comments } = await commentApi.getCommentRootList({
     filters: { type: "comment" },

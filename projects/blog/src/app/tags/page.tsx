@@ -1,10 +1,10 @@
 import { Card } from "@/components";
 import tagApi from "@/api/tag";
-import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { getT } from "@/async";
 
 export default async function Tag() {
-  const navT = await getTranslations("Nav");
+  const t = await getT();
 
   const { list } = await tagApi.getTagList({
     orderBys: {
@@ -16,7 +16,7 @@ export default async function Tag() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Card title={navT("Nav Tag")}>
+      <Card title={t("Nav Tag")}>
         <div className="flex gap-4 mt-6 flex-wrap">
           {list.map((tag) => {
             return (

@@ -9,4 +9,6 @@ export const locales: Locale[] = [
   { label: "中文", value: "zh" },
 ];
 
-export const defaultLocale: Lang = "en";
+export const defaultLang: Lang = "en";
+
+export { default as translations } from "./translations";

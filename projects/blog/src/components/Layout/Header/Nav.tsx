@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DropdownIcon } from "@/icons";
-import { useTranslations } from "next-intl";
 import nav from "@/nav";
 import classNames from "classnames";
+import { useT } from "@/hooks";
 
 const Nav = () => {
-  const t = useTranslations("Nav");
+  const t = useT();
 
   const pathname = usePathname();
 

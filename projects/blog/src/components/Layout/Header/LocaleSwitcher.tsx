@@ -1,16 +1,17 @@
 "use client";
 
-import { setUserLocale } from "@/i18n/service";
-import { locales } from "@/i18n/config";
+import { locales } from "@/i18n";
 import "dayjs/locale/zh-cn";
-import { useLocale } from "next-intl";
 import { LangIcon, ExpandIcon } from "@/icons";
+import { setLang } from "@/async";
+import { useContext } from "react";
+import { GlobalContext } from "@/components";
 
 const LocaleSwitcher = () => {
-  const locale = useLocale();
+  const { lang } = useContext(GlobalContext);
 
   const onChangeLocale = async (locale: Lang) => {
-    await setUserLocale(locale);
+    await setLang(locale);
   };
 
   return (
@@ -25,7 +26,7 @@ const LocaleSwitcher = () => {
       >
         {locales.map((item) => (
           <li key={item.label} onClick={onChangeLocale.bind(this, item.value)}>
-            <a className={locale === item.value ? "menu-active" : ""}>
+            <a className={lang === item.value ? "menu-active" : ""}>
               {item.label}
             </a>
           </li>

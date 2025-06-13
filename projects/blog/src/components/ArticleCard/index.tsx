@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { Card, MdRender } from "@/components";
 import { Article } from "@/db";
-import { getTranslations } from "next-intl/server";
-import { getDayjs } from "@/async";
+import { getDayjs, getT } from "@/async";
 import "./styles.scss";
 import { CategoryIcon, TagIcon } from "@/icons";
 
 async function ArticleCard({ data }: { data: Article }) {
-  const t = await getTranslations("Home");
+  const t = await getT();
 
   const dayjs = await getDayjs();
 

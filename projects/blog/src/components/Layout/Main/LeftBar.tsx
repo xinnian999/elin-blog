@@ -3,11 +3,11 @@ import { FC } from "react";
 import { Card } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
 import { BackendIcon, BliIcon, EmailIcon, QQIcon, WechatIcon } from "@/icons";
 import { Sticky } from "@/components";
+import { useT } from "@/hooks";
 
 interface Props {
   summary: Record<string, any>;
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const LeftBar: FC<Props> = ({ summary, archives }) => {
-  const t = useTranslations("Main");
+  const t = useT();
 
   const pathname = usePathname();
 

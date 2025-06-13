@@ -1,9 +1,9 @@
 import { Card, Comment } from "@/components";
 import commentApi from "@/api/comment";
-import { getTranslations } from "next-intl/server";
+import { getT } from "@/async";
 
 export default async function About() {
-  const t = await getTranslations("About");
+  const t = await getT();
 
   const { list: commentList } = await commentApi.getCommentRootList({
     filters: {

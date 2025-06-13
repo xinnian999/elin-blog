@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultLang } from "@/i18n";
 import { createContext } from "react";
 
 type GlobalContextType = {
@@ -9,7 +10,7 @@ type GlobalContextType = {
 
 export const GlobalContext = createContext<GlobalContextType>({
   theme: "light",
-  lang: "zh",
+  lang: defaultLang,
 });
 
 function GlobalProvider({

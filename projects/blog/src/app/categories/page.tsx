@@ -1,10 +1,10 @@
 import categoryApi from "@/api/category";
+import { getT } from "@/async";
 import { Card } from "@/components";
-import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
 export default async function Categories() {
-  const navT = await getTranslations("Nav");
+  const t = await getT();
 
   const { list } = await categoryApi.getCategoryList({
     pageNum: 1,
@@ -16,7 +16,7 @@ export default async function Categories() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Card title={navT("Nav Category")}>
+      <Card title={t("Nav Category")}>
         {list.map((item) => (
           <Link href={`/category/${item.id}`} key={item.id}>
             <div className="text-[14px] mt-2 w-full flex justify-between relative items-center p-4 cursor-pointer rounded hover:bg-base-200">
