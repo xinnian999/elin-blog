@@ -1,5 +1,5 @@
 # 使用官方 Node.js Alpine 镜像作为基础镜像
-FROM node:18-alpine AS build
+FROM crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin-common/node-18:latest AS build
 
 # 设置工作目录
 WORKDIR /app
@@ -32,7 +32,7 @@ RUN cp -r public dist/build/standalone/public
 
 
 # 第二阶段：最终镜像
-FROM node:18-alpine AS production
+FROM crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin-common/node-18:latest AS production
 
 # 设置工作目录
 WORKDIR /app
