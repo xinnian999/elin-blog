@@ -1,10 +1,11 @@
 import { LinkStatus } from "@/db";
 import linkApi from "@/api/link";
 import ApplyButton from "./ApplyButton";
-import { Alert, Card, Comment } from "@/components";
+import { Alert, Card, Comment, CodeBlock } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
 import commentApi from "@/api/comment";
+import { stationInfo, stationInfoYaml } from "./config";
 
 export default async function LinkPage() {
   const { list } = await linkApi.getLinkList({
@@ -32,6 +33,7 @@ export default async function LinkPage() {
             本页友链随机排序！
             <br />
             申请友链请点击下方按钮！如果需要修改友联信息，请在下方评论区留言！
+            <br />
           </Alert>
 
           <ApplyButton />
@@ -70,6 +72,31 @@ export default async function LinkPage() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </Card>
+
+      <Card title="本站友链信息">
+        <div className="tabs tabs-border">
+          <input
+            type="radio"
+            name="my_tabs_2"
+            className="tab"
+            aria-label="中文"
+            defaultChecked
+          />
+          <div className="tab-content">
+            <CodeBlock lang="yaml" code={stationInfo} />
+          </div>
+
+          <input
+            type="radio"
+            name="my_tabs_2"
+            className="tab"
+            aria-label="YAML"
+          />
+          <div className="tab-content">
+            <CodeBlock lang="yaml" code={stationInfoYaml} />
           </div>
         </div>
       </Card>

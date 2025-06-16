@@ -3,6 +3,7 @@ import { useMessage, useTheme } from "@/hooks";
 import { CopyIcon } from "@/icons";
 import parse from "html-react-parser";
 import { createHighlighter } from "shiki";
+import "./style.scss";
 
 const highlighter = await createHighlighter({
   themes: ["github-dark", "github-light"],

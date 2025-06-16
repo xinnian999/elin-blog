@@ -11,4 +11,5 @@ export { default as Affix } from "./Affix";
 export { default as Sticky } from "./Sticky";
 export { default as Alert } from "./Alert";
 export { default as GlobalProvider } from "./GlobalProvider";
+export { default as CodeBlock } from "./CodeBlock";
 export { GlobalContext } from "./GlobalProvider";

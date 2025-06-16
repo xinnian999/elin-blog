@@ -3,7 +3,7 @@ import Image from "next/image";
 import anchor from "markdown-it-anchor";
 import MarkdownIt from "markdown-it";
 import "./style.scss";
-import Pre from "./Pre";
+import CodeBlock from "../CodeBlock";
 
 async function MdRender({ content }: { content: string }) {
   const md = new MarkdownIt().use(anchor, {
@@ -40,7 +40,7 @@ async function MdRender({ content }: { content: string }) {
           if (domNode.name === "pre") {
             const { lang, code } = domNode.attribs;
 
-            return <Pre lang={lang} code={code.replace(/\n$/, "")} />;
+            return <CodeBlock lang={lang} code={code.replace(/\n$/, "")} />;
           }
         },
       })}
