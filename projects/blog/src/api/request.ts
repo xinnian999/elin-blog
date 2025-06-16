@@ -43,7 +43,7 @@ const request = async <T = any>({
 
   try {
     const res = await fetch(url, options);
-
+    
     const contentType = res.headers.get("content-type") || "";
 
     // 判断不是 JSON 格式，防止 HTML 被 json() 解析时报错
@@ -51,7 +51,7 @@ const request = async <T = any>({
       const text = await res.text();
 
       return rejectResponse(
-        `请求失败：${res.status} ${res.statusText}\n\n请求地址：${url}\n\n 原因分析：返回数据不是 JSON 格式，可能是 HTML 错误页\n\n 返回内容：\n${text}`
+        `请求失败：${res.status} ${res.statusText}\n\n请求地址：${url}\n\n原因分析：返回数据不是 JSON 格式，可能是 HTML 错误页\n\n返回内容：\n${text}`
       );
     }
 
