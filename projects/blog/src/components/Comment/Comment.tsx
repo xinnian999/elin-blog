@@ -128,7 +128,7 @@ const Comment = (props: Props) => {
           </div>
 
           <div className="my-2">
-            <div>{props.content}</div>
+            <div className="whitespace-pre-wrap">{props.content}</div>
 
             {props.targetComment &&
               props.targetComment.id !== props.parentComment?.id && (

@@ -17,6 +17,8 @@
     "start:blog": "pnpm -C projects/blog start",
     "start:admin": "pnpm -C projects/admin preview",
     "release:blog": "docker compose build blog && docker compose push blog",
-    "release:admin": "docker compose build admin && docker compose push admin"
+    "release:admin": "docker compose build admin && docker compose push admin",
+    "release:db": "docker compose build db && docker compose push db",
+    "local": "docker compose build && docker compose up -d"
   }
 }
