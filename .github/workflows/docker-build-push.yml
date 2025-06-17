@@ -3,7 +3,7 @@ name: Docker Compose Build and Push
 on:
   push:
     branches:
-      - main  # 你也可以写成 'master' 或其他分支名
+      - master  # 你也可以写成 'master' 或其他分支名
 
 jobs:
   build-and-push:
