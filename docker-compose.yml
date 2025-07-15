@@ -17,6 +17,7 @@ services:
       - app-network
     env_file:
       - .env
+    restart: unless-stopped
 
   admin:
     build:
@@ -30,6 +31,7 @@ services:
       - app-network
     env_file:
       - .env
+    restart: unless-stopped
       
   db:
     build:
@@ -45,7 +47,7 @@ services:
       - mysql-data:/var/lib/mysql
     env_file:
       - .env
-      
+    restart: unless-stopped      
   pma:
     image: phpmyadmin/phpmyadmin
     container_name: ${PMA_CONTAINER_NAME}
