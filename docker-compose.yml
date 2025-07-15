@@ -1,16 +1,10 @@
-# 本编排包含4个博客相关服务，共享一个网络
-
-# blog: 博客前台，每次开发完重新build
-# admin: 博客后台，每次开发完重新build
-# db: 博客数据库，基于官方mysql5.7二次开发，初次创建卷时，会自动调用sql文件生成一些初始数据。。，除非更改初始化数据，否则不需要再重新build
-# pma: 数据库可视化工具，直接使用官方phpmyadmin
 services:
   blog:
     build:
       context: ./projects/blog
       dockerfile: Dockerfile
-    image: ${REPO_URL}/${REPO_WORKSPACE}/${BLOG_CONTAINER_NAME}:latest
-    container_name: ${BLOG_CONTAINER_NAME}
+    image: crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin/elin-blog:latest
+    container_name: elin-blog
     ports:
       - "3000:3000"
     networks:
@@ -22,8 +16,8 @@ services:
     build:
       context: ./projects/admin
       dockerfile: Dockerfile
-    image: ${REPO_URL}/${REPO_WORKSPACE}/${ADMIN_CONTAINER_NAME}:latest
-    container_name: ${ADMIN_CONTAINER_NAME}
+    image: crpi-a7p27yxlrmekg1a3.cn-beijing.personal.cr.aliyuncs.com/elin/elin-blog-admin:latest
+    container_name: elin-blog-admin
     ports:
       - "3001:80"
     networks:
@@ -31,35 +25,6 @@ services:
     env_file:
       - .env
       
-  db:
-    build:
-      context: ./projects/db 
-      dockerfile: Dockerfile
-    image: ${REPO_URL}/${REPO_WORKSPACE}/${DB_CONTAINER_NAME}:latest
-    container_name: ${DB_CONTAINER_NAME}
-    ports:
-      - "3306:3306"
-    networks:
-      - app-network
-    volumes:
-      - mysql-data:/var/lib/mysql
-    env_file:
-      - .env
-      
-  pma:
-    image: phpmyadmin/phpmyadmin
-    container_name: ${PMA_CONTAINER_NAME}
-    ports:
-      - "8080:80"
-    networks:
-      - app-network
-    env_file:
-      - .env
-
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  mysql-data:
-    driver: local
