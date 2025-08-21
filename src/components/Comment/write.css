@@ -1,0 +1,16 @@
+.emoji-button-master {
+  anchor-name: --anchor-1;
+}
+
+.emoji-popover-master {
+  position-anchor: --anchor-1;
+}
+
+
+.emoji-button {
+  anchor-name: --anchor-2;
+}
+
+.emoji-popover {
+  position-anchor: --anchor-2;
+}

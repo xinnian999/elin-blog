@@ -1,0 +1,25 @@
+.linkText {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.3s ease; /* 过渡效果 */
+  display: inline-block; /* 确保元素占用的空间和内容一致 */
+
+  &:hover {
+    @apply text-blue-500;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px; /* 下划线的厚度 */
+    transition: width 0.3s ease; /* 过渡效果 */
+    @apply bg-blue-500;
+  }
+
+  &:hover::after {
+    width: 100%; /* 鼠标划入时下划线的宽度 */
+  }
+}
