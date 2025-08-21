@@ -11,6 +11,8 @@ const rejectResponse = (text: string) => {
     alert(text);
   }
 
+  console.error('SSR fetch error', text);
+
   return Promise.reject(text);
 };
 

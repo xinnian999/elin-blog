@@ -6,7 +6,8 @@
     "dev": "next dev --hostname 0.0.0.0",
     "build": "next build && node copy.js",
     "preview": "node .next/standalone/server.js",
-    "lint": "next lint"
+    "build:image":"docker build -t elin-blog .",
+    "run:image":"docker run -e BLOG_HOST=host.docker.internal -d -p 3000:3000 elin-blog"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",

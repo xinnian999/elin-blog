@@ -7,10 +7,8 @@ WORKDIR /app
 # 安装 yarn
 # RUN npm install -g yarn
 
-# 复制 package.json 和 yarn-lock.yaml，仅复制依赖文件来缓存依赖安装步骤
-COPY package.json  ./
-
-COPY .env ./
+# 复制 package.json 和 yarn.lock，仅复制依赖文件来缓存依赖安装步骤
+COPY package.json yarn.lock  ./
 
 # 安装依赖
 RUN yarn install
