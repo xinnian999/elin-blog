@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --hostname 0.0.0.0",
-    "build": "next build && node copy.js",
+    "dev": "next dev",
+    "build": "next build && node script/copy.js",
     "preview": "node .next/standalone/server.js",
     "build:image":"docker build -t elin-blog .",
-    "run:image":"docker run -e BLOG_HOST=host.docker.internal -d -p 3000:3000 elin-blog"
+    "run:image":"docker run -e BLOG_HOST=host.docker.internal -d -p 3000:3000 elin-blog",
+    "release": "node script/release.js"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
