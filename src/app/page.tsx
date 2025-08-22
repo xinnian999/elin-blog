@@ -1,13 +1,14 @@
-import articleApi from "@/api/article";
 import { ArticleList, HomeRightBar } from "@/components";
+import { getArticleList } from "@/services";
 import classNames from "classnames";
 import Link from "next/link";
 
+
 export default async function Home() {
-  const { list, pageTotal } = await articleApi.getArticleList({
+  const { list, pageTotal } = await getArticleList({
     pageNum: 1,
     pageSize: 5,
-    orderBys: {
+    order: {
       id: "desc",
     },
   });

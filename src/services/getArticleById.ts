@@ -1,17 +1,12 @@
+"use server"
 import { Article, getRepository } from "@/db";
 import { instanceToPlain } from "class-transformer";
-import { NextRequest } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ articleId: string }> }
-) {
-  const { articleId } = await params;
-
+export async function getArticleById(articleId: number) {
   const articleRepository = await getRepository(Article);
 
   if (isNaN(Number(articleId))) {
-    return Response.json({ message: "文章ID不合法" }, { status: 400 });
+    return { message: "文章ID不合法" };
   }
 
   const article = await articleRepository.findOne({
@@ -20,7 +15,7 @@ export async function GET(
   });
 
   if (!article) {
-    return Response.json({ message: "文章不存在" }, { status: 404 });
+    return { message: "文章不存在" };
   }
 
   // 根据文章分类查找相关文章
@@ -40,8 +35,8 @@ export async function GET(
     (article) => article.id !== Number(articleId)
   );
 
-  return Response.json({
-    article: instanceToPlain(article),
-    relates: instanceToPlain(relates.slice(0, 5)),
-  });
+  return {
+    article: instanceToPlain(article) as Article,
+    relates: instanceToPlain(relates.slice(0, 5)) as Article[],
+  };
 }

@@ -1,27 +1,18 @@
 import { parseUrlSearch } from "@/utils";
 import { Tag, getRepository } from "@/db";
-import { instanceToPlain } from "class-transformer";
 import { NextRequest } from "next/server";
-
-const relations = ["articles"];
+import { getTagList } from "@/services";
 
 export async function GET(request: NextRequest) {
-  const { pageNum = 1, pageSize = 10, orderBys } = parseUrlSearch(request);
+  const { pageNum = 1, pageSize = 10, order } = parseUrlSearch(request);
 
-  const CategoryRepository = await getRepository(Tag);
-
-  const [list, total] = await CategoryRepository.findAndCount({
-    skip: (pageNum - 1) * pageSize, // 跳过前面的记录
-    take: pageSize, // 每页返回的记录数
-    order: orderBys,
-    relations,
+  const res = await getTagList({
+    pageNum,
+    pageSize,
+    order,
   });
 
-  return Response.json({
-    list: instanceToPlain(list),
-    total,
-    pageTotal: Math.ceil(total / pageSize),
-  });
+  return Response.json(res);
 }
 
 export async function POST(request: NextRequest) {

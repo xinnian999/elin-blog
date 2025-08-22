@@ -1,29 +1,21 @@
 import { parseUrlSearch } from "@/utils";
 import { Article, getRepository, Tag } from "@/db";
-import { instanceToPlain } from "class-transformer";
 import { NextRequest } from "next/server";
+import { getArticleList } from "@/services";
 
 const relations = ["category", "tags"];
 
 export async function GET(request: NextRequest) {
   const { pageNum = 1, pageSize = 10, order, where } = parseUrlSearch(request);
 
-  const articleRepository = await getRepository(Article);
-
-  // 查询数据
-  const [list, total] = await articleRepository.findAndCount({
-    skip: (pageNum - 1) * pageSize,
-    take: pageSize,
+  const res = await getArticleList({
+    pageNum,
+    pageSize,
     order,
-    relations,
     where,
   });
 
-  return Response.json({
-    list: instanceToPlain(list),
-    total,
-    pageTotal: Math.ceil(total / pageSize),
-  });
+  return Response.json(res);
 }
 
 export async function POST(request: NextRequest) {

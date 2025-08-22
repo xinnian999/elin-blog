@@ -1,7 +1,7 @@
-import summaryApi from "@/api/summary";
+import { getVisits } from "@/services";
 
 const Footer = async () => {
-  const {visits} = await summaryApi.getVisits();
+  const visits = await getVisits();
 
   return (
     <div className="bg-base z-10 relative">

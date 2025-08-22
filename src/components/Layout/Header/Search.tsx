@@ -2,18 +2,24 @@
 import { Modal } from "@/components";
 import { Article } from "@/db";
 import { EnterIcon, SearchIcon } from "@/icons";
+import { getArticleList } from "@/services";
 import { useRequest, useUpdateEffect } from "ahooks";
 import Fuse from "fuse.js";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import articleApi from "@/api/article";
 
 function Search() {
   const [open, setOpen] = useState(false);
 
   const [q, setQ] = useState("");
 
-  const { data } = useRequest(articleApi.getArticleList);
+  const { data } = useRequest(getArticleList, {
+    defaultParams: [
+      {
+        pageSize: 1000,
+      },
+    ],
+  });
 
   const list = data?.list || [];
 

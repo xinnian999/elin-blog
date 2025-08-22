@@ -1,6 +1,6 @@
-import { ArticleList, Breadcrumb, HomeRightBar } from "@/components";
-import articleApi from "@/api/article";
-import categoryApi from "@/api/category";
+import { ArticleList, Breadcrumb, Card, HomeRightBar } from "@/components";
+import { getArticleList, getCategoryById } from "@/services";
+import { filtersToWhere } from "@/utils";
 
 export default async function CategoryId({
   params,
@@ -9,15 +9,19 @@ export default async function CategoryId({
 }) {
   const categoryId = +(await params).categoryId;
 
-  const { list } = await articleApi.getArticleList({
-    filters: {
-      category: categoryId,
-    },
+  const { list } = await getArticleList({
     pageNum: 1,
     pageSize: 1000,
+    where: filtersToWhere({
+      category: categoryId,
+    }),
   });
 
-  const category = await categoryApi.getCategoryById(categoryId);
+  const category = await getCategoryById(categoryId);
+
+  if (!category) {
+    return <Card>分类不存在</Card>;
+  }
 
   const breadcrumbs = [
     { title: "分类", to: "/categories" },

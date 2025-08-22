@@ -1,5 +1,5 @@
 import { ArticleList, Breadcrumb, HomeRightBar } from "@/components";
-import articleApi from "@/api/article";
+import { getArticleList } from "@/services";
 import classNames from "classnames";
 import Link from "next/link";
 
@@ -10,9 +10,12 @@ export default async function Page({
 }) {
   const page = +(await params).page || 1;
 
-  const { list, pageTotal } = await articleApi.getArticleList({
-    page,
+  const { list, pageTotal } = await getArticleList({
+    pageNum: page,
     pageSize: 5,
+    order: {
+      id: "desc",
+    },
   });
 
   return (

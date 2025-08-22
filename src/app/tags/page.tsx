@@ -1,13 +1,13 @@
 import { Card } from "@/components";
-import tagApi from "@/api/tag";
 import Link from "next/link";
 import { getT } from "@/async";
+import { getTagList } from "@/services";
 
 export default async function Tag() {
   const t = await getT();
 
-  const { list } = await tagApi.getTagList({
-    orderBys: {
+  const { list } = await getTagList({
+    order: {
       id: "desc",
     },
     pageNum: 1,

@@ -1,6 +1,6 @@
 import { getRepository, Visit } from "@/db";
 
-export async function GET() {
+export async function getVisits() {
   const postRepository = await getRepository(Visit);
 
   let visitStat = await postRepository.findOneBy({ id: 1 });
@@ -16,5 +16,5 @@ export async function GET() {
   visitStat.visits += 1;
   await postRepository.save(visitStat);
 
-  return Response.json({ visits: visitStat.visits });
+  return visitStat.visits;
 }

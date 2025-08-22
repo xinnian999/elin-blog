@@ -1,15 +1,15 @@
-import categoryApi from "@/api/category";
 import { getT } from "@/async";
 import { Card } from "@/components";
 import Link from "next/link";
+import { getCategoryList } from "@/services";
 
 export default async function Categories() {
   const t = await getT();
 
-  const { list } = await categoryApi.getCategoryList({
+  const { list } = await getCategoryList({
     pageNum: 1,
     pageSize: 1000,
-    orderBys: {
+    order: {
       id: "desc",
     },
   });

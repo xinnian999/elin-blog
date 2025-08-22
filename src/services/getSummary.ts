@@ -1,6 +1,6 @@
 import { Article, Category, Comment, getRepository, Tag } from "@/db";
 
-export async function GET() {
+export async function getSummary() {
   const articleRepository = await getRepository(Article);
   const tagRepository = await getRepository(Tag);
   const categoryRepository = await getRepository(Category);
@@ -11,5 +11,5 @@ export async function GET() {
   const categoryCount = await categoryRepository.count();
   const commentCount = await commentRepository.count();
 
-  return Response.json({ articleCount, tagCount, categoryCount, commentCount });
+  return { articleCount, tagCount, categoryCount, commentCount };
 }

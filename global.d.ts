@@ -9,3 +9,10 @@ type ListResponse<T> = {
   total: number;
   pageTotal: number;
 };
+
+type ListServiceParams = {
+  pageNum?: number;
+  pageSize?: number;
+  order?: Record<string, 'asc' | 'desc'>;
+  where?: Record<string, any>;
+};

@@ -5,8 +5,9 @@ import Relate from "./Relate";
 import { Affix } from "antd";
 import { Card, Comment, MdRender } from "@/components";
 import { CategoryIcon, TagIcon } from "@/icons";
-import articleApi from "@/api/article";
+// import articleApi from "@/api/article";
 import commentApi from "@/api/comment";
+import { getArticleById } from "@/services";
 
 const md = new MarkdownIt({
   html: true, // 允许 HTML
@@ -21,7 +22,11 @@ export default async function Article({
 }) {
   const articleId = +(await params).articleId;
 
-  const { article, relates } = await articleApi.getArticleById(articleId);
+  const { article, relates } = await getArticleById(articleId);
+
+  if (!article) {
+    return <Card className="text-center">文章不存在</Card>;
+  }
 
   const { content = "", title, created_at, categoryText, tags = [] } = article;
 

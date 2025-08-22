@@ -1,6 +1,7 @@
+"use server"
 import { Article, getRepository } from "@/db";
 
-export async function GET() {
+export async function getArticleArchive() {
   const articleRepository = await getRepository(Article);
 
   // 按年和月分组，并统计每个月的文章数量
@@ -15,5 +16,5 @@ export async function GET() {
     .getRawMany(); // 获取原始数据（不经过实体映射）
 
 
-  return Response.json({ list: archive });
+  return { list: archive };
 }

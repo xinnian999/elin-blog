@@ -1,6 +1,6 @@
-import { ArticleList, Breadcrumb, HomeRightBar } from "@/components";
-import articleApi from "@/api/article";
-import tagApi from "@/api/tag";
+import { ArticleList, Breadcrumb, Card, HomeRightBar } from "@/components";
+import { getArticleList, getTagById } from "@/services";
+import { filtersToWhere } from "@/utils";
 
 export default async function TagId({
   params,
@@ -9,15 +9,19 @@ export default async function TagId({
 }) {
   const tagId = +(await params).tagId;
 
-  const { list } = await articleApi.getArticleList({
-    filters: {
-      tags: [tagId],
-    },
+  const { list } = await getArticleList({
     pageNum: 1,
     pageSize: 1000,
+    where: filtersToWhere({
+      tags: [tagId],
+    }),
   });
 
-  const tag = await tagApi.getTagById(tagId);
+  const tag = await getTagById(tagId);
+
+  if (!tag) {
+    return <Card>标签不存在</Card>;
+  }
 
   const breadcrumbs = [{ title: "标签", to: "/tags" }, { title: tag.name }];
 

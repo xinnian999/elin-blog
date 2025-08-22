@@ -1,16 +1,15 @@
 import { FC, ReactNode } from "react";
 import LeftBar from "./LeftBar";
-import articleApi from "@/api/article";
-import summaryApi from "@/api/summary";
+import { getArticleArchive, getSummary } from "@/services";
 
 interface MainProps {
   children: ReactNode;
 }
 
 const Main: FC<MainProps> = async ({ children }) => {
-  const data = await summaryApi.getArticleSummary();
+  const data = await getSummary();
 
-  const { list: archives } = await articleApi.getArticleArchive();
+  const { list: archives } = await getArticleArchive();
 
   return (
     <main className="main container z-10 relative mx-auto py-6 min-h-screen flex flex-col gap-6 lg:flex-row md:p-8">
