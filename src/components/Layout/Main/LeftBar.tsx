@@ -61,13 +61,7 @@ const LeftBar: FC<Props> = ({ summary, archives }) => {
   ];
 
   const handleGoAdmin = () => {
-    // console.log(process.env.NODE_ENV);
-    const isDev = process.env.NODE_ENV === "development";
-    if (isDev) {
-      window.open(`http://${window.location.hostname}:3001/admin/`);
-    } else {
-      window.open(`${window.location.origin}/admin`);
-    }
+    window.open(`${window.location.origin}/admin/`);
   };
 
   return (

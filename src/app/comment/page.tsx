@@ -1,13 +1,13 @@
 import { Alert, Card } from "@/components";
 import { Comment } from "@/components";
-import commentApi from "@/api/comment";
+import { getCommentRootList } from "@/services";
 
 export default async function CommentPage() {
-  const { list: commentList } = await commentApi.getCommentRootList({
-    filters: {
+  const { list: commentList } = await getCommentRootList({
+    where: {
       type: "comment",
     },
-    orderBys: {
+    order: {
       id: "desc",
     },
   });

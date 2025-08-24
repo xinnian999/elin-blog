@@ -1,21 +1,24 @@
 import { getDayjs, getT } from "@/async";
 import { Card } from "@/components";
-import commentApi from "@/api/comment";
 import classNames from "classnames";
 import Link from "next/link";
-import linkApi from "@/api/link";
+import { getCommentRootList, getLinkList } from "@/services";
+import { filtersToWhere } from "@/utils";
+import { LinkStatus } from "@/db";
 
 export default async function HomeRightBar() {
   const t = await getT();
 
-  const { list: comments } = await commentApi.getCommentRootList({
-    filters: { type: "comment" },
-    orderBys: { id: "desc" },
+  const { list: comments } = await getCommentRootList({
+    where: { type: "comment" },
+    order: { id: "desc" },
   });
 
-  const { list: links } = await linkApi.getLinkList({
-    filters: { status: 2 },
-    orderBys: { id: "desc" },
+  const { list: links } = await getLinkList({
+    where: filtersToWhere({
+      status: LinkStatus["审核通过"],
+    }),
+    order: { id: "desc" },
   });
 
   const randomLinks = links.sort(() => Math.random() - 0.5);

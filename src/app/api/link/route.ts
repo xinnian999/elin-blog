@@ -1,30 +1,14 @@
 import { parseUrlSearch } from "@/utils";
 import { Link, LinkStatus, getRepository } from "@/db";
-import { instanceToPlain } from "class-transformer";
 import { NextRequest } from "next/server";
+import { getLinkList } from "@/services";
 
 export async function GET(request: NextRequest) {
-  const {
-    pageNum = 1,
-    pageSize = 10,
-    orderBys,
-    where,
-  } = parseUrlSearch(request);
+  const params = parseUrlSearch(request);
 
-  const LinkRepository = await getRepository(Link);
+  const res = await getLinkList(params);
 
-  const [list, total] = await LinkRepository.findAndCount({
-    skip: (pageNum - 1) * pageSize, // 跳过前面的记录
-    take: pageSize, // 每页返回的记录数
-    order: orderBys,
-    where,
-  });
-
-  return Response.json({
-    list: instanceToPlain(list),
-    total,
-    pageTotal: Math.ceil(total / pageSize),
-  });
+  return Response.json(res);
 }
 
 export async function POST(request: NextRequest) {

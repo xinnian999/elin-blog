@@ -1,14 +1,10 @@
-import { getRepository, Link } from "@/db";
+import { applyLink } from "@/services";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const params = await request.json();
 
-  const linkRepository = await getRepository(Link);
+  const res = await applyLink(params);
 
-  const link = linkRepository.create(params);
-
-  await linkRepository.save(link);
-
-  return Response.json({ link, status: "success" });
+  return Response.json(res);
 }

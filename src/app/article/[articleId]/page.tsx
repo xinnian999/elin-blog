@@ -5,9 +5,7 @@ import Relate from "./Relate";
 import { Affix } from "antd";
 import { Card, Comment, MdRender } from "@/components";
 import { CategoryIcon, TagIcon } from "@/icons";
-// import articleApi from "@/api/article";
-import commentApi from "@/api/comment";
-import { getArticleById } from "@/services";
+import { getArticleById, getCommentRootList } from "@/services";
 
 const md = new MarkdownIt({
   html: true, // 允许 HTML
@@ -30,9 +28,9 @@ export default async function Article({
 
   const { content = "", title, created_at, categoryText, tags = [] } = article;
 
-  const { list: commentList } = await commentApi.getCommentRootList({
-    filters: { type: "article", articleId },
-    orderBys: { id: "desc" },
+  const { list: commentList } = await getCommentRootList({
+    where: { type: "article", articleId },
+    order: { id: "desc" },
   });
 
   const dayjs = await getDayjs();

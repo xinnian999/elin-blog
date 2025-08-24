@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-const whiteList = process.env.WHITE_LIST?.split(",") || [];
-
 export async function middleware(request: NextRequest) {
-  // 白名单
-  if (whiteList.includes(request.headers.get("host") || "")) {
-    return NextResponse.next();
-  }
-
   // GET请求不需要鉴权
   if (request.method === "GET") {
     return NextResponse.next();

@@ -11,7 +11,7 @@ import zh from "@emoji-mart/data/i18n/zh.json";
 import "./write.css";
 import { Popover } from "antd";
 import useStore from "@/store";
-import qqApi from "@/api/qq";
+import { getQQInfo } from "@/services";
 
 const locales = {
   en,
@@ -48,7 +48,7 @@ export default function Write({
   const onNickNameBlur = async () => {
     if (!nickname) return;
     if (!isNaN(Number(nickname))) {
-      const { name, avatar, qq } = await qqApi.fetchQQInfo(nickname!);
+      const { name, avatar, qq } = await getQQInfo(nickname!);
       setUserInfo({ nickname: name, avatar, email: `${qq}@qq.com` });
     }
   };

@@ -6,7 +6,7 @@ import Write from "./Write";
 import { useState } from "react";
 import Comment from "./Comment";
 import { Comment as CommentEntity } from "@/db";
-import commentApi from "@/api/comment";
+import { createComment, getCommentRootList } from "@/services";
 
 const CommentBar = ({
   type = "comment",
@@ -19,11 +19,10 @@ const CommentBar = ({
   className?: string;
   initialData?: CommentEntity[];
 }) => {
-
   const { data, run } = useRequest(() =>
-    commentApi.getCommentRootList({
-      filters: { type, articleId },
-      orderBys: { id: "desc" },
+    getCommentRootList({
+      where: { type, articleId },
+      order: { id: "desc" },
     })
   );
 
@@ -56,7 +55,7 @@ const CommentBar = ({
       <Write
         top={list.length < 2}
         publishCallback={async ({ avatar, nickname, content, email }) => {
-          await commentApi.createComment({
+          await createComment({
             avatar,
             nickname,
             content,

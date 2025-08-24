@@ -1,24 +1,24 @@
 import { LinkStatus } from "@/db";
-import linkApi from "@/api/link";
 import ApplyButton from "./ApplyButton";
 import { Alert, Card, Comment, CodeBlock } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import commentApi from "@/api/comment";
 import { stationInfo, stationInfoYaml } from "./config";
+import { getCommentRootList, getLinkList } from "@/services";
+import { filtersToWhere } from "@/utils";
 
 export default async function LinkPage() {
-  const { list } = await linkApi.getLinkList({
-    filters: {
+  const { list } = await getLinkList({
+    where: filtersToWhere({
       status: LinkStatus["审核通过"],
-    },
+    }),
   });
 
-  const { list: commentList } = await commentApi.getCommentRootList({
-    filters: {
+  const { list: commentList } = await getCommentRootList({
+    where: {
       type: "link",
     },
-    orderBys: {
+    order: {
       id: "desc",
     },
   });

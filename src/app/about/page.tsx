@@ -1,15 +1,15 @@
 import { Card, Comment } from "@/components";
-import commentApi from "@/api/comment";
 import { getT } from "@/async";
+import { getCommentRootList } from "@/services";
 
 export default async function About() {
   const t = await getT();
 
-  const { list: commentList } = await commentApi.getCommentRootList({
-    filters: {
+  const { list: commentList } = await getCommentRootList({
+    where: {
       type: "about",
     },
-    orderBys: {
+    order: {
       id: "desc",
     },
   });

@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import useStore from "@/store";
 import { useMessage } from "@/hooks";
-import linkApi from "@/api/link";
+import { applyLink } from "@/services";
 
 const fields = [
   { label: "名称", name: "name", placeholder: "你的网站名称" },
@@ -46,7 +46,7 @@ export default function ApplyButton() {
   };
 
   const handleSubmit = async () => {
-    await linkApi.applyLink(values);
+    await applyLink(values);
 
     setOpen(false);
 
@@ -74,7 +74,7 @@ export default function ApplyButton() {
         title="申请友链"
         footer={
           <button
-            className={classNames("btn", {
+            className={classNames("btn btn-primary", {
               "btn-disabled": pass,
             })}
             onClick={handleSubmit}

@@ -11,6 +11,7 @@ import useStore from "@/store";
 import classNames from "classnames";
 import { getOsIcon } from "./utils";
 import commentApi from "@/api/comment";
+import { likeComment, replyComment } from "@/services";
 
 interface Props extends CommentEntity {
   replyTarget: CommentEntity | null;
@@ -56,7 +57,7 @@ const Comment = (props: Props) => {
       return;
     }
 
-    await commentApi.likeComment({ id });
+    await likeComment(id);
 
     addLikeComment(id);
 
@@ -179,7 +180,7 @@ const Comment = (props: Props) => {
               id={props.id}
               placeholder={`回复 ${replyTarget.nickname}`}
               publishCallback={async ({ avatar, nickname, content, email }) => {
-                await commentApi.replyComment({
+                await replyComment({
                   parentCommentId:
                     replyTarget.parentComment?.id || replyTarget.id,
                   targetCommentId: replyTarget.id!,
