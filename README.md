@@ -20,49 +20,44 @@ $ yarn dev
 
 因为是全栈项目，所以运行环境必须有数据库支持。
 
-如果安装了docker，推荐直接运行`yarn db`，启动数据库镜像即可
+修改`.env`文件，配置数据库连接信息（数据集`utf8mb4_general_ci`）。
 
-也可以本地安装mysql环境，并且创建数据库`blog`，设置数据集`utf8mb4_general_ci`。
+本项目使用了`TypeORM`，会自动创建表。
 
-## 部署
-
-### Docker部署（推荐）
-
-1、构建生产版本镜像
-
-```sh
-$ docker build -t [name] .
-```
-
-2、推送镜像到远程仓库
-
-```sh
-$ docker push [name]
-```
-
-3、将本项目的`docker-compose.yml`传到服务器上，然后运行
-
-```sh
-$ docker compose up -d
-```
-
-
-ps：`docker-compose.yml`的`blog.image`需要修改成对应的仓库地址
-
-即可自动在服务器上同时部署好博客和数据库。
-
-### 源代码部署
-
->需要将源代码整个上传到服务器，对服务器性能要求较高
-
-1、构建生产代码，产物出口是`dist/build`
+## 打包
 
 ```sh
 $ yarn build
 ```
 
-2、运行生产版本
+## 预览打包产物
 
+```sh
+$ yarn preview
 ```
-$ yarn start
+
+## 构建本地镜像
+
+```sh
+$ yarn build:image
 ```
+
+## 运行本地镜像
+
+```sh
+$ yarn run:image
+```
+
+## 部署
+
+**推荐使用 Docker 部署**
+
+可以修改`script/release.js`文件，修改`imageName`变量为你的仓库地址。
+
+然后运行
+
+```sh
+$ yarn release
+```
+
+完成构建 + 推送镜像后，在你的服务器拉取镜像并运行（记得传递变量）
