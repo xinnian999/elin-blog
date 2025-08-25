@@ -28,6 +28,8 @@ WORKDIR /app
 
 COPY --from=build /app/.next/standalone /app
 
+ENV PORT=80
+
 # 启动 Next.js 项目
 CMD ["node", "server.js"]
 
