@@ -32,4 +32,4 @@ COPY --from=build /app/.next/standalone /app
 CMD ["node", "server.js"]
 
 # 暴露应用的端口
-EXPOSE 3000
+EXPOSE 80

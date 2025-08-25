@@ -10,7 +10,6 @@ import { useMount } from "ahooks";
 import useStore from "@/store";
 import classNames from "classnames";
 import { getOsIcon } from "./utils";
-import commentApi from "@/api/comment";
 import { likeComment, replyComment } from "@/services";
 
 interface Props extends CommentEntity {
