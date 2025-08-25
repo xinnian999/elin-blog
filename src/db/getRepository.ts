@@ -21,12 +21,15 @@ const AppDataSource = new DataSource({
   },
 });
 
+console.log('process.env.DB_HOST', process.env.DB_HOST);
+
 export const getRepository = async <T extends ObjectLiteral>(
   entity: EntityTarget<T>
 ) => {
   if (!AppDataSource.isInitialized) {
     try {
       await AppDataSource.initialize();
+      console.log("数据库连接成功");
     } catch (e: any) {
       if (e.code === "ECONNREFUSED") {
         return Promise.reject("服务器异常：数据库连接失败");
