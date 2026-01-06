@@ -1,27 +1,29 @@
 "use server";
+import "reflect-metadata";
 import { DataSource, EntityTarget, ObjectLiteral } from "typeorm";
-import * as entities from "./entity"; // 你需要定义数据库实体
+import * as entities from "./entity";
+import path from "path";
+import fs from "fs";
+
+// SQLite 数据库文件路径，默认存储在项目根目录的 data 文件夹下
+const dbPath = process.env.DB_PATH || path.join(process.cwd(), "data", "blog.sqlite");
+
+// 确保数据目录存在
+const dbDir = path.dirname(dbPath);
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
 
 const AppDataSource = new DataSource({
-  type: "mysql",
-  host: process.env.DB_HOST, // 使用环境变量来设置 host
-  port: parseInt(process.env.DB_PORT || "3306"), // 使用环境变量来设置端口
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  type: "sqljs",
+  location: dbPath,
+  autoSave: true, // 自动保存到文件
   entities,
-  // synchronize: process.env.NODE_ENV === 'development', //自动创建表结构
-  synchronize: true, //自动创建表结构
+  synchronize: true, // 自动创建表结构
   logging: false,
-  charset: "utf8mb4",
-  extra: {
-    connectionLimit: 10, // 最大连接数
-    waitForConnections: true, // 是否等待连接池中的连接
-    queueLimit: 0, // 队列中的最大连接数，0 表示不限制
-  },
 });
 
-console.log('process.env.DB_HOST', process.env.DB_HOST);
+console.log("SQLite 数据库路径:", dbPath);
 
 export const getRepository = async <T extends ObjectLiteral>(
   entity: EntityTarget<T>

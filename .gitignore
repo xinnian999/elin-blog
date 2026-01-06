@@ -43,3 +43,7 @@ dist
 .next
 .env
 .env.image
+
+# SQLite database
+/data/*.sqlite
+/data/*.sqlite-journal

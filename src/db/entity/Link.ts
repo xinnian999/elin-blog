@@ -14,11 +14,10 @@ export class Link {
   id?: number; // 自动生成的主键
 
   @Column({
-    enum: LinkStatus,
-    type: "enum",
+    type: "integer",
     default: LinkStatus['待审核'],
   })
-  status?: LinkStatus; // 友联状态
+  status?: LinkStatus; // 友链状态 (0: 待审核, 1: 审核驳回, 2: 审核通过)
 
   @Column()
   name: string; // 友链名称

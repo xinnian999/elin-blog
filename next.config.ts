@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   experimental: {
     webpackMemoryOptimizations: true,
   },
+  serverExternalPackages: ["typeorm", "reflect-metadata"],
   output: "standalone"
   // async rewrites() {
   //   return [
